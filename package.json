@@ -1,0 +1,45 @@
+{
+  "name": "@dataplug/tasenor-common",
+  "version": "1.5.91",
+  "description": "Common parts of Tasenor project",
+  "main": "dist/index.js",
+  "repository": "git@bitbucket.org:dataplug2/tasenor-common.git",
+  "author": "Tommi Ronkainen <tommi.ronkainen@gmail.com>",
+  "license": "UNLICENCED",
+  "scripts": {
+    "dev": "tsc -w",
+    "start": "npm run build",
+    "build": "rm -rf dist/* && tsc",
+    "test:unit": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src/**/*.ts tests/**/*.ts",
+    "lint:fix": "eslint --fix src/**/*.ts tests/**/*.ts"
+  },
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "axios": "0.26.0",
+    "clone": "^2.1.2",
+    "dayjs": "1.10.8",
+    "interactive-elements": "^1.0.79",
+    "jwt-decode": "^3.1.2",
+    "mathjs": "^10.0.2",
+    "sprintf-js": "^1.1.2",
+    "ts-opaque": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/jest": "27.4.1",
+    "@types/node": "^17.0.21",
+    "eslint": "7.32.0",
+    "eslint-config-semistandard": "^16.0.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-mocha": "^9.0.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-tsdoc": "^0.2.14",
+    "jest": "27.5.1",
+    "ts-jest": "27.1.4",
+    "typescript": "4.7.2"
+  }
+}
