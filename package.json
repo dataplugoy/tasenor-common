@@ -21,7 +21,7 @@
     "axios": "0.26.0",
     "clone": "^2.1.2",
     "dayjs": "1.10.8",
-    "interactive-elements": "1.0.80",
+    "interactive-elements": "1.0.81",
     "jwt-decode": "^3.1.2",
     "mathjs": "^10.0.2",
     "sprintf-js": "^1.1.2",
