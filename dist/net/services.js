@@ -2,7 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.API = exports.ERP_API = exports.setServiceUrl = void 0;
 const net_1 = require("./net");
-global.CONFIG = {
+/**
+ * Configurable service addresses.
+ */
+const CONFIG = {
     API: {
         url: ''
     },
@@ -14,16 +17,16 @@ global.CONFIG = {
 function makeService(env) {
     return {
         call: async (method, url, data, headers = {}) => {
-            if (!global.CONFIG[env]) {
+            if (!CONFIG[env]) {
                 throw new Error(`Service configuration variable ${env} is not set and related service is unusable.`);
             }
-            if (!global.CONFIG[env].url) {
+            if (!CONFIG[env].url) {
                 throw new Error(`Service configuration URL for ${env} is not set and related service is unusable.`);
             }
             if ('Authorization' in headers && !headers.Authorization) {
                 throw new Error(`Invalid Authorization header for ${env} call.`);
             }
-            url = `${global.CONFIG[env].url}${url}`;
+            url = `${CONFIG[env].url}${url}`;
             return net_1.net[method](url, data, headers);
         }
     };
@@ -34,8 +37,8 @@ function makeService(env) {
  * @param url
  */
 function setServiceUrl(name, url) {
-    if (global.CONFIG && global.CONFIG[name]) {
-        global.CONFIG[name].url = url;
+    if (name in CONFIG) {
+        CONFIG[name].url = url;
     }
     else {
         throw new Error(`A service ${name} does not exist.`);
