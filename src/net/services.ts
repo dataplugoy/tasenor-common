@@ -1,6 +1,15 @@
 import { Url } from '../types'
 import { HttpExtraHeaders, HttpMethod, HttpResponse, net } from './net'
 
+global.CONFIG = {
+  API: {
+    url: ''
+  },
+  ERP_API: {
+    url: ''
+  }
+}
+
 /**
  * Name of the REST services used in Tasenor.
  */
@@ -36,32 +45,20 @@ export interface ServiceConfig {
   url: string,
 }
 
-/**
- * Configurable service addresses.
- */
-const CONFIG: {[key: string]: ServiceConfig} = {
-  API: {
-    url: ''
-  },
-  ERP_API: {
-    url: ''
-  }
-}
-
 // Helper to build service access.
 function makeService(env: string): ServiceDefinition {
   return {
     call: async (method: HttpMethod, url: string, data: ServiceData, headers: HttpExtraHeaders = {}): ServiceResponse => {
-      if (!CONFIG[env]) {
+      if (!global.CONFIG[env]) {
         throw new Error(`Service configuration variable ${env} is not set and related service is unusable.`)
       }
-      if (!CONFIG[env].url) {
+      if (!global.CONFIG[env].url) {
         throw new Error(`Service configuration URL for ${env} is not set and related service is unusable.`)
       }
       if ('Authorization' in headers && !headers.Authorization) {
         throw new Error(`Invalid Authorization header for ${env} call.`)
       }
-      url = `${CONFIG[env].url}${url}`
+      url = `${global.CONFIG[env].url}${url}`
       return net[method](url as Url, data, headers)
     }
   }
@@ -73,8 +70,8 @@ function makeService(env: string): ServiceDefinition {
  * @param url
  */
 export function setServiceUrl(name: ServiceName, url: string): void {
-  if (name in CONFIG) {
-    CONFIG[name].url = url
+  if (global.CONFIG && global.CONFIG[name]) {
+    global.CONFIG[name].url = url
   } else {
     throw new Error(`A service ${name} does not exist.`)
   }
