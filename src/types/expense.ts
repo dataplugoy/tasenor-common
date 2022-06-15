@@ -1,6 +1,7 @@
 /**
  * A cause of expense.
  *
+ * * `ACCOMMODATION` - Accommodation
  * * `ADMIN` - Administration
  * * `ADMIN_OTHER` - Other Adminstration
  * * `BANKING_FEE` - Banking Fees
@@ -19,8 +20,10 @@
  * * `DIVIDEND_WITHHOLDING` - Dividend Payment Witholding Tax
  * * `ENTERTAINMENT` - Entertainment Expenses
  * * `EQUIPMENT` - Equipment
- * * `ERROR_EXPENSE` - Error in Expense
+ * * `ERROR_EXPENSE` - Error in Expenses
  * * `EXPENSE` - Expenses
+ * * `EXPENSE_CORRECTIONS` - Corrections in Expenses
+ * * `EXPENSE_CORRECTION_WITHHOLDING_TAX` - Corrections in Withholding Tax
  * * `FINANCIAL_MANAGEMENT` - Financial Management
  * * `FURNITURE` - Furniture
  * * `FX_OUT` - Foreign Exchange
@@ -34,6 +37,7 @@
  * * `MEETINGS` - undefined
  * * `MISC_EXPENSES` - Miscellaneous Expenses
  * * `NEEDS_MANUAL_INSPECTION` - Needs Manual Inspection
+ * * `NEWSPAPERS` - Newspapers
  * * `OFFICIAL_FEES` - Official Fees
  * * `OPTIONAL_PERSONNEL_EXPENSE` - Optional Personnel Expenses
  * * `OTHER_EXPENSES` - Other Expenses
@@ -62,7 +66,8 @@
  * * `VAT_PAYMENT` - VAT Payment
  * * `VEHICLES` - Vehicles
  */
-export type ExpenseSink = 'ADMIN' |
+export type ExpenseSink = 'ACCOMMODATION' |
+  'ADMIN' |
   'ADMIN_OTHER' |
   'BANKING_FEE' |
   'BOOK' |
@@ -82,6 +87,8 @@ export type ExpenseSink = 'ADMIN' |
   'EQUIPMENT' |
   'ERROR_EXPENSE' |
   'EXPENSE' |
+  'EXPENSE_CORRECTIONS' |
+  'EXPENSE_CORRECTION_WITHHOLDING_TAX' |
   'FINANCIAL_MANAGEMENT' |
   'FURNITURE' |
   'FX_OUT' |
@@ -95,6 +102,7 @@ export type ExpenseSink = 'ADMIN' |
   'MEETINGS' |
   'MISC_EXPENSES' |
   'NEEDS_MANUAL_INSPECTION' |
+  'NEWSPAPERS' |
   'OFFICIAL_FEES' |
   'OPTIONAL_PERSONNEL_EXPENSE' |
   'OTHER_EXPENSES' |
