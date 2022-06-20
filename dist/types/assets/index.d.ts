@@ -123,22 +123,26 @@ export declare type AssetRatesData = {
  * These values are also available on text construction during the input.
  *
  * * `asset` - Asset related to event, if not part of the transfer specification itself.
- * * `perAsset` - A value describing something as per a single asset.
  * * `count` - A number telling some count like participating number of assets.
  * * `currency` - Related currency, if not asset itself.
  * * `currencyValue` - Transfer value in related currency * 100.
+ * * `feeAmount` - Amount of fee collected, if used some other currency.
+ * * `feeCurrency` - An asset used to collect the fee.
  * * `notes` - An array of additional information to be added as comma separated list in parenthesis to the description.
+ * * `perAsset` - A value describing something as per a single asset.
+ * * `rates` - Value of assets in default currency as mapping from asset names to conversion multiplier.
  * * `text` - Original text as seen in the imported data.
  * * `vat` - Different VAT percentage to be applied.
  * * `vatValue` - Different VAT to be applied as actual amount of VAT.
- * * `rates` - Value of assets in default currency as mapping from asset names to conversion multiplier.
  */
-export declare type AddtionalTransferInfo = {
+export declare type AdditionalTransferInfo = {
     asset?: Asset;
     perAsset?: number;
     count?: number;
     currency?: Currency;
     currencyValue?: number;
+    feeAmount?: number;
+    feeCurrency?: CryptoCurrency | Currency;
     vat?: number;
     vatValue?: number;
     rates?: AssetRates;
@@ -171,7 +175,7 @@ export declare type AssetTransfer = {
     value?: number;
     tags?: Tag[];
     text?: string;
-    data?: AddtionalTransferInfo;
+    data?: AdditionalTransferInfo;
     if?: Expression;
 };
 export declare function isAssetTransfer(s: unknown): s is AssetTransfer;

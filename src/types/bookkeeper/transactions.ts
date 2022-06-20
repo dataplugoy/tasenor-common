@@ -1,6 +1,6 @@
 import { ID, SegmentId } from "interactive-elements"
 import { AccountNumber } from "."
-import { AddtionalTransferInfo, Asset, AssetRates, StockValueData } from ".."
+import { AdditionalTransferInfo, Asset, AssetRates, StockValueData } from ".."
 
 /**
  * Additional optional information like stock changes or conversion rates used for a transaction line.
@@ -20,7 +20,7 @@ export type TransactionLine = {
   account: AccountNumber,
   amount: number,
   description: string,
-  data?: AddtionalTransferInfo
+  data?: AdditionalTransferInfo
 }
 
 /**
