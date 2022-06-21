@@ -3,6 +3,7 @@
  *
  * @module tasenor-common/src/types/knowledge
  */
+import { AssetCode } from './assetCodes'
 import { TaxType } from './assets'
 import { ExpenseSink } from './expense'
 import { IncomeSource } from './income'
@@ -45,7 +46,7 @@ export type VATTable = {
 /**
  * Types of knowledge collections.
  */
- export type KnowledgeType = 'income' | 'expense' | 'vat'
+ export type KnowledgeType = 'income' | 'expense' | 'assets' | 'vat'
 
 /**
  * A type for complete knowledge base filled by various plugins.
@@ -53,6 +54,7 @@ export type VATTable = {
 export type KnowledgeBase = {
   income: LinkedTree<IncomeSource>
   expense: LinkedTree<ExpenseSink>
+  assetCodes: LinkedTree<AssetCode>
   taxTypes: TaxType[]
   vat: VATRange[]
 }

@@ -22,6 +22,11 @@ export class Knowledge {
           children: {},
           parents: {},
         },
+        assetCodes: {
+          root: null,
+          children: {},
+          parents: {},
+        },
         taxTypes: [],
         vat: [
         ]
@@ -220,6 +225,7 @@ export class Knowledge {
    */
   count(): Record<KnowledgeType, number> {
     return {
+      assets: Object.keys(this.data.assetCodes.parents).length,
       income: Object.keys(this.data.income.parents).length,
       expense: Object.keys(this.data.expense.parents).length,
       vat: this.data.vat.length

@@ -1,4 +1,4 @@
-import { ExpenseSink, IncomeSource, Knowledge, LinkedTree, VATRange } from "../src"
+import { AssetCode, ExpenseSink, IncomeSource, Knowledge, LinkedTree, VATRange } from "../src"
 
 const expense: LinkedTree<ExpenseSink> = {
   "root": "EXPENSE",
@@ -93,6 +93,41 @@ const income: LinkedTree<IncomeSource> = {
   }
 }
 
+const assetCodes: LinkedTree<AssetCode> = {
+  "root": "ASSETS",
+  "children": {
+    "ASSETS": [
+      "NON_CURRENT_ASSETS",
+      "CURRENT_ASSETS",
+      "CAPITAL_RESERVERS_AND_LIABILITIES"
+    ],
+    "NON_CURRENT_ASSETS": [
+      "INTANGLIBLE_ASSETS",
+      "TANGLIBLE_ASSETS",
+      "INVESTMENTS"
+    ],
+    "CURRENT_ASSETS": [
+      "CURRENT_STOCKS",
+      "CURRENT_DEBTORS",
+      "CURRENT_INVESTMENTS",
+      "CASH_AT_BANK_AND_IN_HAND"
+    ]
+  },
+  "parents": {
+    "ASSETS": undefined,
+    "NON_CURRENT_ASSETS": "ASSETS",
+    "INTANGLIBLE_ASSETS": "NON_CURRENT_ASSETS",
+    "TANGLIBLE_ASSETS": "NON_CURRENT_ASSETS",
+    "INVESTMENTS": "NON_CURRENT_ASSETS",
+    "CURRENT_ASSETS": "ASSETS",
+    "CURRENT_STOCKS": "CURRENT_ASSETS",
+    "CURRENT_DEBTORS": "CURRENT_ASSETS",
+    "CURRENT_INVESTMENTS": "CURRENT_ASSETS",
+    "CASH_AT_BANK_AND_IN_HAND": "CURRENT_ASSETS",
+    "CAPITAL_RESERVERS_AND_LIABILITIES": "ASSETS"
+  }
+}
+
 const vat: VATRange[] = [
   {
     "from": "2013-01-01",
@@ -109,6 +144,7 @@ const vat: VATRange[] = [
 
 test('Knowledge: VAT', () => {
   const K = new Knowledge({
+    assetCodes,
     expense,
     income,
     taxTypes: [],
@@ -132,6 +168,7 @@ test('Knowledge: VAT', () => {
 
 test('Knowledge: Trees', () => {
   const K = new Knowledge({
+    assetCodes,
     expense,
     income,
     taxTypes: [],
