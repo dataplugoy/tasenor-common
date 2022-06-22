@@ -110,7 +110,7 @@ const assetCodes: LinkedTree<AssetCode> = {
       "CURRENT_STOCKS",
       "CURRENT_DEBTORS",
       "CURRENT_INVESTMENTS",
-      "CASH_AT_BANK_AND_IN_HAND"
+      "CASH"
     ]
   },
   "parents": {
@@ -123,7 +123,7 @@ const assetCodes: LinkedTree<AssetCode> = {
     "CURRENT_STOCKS": "CURRENT_ASSETS",
     "CURRENT_DEBTORS": "CURRENT_ASSETS",
     "CURRENT_INVESTMENTS": "CURRENT_ASSETS",
-    "CASH_AT_BANK_AND_IN_HAND": "CURRENT_ASSETS",
+    "CASH": "CURRENT_ASSETS",
     "CAPITAL_RESERVERS_AND_LIABILITIES": "ASSETS"
   }
 }
