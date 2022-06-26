@@ -10,8 +10,8 @@
  * * `CASH` - Cash at bank and in hand
  * * `CONVERTIBLE_BONDS` - Convertible bonds
  * * `CREDITORS` - Creditors
- * * `CRYPTOCURRENCIES` - Cryptocurrencies
  * * `CURRENT_ASSETS` - Current assets
+ * * `CURRENT_CRYPTOCURRENCIES` - Cryptocurrencies
  * * `CURRENT_DEBTORS` - Debtors
  * * `CURRENT_INVESTMENTS` - Investments
  * * `CURRENT_PRIVATE_STOCK_SHARES` - Unlisted shares
@@ -45,8 +45,8 @@ export type AssetCode = 'ACCRUED_INCOME' |
   'CASH' |
   'CONVERTIBLE_BONDS' |
   'CREDITORS' |
-  'CRYPTOCURRENCIES' |
   'CURRENT_ASSETS' |
+  'CURRENT_CRYPTOCURRENCIES' |
   'CURRENT_DEBTORS' |
   'CURRENT_INVESTMENTS' |
   'CURRENT_PRIVATE_STOCK_SHARES' |
