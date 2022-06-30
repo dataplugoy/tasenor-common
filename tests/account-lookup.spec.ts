@@ -42,52 +42,52 @@ test('Convert account address to account default', async () => {
     null
   )
   expect(addr2sql('expense.statement.ADMIN', {})).toBe(
-    "(data->>'tax' = 'ADMIN') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'ADMIN') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('expense.statement.BANKING_FEE', {})).toBe(
-    "(data->>'tax' = 'BANKING_FEE') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'BANKING_FEE') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('expense.statement.EQUIPMENT', {})).toBe(
-    "(data->>'tax' = 'EQUIPMENT') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'EQUIPMENT') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('expense.statement.FURNITURE', {})).toBe(
-    "(data->>'tax' = 'FURNITURE') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'FURNITURE') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('expense.statement.HARDWARE', {})).toBe(
-    "(data->>'tax' = 'HARDWARE') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'HARDWARE') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('expense.statement.INFORMATION', {})).toBe(
-    "(data->>'tax' = 'INFORMATION') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'INFORMATION') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('expense.statement.INTEREST_EXPENSE', {})).toBe(
-    "(data->>'tax' = 'INTEREST_EXPENSE') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'INTEREST_EXPENSE') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('expense.statement.INTERNET', {})).toBe(
-    "(data->>'tax' = 'INTERNET') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'INTERNET') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('expense.statement.MEETINGS', {})).toBe(
-    "(data->>'tax' = 'MEETINGS') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'MEETINGS') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('expense.statement.NEEDS_MANUAL_INSPECTION', {})).toBe(
-    "(data->>'tax' = 'NEEDS_MANUAL_INSPECTION') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'NEEDS_MANUAL_INSPECTION') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('expense.statement.PHONE', {})).toBe(
-    "(data->>'tax' = 'PHONE') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'PHONE') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('expense.statement.POSTAGE', {})).toBe(
-    "(data->>'tax' = 'POSTAGE') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'POSTAGE') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('expense.statement.SOFTWARE', {})).toBe(
-    "(data->>'tax' = 'SOFTWARE') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'SOFTWARE') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('expense.statement.STOCK_BROKER_SERVICE_FEE', {})).toBe(
-    "(data->>'tax' = 'STOCK_BROKER_SERVICE_FEE') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'STOCK_BROKER_SERVICE_FEE') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('expense.statement.TICKET', {})).toBe(
-    "(data->>'tax' = 'TICKET') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'TICKET') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('expense.statement.TRADE_LOSS_STOCK', {})).toBe(
-    "(data->>'tax' = 'TRADE_LOSS_STOCK') AND (data->>'plugin' = 'SomeImport') AND (type = 'EXPENSE')"
+    "(data->>'tax' = 'TRADE_LOSS_STOCK') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('fee.currency.EUR', {})).toBe(
     null
@@ -105,13 +105,13 @@ test('Convert account address to account default', async () => {
     null
   )
   expect(addr2sql('income.statement.FINLAND_SALES', {})).toBe(
-    "(data->>'tax' = 'FINLAND_SALES') AND (data->>'plugin' = 'SomeImport') AND (type = 'REVENUE')"
+    "(data->>'tax' = 'FINLAND_SALES') AND (type = 'REVENUE')"
   )
   expect(addr2sql('income.statement.LISTED_DIVIDEND', {})).toBe(
-    "(data->>'tax' = 'LISTED_DIVIDEND') AND (data->>'plugin' = 'SomeImport') AND (type = 'REVENUE')"
+    "(data->>'tax' = 'LISTED_DIVIDEND') AND (type = 'REVENUE')"
   )
   expect(addr2sql('income.statement.TRADE_PROFIT_STOCK', {})).toBe(
-    "(data->>'tax' = 'TRADE_PROFIT_STOCK') AND (data->>'plugin' = 'SomeImport') AND (type = 'REVENUE')"
+    "(data->>'tax' = 'TRADE_PROFIT_STOCK') AND (type = 'REVENUE')"
   )
   expect(addr2sql('investment.currency.EUR', {})).toBe(
     null

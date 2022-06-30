@@ -43,7 +43,7 @@ function conditions(addr, options) {
             return null;
         }
         if (type === 'statement') {
-            return { type: types_1.AccountType.EXPENSE, tax: asset, plugin: options.plugin };
+            return { type: types_1.AccountType.EXPENSE, tax: asset };
         }
     }
     if (reason === 'fee') {
@@ -62,7 +62,7 @@ function conditions(addr, options) {
             return null;
         }
         if (type === 'statement') {
-            return { type: types_1.AccountType.REVENUE, tax: asset, plugin: options.plugin };
+            return { type: types_1.AccountType.REVENUE, tax: asset };
         }
     }
     if (reason === 'investment') {

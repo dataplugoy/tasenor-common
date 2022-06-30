@@ -65,7 +65,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
       return null
     }
     if (type === 'statement') {
-      return { type: AccountType.EXPENSE, tax: asset as ExpenseSink, plugin: options.plugin }
+      return { type: AccountType.EXPENSE, tax: asset as ExpenseSink }
     }
   }
 
@@ -87,7 +87,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
       return null
     }
     if (type === 'statement') {
-      return { type: AccountType.REVENUE, tax: asset as IncomeSource, plugin: options.plugin }
+      return { type: AccountType.REVENUE, tax: asset as IncomeSource }
     }
   }
 
