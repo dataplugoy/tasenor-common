@@ -8,5 +8,6 @@
  * @module tasenor-common/src/language
  */
 export * from './filtering';
+export * from './lookup';
 export * from './query';
 export * from './rules';

@@ -24,6 +24,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @module tasenor-common/src/language
  */
 __exportStar(require("./filtering"), exports);
+__exportStar(require("./lookup"), exports);
 __exportStar(require("./query"), exports);
 __exportStar(require("./rules"), exports);
 //# sourceMappingURL=index.js.map
