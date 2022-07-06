@@ -86,10 +86,10 @@ function conditions(addr, options) {
             return { type: types_1.AccountType.ASSET, tax: 'CASH', currency: asset, plugin: options.plugin };
         }
         if (type === 'stock') {
-            return { type: types_1.AccountType.ASSET, tax: 'CURRENT_PUBLIC_STOCK_SHARES', currency: asset, plugin: options.plugin };
+            return { type: types_1.AccountType.ASSET, tax: 'CURRENT_PUBLIC_STOCK_SHARES', plugin: options.plugin };
         }
         if (type === 'crypto') {
-            return { type: types_1.AccountType.ASSET, tax: 'CURRENT_CRYPTOCURRENCIES', currency: asset, plugin: options.plugin };
+            return { type: types_1.AccountType.ASSET, tax: 'CURRENT_CRYPTOCURRENCIES', plugin: options.plugin };
         }
     }
     if (reason === 'transfer') {

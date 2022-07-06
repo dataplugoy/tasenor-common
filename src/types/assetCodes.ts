@@ -29,8 +29,10 @@
  * * `OTHER_SHARES` - Other shares and similar ownerships
  * * `OWNED_BY_GROUP` - Amounts owned by group undertakings
  * * `OWNED_BY_PARTICIPATING` - Amounts owned by participating interest undertakings
+ * * `P2P_LOANS_RECEIVABLE` - Peer to peer loans receivable
  * * `PROVISIONS` - Provisions
  * * `SHORT_SELLING_STOCKS` - Short-selling stocks
+ * * `STOCK_BROKER_LOANS` - Stock-broker loans
  * * `SUBSCRIBED_CAPITAL` - Subscribed capital
  * * `SUBSRIBED_CAPITAL_UNPAID` - Subscribed capital unpaid
  * * `TANGLIBLE_ASSETS` - Intanglible assets
@@ -64,8 +66,10 @@ export type AssetCode = 'ACCRUED_INCOME' |
   'OTHER_SHARES' |
   'OWNED_BY_GROUP' |
   'OWNED_BY_PARTICIPATING' |
+  'P2P_LOANS_RECEIVABLE' |
   'PROVISIONS' |
   'SHORT_SELLING_STOCKS' |
+  'STOCK_BROKER_LOANS' |
   'SUBSCRIBED_CAPITAL' |
   'SUBSRIBED_CAPITAL_UNPAID' |
   'TANGLIBLE_ASSETS' |

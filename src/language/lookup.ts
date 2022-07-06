@@ -114,10 +114,10 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
       return { type: AccountType.ASSET, tax: 'CASH', currency: asset as Currency, plugin: options.plugin }
     }
     if (type === 'stock') {
-      return { type: AccountType.ASSET, tax: 'CURRENT_PUBLIC_STOCK_SHARES', currency: asset as Currency, plugin: options.plugin }
+      return { type: AccountType.ASSET, tax: 'CURRENT_PUBLIC_STOCK_SHARES', plugin: options.plugin }
     }
     if (type === 'crypto') {
-      return { type: AccountType.ASSET, tax: 'CURRENT_CRYPTOCURRENCIES', currency: asset as Currency, plugin: options.plugin }
+      return { type: AccountType.ASSET, tax: 'CURRENT_CRYPTOCURRENCIES', plugin: options.plugin }
     }
   }
 
