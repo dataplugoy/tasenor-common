@@ -41,6 +41,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
       return { tax: 'CASH', currency: asset as Currency, plugin: options.plugin }
     }
     if (type === 'external') {
+      // TODO: This could be the same as above except having condition plugin !== options.plugin.
       return null
     }
   }
@@ -61,8 +62,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'expense') {
     if (type === 'currency') {
-      // TODO: Is there any change that we could handle this?
-      return null
+      return options.plugin ? { tax: 'CASH', currency: asset as Currency, plugin: options.plugin } : null
     }
     if (type === 'statement') {
       return { type: AccountType.EXPENSE, tax: asset as ExpenseSink }
@@ -83,8 +83,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'income') {
     if (type === 'currency') {
-      // TODO: Is there any change that we could handle this?
-      return null
+      return options.plugin ? { tax: 'CASH', currency: asset as Currency, plugin: options.plugin } : null
     }
     if (type === 'statement') {
       return { type: AccountType.REVENUE, tax: asset as IncomeSource }

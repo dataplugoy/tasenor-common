@@ -22,6 +22,7 @@ function conditions(addr, options) {
             return { tax: 'CASH', currency: asset, plugin: options.plugin };
         }
         if (type === 'external') {
+            // TODO: This could be the same as above except having condition plugin !== options.plugin.
             return null;
         }
     }
@@ -39,8 +40,7 @@ function conditions(addr, options) {
     }
     if (reason === 'expense') {
         if (type === 'currency') {
-            // TODO: Is there any change that we could handle this?
-            return null;
+            return options.plugin ? { tax: 'CASH', currency: asset, plugin: options.plugin } : null;
         }
         if (type === 'statement') {
             return { type: types_1.AccountType.EXPENSE, tax: asset };
@@ -58,8 +58,7 @@ function conditions(addr, options) {
     }
     if (reason === 'income') {
         if (type === 'currency') {
-            // TODO: Is there any change that we could handle this?
-            return null;
+            return options.plugin ? { tax: 'CASH', currency: asset, plugin: options.plugin } : null;
         }
         if (type === 'statement') {
             return { type: types_1.AccountType.REVENUE, tax: asset };
