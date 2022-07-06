@@ -2,12 +2,13 @@ import { AccountAddress, AccountType, Asset, AssetCode, Currency, PluginCode, Ta
 /**
  * A condition description to match accunts.
  */
-export interface AccountLookupCondition {
+export declare type AccountLookupCondition = {
     tax: Asset | TaxType | AssetCode;
     currency?: Currency;
-    plugin?: PluginCode;
     type?: AccountType | AccountType[];
-}
+    plugin?: PluginCode;
+    '!plugin'?: PluginCode;
+};
 /**
  * Additional information for looking up an account.
  */

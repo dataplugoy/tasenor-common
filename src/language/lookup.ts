@@ -4,11 +4,12 @@ import { AccountAddress, AccountType, Asset, AssetCode, Currency, ExpenseSink, I
 /**
  * A condition description to match accunts.
  */
-export interface AccountLookupCondition {
+export type AccountLookupCondition = {
   tax: Asset | TaxType | AssetCode
   currency?: Currency
-  plugin?: PluginCode
   type?: AccountType | AccountType[]
+  plugin?: PluginCode
+  '!plugin'?: PluginCode
 }
 
 /**
@@ -41,8 +42,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
       return { tax: 'CASH', currency: asset as Currency, plugin: options.plugin }
     }
     if (type === 'external') {
-      // TODO: This could be the same as above except having condition plugin !== options.plugin.
-      return null
+      return { tax: 'CASH', currency: asset as Currency, '!plugin': options.plugin }
     }
   }
 
@@ -71,7 +71,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'fee') {
     if (type === 'currency') {
-      return null
+      return options.plugin ? { tax: 'CASH', currency: asset as Currency, plugin: options.plugin } : null
     }
   }
 
@@ -136,6 +136,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
     if (type === 'currency') {
       return { tax: 'CASH', currency: asset as Currency, plugin: options.plugin }
     }
+    // TODO: External.
   }
 
   const message = `No SQL conversion known for account address '${addr}'.`
@@ -174,7 +175,14 @@ export function address2sql(addr: AccountAddress, options: AccountLookupOption):
     delete cond.type
   }
 
-  const sql = Object.keys(cond).map(key => `(data->>'${key}' = '${cond[key]}')`)
+  const key2sql = (key: string): string => {
+    if (key[0] === '!') {
+      return `(data->>'${key.substring(1)}' != '${cond[key]}')`
+    }
+    return `(data->>'${key}' = '${cond[key]}')`
+  }
+
+  const sql = Object.keys(cond).map(key => key2sql(key))
 
   return [...sql, ...addSql].join(' AND ')
 }

@@ -21,7 +21,7 @@ test('Convert account address to account default', async () => {
     "(data->>'tax' = 'CASH') AND (data->>'plugin' = 'SomeImport') AND (data->>'currency' = 'EUR' OR data->>'currency' IS NULL)"
   )
   expect(addr2sql('deposit.external.EUR', {})).toBe(
-    null
+    "(data->>'tax' = 'CASH') AND (data->>'plugin' != 'SomeImport') AND (data->>'currency' = 'EUR' OR data->>'currency' IS NULL)"
   )
   expect(addr2sql('distribution.currency.EUR', {})).toBe(
     null
@@ -39,7 +39,7 @@ test('Convert account address to account default', async () => {
     "(data->>'tax' = 'DIVIDEND') AND (data->>'currency' = 'USD') AND (data->>'plugin' = 'SomeImport')"
   )
   expect(addr2sql('expense.currency.EUR', {})).toBe(
-    null
+    "(data->>'tax' = 'CASH') AND (data->>'plugin' = 'SomeImport') AND (data->>'currency' = 'EUR' OR data->>'currency' IS NULL)"
   )
   expect(addr2sql('expense.statement.ADMIN', {})).toBe(
     "(data->>'tax' = 'ADMIN') AND (type = 'EXPENSE')"
@@ -90,7 +90,7 @@ test('Convert account address to account default', async () => {
     "(data->>'tax' = 'TRADE_LOSS_STOCK') AND (type = 'EXPENSE')"
   )
   expect(addr2sql('fee.currency.EUR', {})).toBe(
-    null
+    "(data->>'tax' = 'CASH') AND (data->>'plugin' = 'SomeImport') AND (data->>'currency' = 'EUR' OR data->>'currency' IS NULL)"
   )
   expect(addr2sql('forex.currency.EUR', {})).toBe(
     "(data->>'tax' = 'CASH') AND (data->>'plugin' = 'SomeImport') AND (data->>'currency' = 'EUR' OR data->>'currency' IS NULL)"
@@ -102,7 +102,7 @@ test('Convert account address to account default', async () => {
     "(data->>'tax' = 'CASH') AND (data->>'currency' = 'USD') AND (data->>'plugin' = 'SomeImport')"
   )
   expect(addr2sql('income.currency.EUR', {})).toBe(
-    null
+    "(data->>'tax' = 'CASH') AND (data->>'plugin' = 'SomeImport') AND (data->>'currency' = 'EUR' OR data->>'currency' IS NULL)"
   )
   expect(addr2sql('income.statement.FINLAND_SALES', {})).toBe(
     "(data->>'tax' = 'FINLAND_SALES') AND (type = 'REVENUE')"
@@ -156,10 +156,10 @@ test('Convert account address to account default', async () => {
     "(data->>'tax' = 'CASH') AND (data->>'currency' = 'USD') AND (data->>'plugin' = 'SomeImport') AND (type = 'ASSET')"
   )
   expect(addr2sql('trade.stock.*', {})).toBe(
-    "(data->>'tax' = 'CURRENT_PUBLIC_STOCK_SHARES') AND (data->>'currency' = '*') AND (data->>'plugin' = 'SomeImport') AND (type = 'ASSET')"
+    "(data->>'tax' = 'CURRENT_PUBLIC_STOCK_SHARES') AND (data->>'plugin' = 'SomeImport') AND (type = 'ASSET')"
   )
   expect(addr2sql('trade.crypto.*', {})).toBe(
-    "(data->>'tax' = 'CURRENT_CRYPTOCURRENCIES') AND (data->>'currency' = '*') AND (data->>'plugin' = 'SomeImport') AND (type = 'ASSET')"
+    "(data->>'tax' = 'CURRENT_CRYPTOCURRENCIES') AND (data->>'plugin' = 'SomeImport') AND (type = 'ASSET')"
   )
   expect(addr2sql('transfer.currency.EUR', {})).toBe(
     "(data->>'tax' = 'CASH') AND (data->>'plugin' = 'SomeImport') AND (data->>'currency' = 'EUR' OR data->>'currency' IS NULL) AND (type = 'ASSET')"

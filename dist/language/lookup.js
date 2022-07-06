@@ -22,8 +22,7 @@ function conditions(addr, options) {
             return { tax: 'CASH', currency: asset, plugin: options.plugin };
         }
         if (type === 'external') {
-            // TODO: This could be the same as above except having condition plugin !== options.plugin.
-            return null;
+            return { tax: 'CASH', currency: asset, '!plugin': options.plugin };
         }
     }
     if (reason === 'distribution') {
@@ -48,7 +47,7 @@ function conditions(addr, options) {
     }
     if (reason === 'fee') {
         if (type === 'currency') {
-            return null;
+            return options.plugin ? { tax: 'CASH', currency: asset, plugin: options.plugin } : null;
         }
     }
     if (reason === 'forex') {
@@ -106,6 +105,7 @@ function conditions(addr, options) {
         if (type === 'currency') {
             return { tax: 'CASH', currency: asset, plugin: options.plugin };
         }
+        // TODO: External.
     }
     const message = `No SQL conversion known for account address '${addr}'.`;
     if (options.strict) {
@@ -141,7 +141,13 @@ function address2sql(addr, options) {
         }
         delete cond.type;
     }
-    const sql = Object.keys(cond).map(key => `(data->>'${key}' = '${cond[key]}')`);
+    const key2sql = (key) => {
+        if (key[0] === '!') {
+            return `(data->>'${key.substring(1)}' != '${cond[key]}')`;
+        }
+        return `(data->>'${key}' = '${cond[key]}')`;
+    };
+    const sql = Object.keys(cond).map(key => key2sql(key));
     return [...sql, ...addSql].join(' AND ');
 }
 exports.address2sql = address2sql;
