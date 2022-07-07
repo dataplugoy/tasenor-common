@@ -14,8 +14,7 @@ function conditions(addr, options) {
     const [reason, type, asset] = addr.split('.');
     if (reason === 'debt') {
         if (type === 'currency') {
-            // TODO: Or more general creditor instead?
-            return { tax: 'OTHER_CREDITORS', currency: asset, plugin: options.plugin };
+            return { tax: 'CREDITORS', addChildren: true, currency: asset, plugin: options.plugin };
         }
     }
     if (reason === 'deposit') {
@@ -31,11 +30,7 @@ function conditions(addr, options) {
     }
     if (reason === 'dividend') {
         if (type === 'currency') {
-            // TODO: How to handle different sub-types of dividend?
-            // Maybe we return options from tightest to more general. Then use first match.
-            // Or even directly resolve parenthoods here and return list of SQL in order of preference.
-            // If more than one match. show them as first in account dropdown.
-            return { tax: 'DIVIDEND', currency: asset, plugin: options.plugin };
+            return { tax: 'DIVIDEND', addChildren: true, currency: asset, plugin: options.plugin };
         }
     }
     if (reason === 'expense') {

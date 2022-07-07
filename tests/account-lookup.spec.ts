@@ -9,13 +9,13 @@ test('Convert account address to account default', async () => {
   })
 
   expect(addr2sql('debt.currency.EUR', {})).toBe(
-    "(data->>'tax' = 'OTHER_CREDITORS') AND (data->>'plugin' = 'SomeImport') AND (data->>'currency' = 'EUR' OR data->>'currency' IS NULL)"
+    "(data->>'tax' = 'CREDITORS') AND (data->>'plugin' = 'SomeImport') AND (data->>'currency' = 'EUR' OR data->>'currency' IS NULL)"
   )
   expect(addr2sql('debt.currency.SEK', {})).toBe(
-    "(data->>'tax' = 'OTHER_CREDITORS') AND (data->>'currency' = 'SEK') AND (data->>'plugin' = 'SomeImport')"
+    "(data->>'tax' = 'CREDITORS') AND (data->>'currency' = 'SEK') AND (data->>'plugin' = 'SomeImport')"
   )
   expect(addr2sql('debt.currency.USD', {})).toBe(
-    "(data->>'tax' = 'OTHER_CREDITORS') AND (data->>'currency' = 'USD') AND (data->>'plugin' = 'SomeImport')"
+    "(data->>'tax' = 'CREDITORS') AND (data->>'currency' = 'USD') AND (data->>'plugin' = 'SomeImport')"
   )
   expect(addr2sql('deposit.currency.EUR', {})).toBe(
     "(data->>'tax' = 'CASH') AND (data->>'plugin' = 'SomeImport') AND (data->>'currency' = 'EUR' OR data->>'currency' IS NULL) AND (type = 'ASSET')"
