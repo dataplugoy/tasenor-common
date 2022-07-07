@@ -1,4 +1,4 @@
-import { address2sql, PluginCode, AccountAddress } from '../src'
+import { address2sql, PluginCode, AccountAddress, Knowledge, LinkedTree, AssetCode, VATRange, ExpenseSink, IncomeSource, emptyLinkedTree } from '../src'
 
 test('Convert account address to account default', async () => {
   const addr2sql = (addr: string, options: Record<string, string>) => address2sql(addr as AccountAddress, {
@@ -177,6 +177,50 @@ test('Convert account address to account default', async () => {
     "(data->>'tax' = 'NEEDS_MANUAL_INSPECTION')"
   )
   expect(addr2sql('withdrawal.currency.EUR', {})).toBe(
-    "(data->>'tax' = 'CASH') AND (data->>'plugin' = 'SomeImport') AND (data->>'currency' = 'EUR' OR data->>'currency' IS NULL)"
+    "(data->>'tax' = 'CASH') AND (data->>'plugin' = 'SomeImport') AND (data->>'currency' = 'EUR' OR data->>'currency' IS NULL) AND (type = 'ASSET')"
+  )
+})
+
+test('Use knowledge to have multiple codes matching', async () => {
+  const assetCodes: LinkedTree<AssetCode> = {
+    "root": "ASSETS",
+    "children": {
+      "ASSETS": [
+        "CURRENT_ASSETS",
+      ],
+      "CURRENT_ASSETS": [
+        "CASH"
+      ],
+      "CASH": [
+        "CASH_IN_HAND",
+        "CASH_AT_BANK",
+        "CASH_AT_STOCK_BROKER",
+        "CASH_AT_CRYPTO_BROKER",
+        "CASH_AT_P2P"
+      ],
+    },
+    "parents": {
+      "ASSETS": null,
+      "CURRENT_ASSETS": "ASSETS",
+      "CASH": "CURRENT_ASSETS",
+      "CASH_IN_HAND": "CASH",
+      "CASH_AT_BANK": "CASH",
+      "CASH_AT_STOCK_BROKER": "CASH",
+      "CASH_AT_CRYPTO_BROKER": "CASH",
+      "CASH_AT_P2P": "CASH",
+    }
+  }
+
+  const K = new Knowledge({ assetCodes, vat: [], expense: emptyLinkedTree<ExpenseSink>(), income: emptyLinkedTree<IncomeSource>(), taxTypes: [] })
+
+  const addr2sql = (addr: string, options: Record<string, string>) => address2sql(addr as AccountAddress, {
+    defaultCurrency: 'USD',
+    plugin: 'SomeImport' as PluginCode,
+    strict: true,
+    ...options
+  }, K)
+
+  expect(addr2sql('deposit.currency.USD', {})).toBe(
+    "(data->>'tax' IN ('CASH', 'CASH_IN_HAND', 'CASH_AT_BANK', 'CASH_AT_STOCK_BROKER', 'CASH_AT_CRYPTO_BROKER', 'CASH_AT_P2P')) AND (data->>'plugin' = 'SomeImport') AND (data->>'currency' = 'USD' OR data->>'currency' IS NULL) AND (type = 'ASSET')"
   )
 })

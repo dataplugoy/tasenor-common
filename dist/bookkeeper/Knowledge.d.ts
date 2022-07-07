@@ -1,5 +1,5 @@
 import { ExpenseSink, IncomeSource, ShortDate } from '..';
-import { LinkedTree, VATTarget, KnowledgeBase, KnowledgeType, VATRange, VATTable } from '../types/knowledge';
+import { LinkedTree, VATTarget, KnowledgeBase, KnowledgeType, KnowledgeNodeType, VATRange, VATTable } from '../types/knowledge';
 /**
  * A container for static public data collected from plugins.
  */
@@ -48,4 +48,17 @@ export declare class Knowledge {
      * Give entry count for each kind of information.
      */
     count(): Record<KnowledgeType, number>;
+    /**
+     * Find the tree where a code belongs to.
+     * @param code
+     * @returns
+     */
+    findTree(code: KnowledgeNodeType): LinkedTree<KnowledgeNodeType>;
+    /**
+     * Resolve recursively all children for the code.
+     * @param code
+     * @param tree
+     * @returns
+     */
+    children(code: KnowledgeNodeType, tree?: LinkedTree<KnowledgeNodeType> | undefined): KnowledgeNodeType[];
 }

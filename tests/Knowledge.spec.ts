@@ -1,4 +1,4 @@
-import { AssetCode, ExpenseSink, IncomeSource, Knowledge, LinkedTree, VATRange } from "../src"
+import { AssetCode, emptyLinkedTree, ExpenseSink, IncomeSource, Knowledge, LinkedTree, VATRange } from "../src"
 
 const expense: LinkedTree<ExpenseSink> = {
   "root": "EXPENSE",
@@ -189,3 +189,66 @@ test('Knowledge: Trees', () => {
     { id: 'PRINTER', name: 'expense-PRINTER', level: 5, value: 24 }
   ])
  })
+
+test('Knowledge: children', () => {
+  const assetCodes: LinkedTree<AssetCode> = {
+    "root": "ASSETS",
+    "children": {
+      "ASSETS": [
+        "CURRENT_ASSETS",
+      ],
+      "CURRENT_ASSETS": [
+        "CASH"
+      ],
+      "CASH": [
+        "CASH_IN_HAND",
+        "CASH_AT_BANK",
+        "CASH_AT_STOCK_BROKER",
+        "CASH_AT_CRYPTO_BROKER",
+        "CASH_AT_P2P"
+      ],
+    },
+    "parents": {
+      "ASSETS": null,
+      "CURRENT_ASSETS": "ASSETS",
+      "CASH": "CURRENT_ASSETS",
+      "CASH_IN_HAND": "CASH",
+      "CASH_AT_BANK": "CASH",
+      "CASH_AT_STOCK_BROKER": "CASH",
+      "CASH_AT_CRYPTO_BROKER": "CASH",
+      "CASH_AT_P2P": "CASH",
+    }
+  }
+
+  const K = new Knowledge({ assetCodes, vat: [], expense: emptyLinkedTree<ExpenseSink>(), income: emptyLinkedTree<IncomeSource>(), taxTypes: [] })
+
+  expect(K.children('ASSETS')).toStrictEqual([
+    'CURRENT_ASSETS',
+    'CASH',
+    'CASH_IN_HAND',
+    'CASH_AT_BANK',
+    'CASH_AT_STOCK_BROKER',
+    'CASH_AT_CRYPTO_BROKER',
+    'CASH_AT_P2P'
+  ])
+
+  expect(K.children('CURRENT_ASSETS')).toStrictEqual([
+    'CASH',
+    'CASH_IN_HAND',
+    'CASH_AT_BANK',
+    'CASH_AT_STOCK_BROKER',
+    'CASH_AT_CRYPTO_BROKER',
+    'CASH_AT_P2P'
+  ])
+
+  expect(K.children('CASH')).toStrictEqual([
+    'CASH_IN_HAND',
+    'CASH_AT_BANK',
+    'CASH_AT_STOCK_BROKER',
+    'CASH_AT_CRYPTO_BROKER',
+    'CASH_AT_P2P'
+  ])
+
+  expect(K.children('CASH_IN_HAND')).toStrictEqual([
+  ])
+})

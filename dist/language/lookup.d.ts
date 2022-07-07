@@ -4,11 +4,12 @@ import { AccountAddress, AccountType, Asset, AssetCode, Currency, PluginCode, Ta
  * A condition description to match accunts.
  */
 export declare type AccountLookupCondition = {
-    tax: Asset | TaxType | AssetCode;
+    tax: Asset | TaxType | AssetCode | Asset[] | TaxType[] | AssetCode[];
     currency?: Currency;
     type?: AccountType | AccountType[];
     plugin?: PluginCode;
     '!plugin'?: PluginCode;
+    addChildren?: boolean;
 };
 /**
  * Additional information for looking up an account.

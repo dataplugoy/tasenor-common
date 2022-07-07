@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { ExpenseSink, IncomeSource, ShortDate } from '..'
-import { LinkedTree, VATTarget, KnowledgeBase, KnowledgeType, VATRange, VATTable } from '../types/knowledge'
+import { LinkedTree, emptyLinkedTree, VATTarget, KnowledgeBase, KnowledgeType, KnowledgeNodeType, VATRange, VATTable } from '../types/knowledge'
 
 /**
  * A container for static public data collected from plugins.
@@ -78,7 +78,7 @@ export class Knowledge {
     }
     if (id in tree.parents) {
       const parent = tree.parents[id]
-      if (parent !== undefined) {
+      if (parent !== undefined && parent !== null) {
         return this.treeLookup(parent, table, tree)
       }
     }
@@ -230,5 +230,41 @@ export class Knowledge {
       expense: Object.keys(this.data.expense.parents).length,
       vat: this.data.vat.length
     }
+  }
+
+  /**
+   * Find the tree where a code belongs to.
+   * @param code
+   * @returns
+   */
+  findTree(code: KnowledgeNodeType): LinkedTree<KnowledgeNodeType> {
+    if (code in this.data.assetCodes.parents) {
+      return this.data.assetCodes
+    }
+    if (code in this.data.income.parents) {
+      return this.data.income
+    }
+    if (code in this.data.expense.parents) {
+      return this.data.expense
+    }
+    return emptyLinkedTree()
+  }
+
+  /**
+   * Resolve recursively all children for the code.
+   * @param code
+   * @param tree
+   * @returns
+   */
+  children(code: KnowledgeNodeType, tree: LinkedTree<KnowledgeNodeType> | undefined = undefined): KnowledgeNodeType[] {
+    const t = tree || this.findTree(code)
+    if (code in t.children) {
+      let ret = t.children[code] as KnowledgeNodeType[]
+      for (const child of ret) {
+        ret = ret.concat(this.children(child, t))
+      }
+      return ret
+    }
+    return []
   }
 }

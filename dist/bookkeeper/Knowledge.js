@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Knowledge = void 0;
 const dayjs_1 = __importDefault(require("dayjs"));
+const knowledge_1 = require("../types/knowledge");
 /**
  * A container for static public data collected from plugins.
  */
@@ -73,7 +74,7 @@ class Knowledge {
         }
         if (id in tree.parents) {
             const parent = tree.parents[id];
-            if (parent !== undefined) {
+            if (parent !== undefined && parent !== null) {
                 return this.treeLookup(parent, table, tree);
             }
         }
@@ -215,6 +216,40 @@ class Knowledge {
             expense: Object.keys(this.data.expense.parents).length,
             vat: this.data.vat.length
         };
+    }
+    /**
+     * Find the tree where a code belongs to.
+     * @param code
+     * @returns
+     */
+    findTree(code) {
+        if (code in this.data.assetCodes.parents) {
+            return this.data.assetCodes;
+        }
+        if (code in this.data.income.parents) {
+            return this.data.income;
+        }
+        if (code in this.data.expense.parents) {
+            return this.data.expense;
+        }
+        return (0, knowledge_1.emptyLinkedTree)();
+    }
+    /**
+     * Resolve recursively all children for the code.
+     * @param code
+     * @param tree
+     * @returns
+     */
+    children(code, tree = undefined) {
+        const t = tree || this.findTree(code);
+        if (code in t.children) {
+            let ret = t.children[code];
+            for (const child of ret) {
+                ret = ret.concat(this.children(child, t));
+            }
+            return ret;
+        }
+        return [];
     }
 }
 exports.Knowledge = Knowledge;

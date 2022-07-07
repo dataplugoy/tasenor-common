@@ -6,11 +6,12 @@ import { AccountAddress, AccountType, Asset, AssetCode, Currency, ExpenseSink, I
  * A condition description to match accunts.
  */
 export type AccountLookupCondition = {
-  tax: Asset | TaxType | AssetCode
+  tax: Asset | TaxType | AssetCode | Asset[] | TaxType[] | AssetCode[]
   currency?: Currency
   type?: AccountType | AccountType[]
   plugin?: PluginCode
   '!plugin'?: PluginCode
+  addChildren?: boolean
 }
 
 /**
@@ -40,10 +41,10 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'deposit') {
     if (type === 'currency') {
-      return { tax: 'CASH', currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET }
+      return { tax: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET }
     }
     if (type === 'external') {
-      return { tax: 'CASH', currency: asset as Currency, '!plugin': options.plugin, type: AccountType.ASSET }
+      return { tax: 'CASH', addChildren: true, currency: asset as Currency, '!plugin': options.plugin, type: AccountType.ASSET }
     }
   }
 
@@ -63,7 +64,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'expense') {
     if (type === 'currency') {
-      return options.plugin ? { tax: 'CASH', currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET } : null
+      return options.plugin ? { tax: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET } : null
     }
     if (type === 'statement') {
       return { type: AccountType.EXPENSE, tax: asset as ExpenseSink }
@@ -72,7 +73,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'fee') {
     if (type === 'currency') {
-      return options.plugin ? { tax: 'CASH', currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET } : null
+      return options.plugin ? { tax: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET } : null
     }
   }
 
@@ -84,7 +85,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'income') {
     if (type === 'currency') {
-      return options.plugin ? { tax: 'CASH', currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET } : null
+      return options.plugin ? { tax: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET } : null
     }
     if (type === 'statement') {
       return { type: AccountType.REVENUE, tax: asset as IncomeSource }
@@ -111,7 +112,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'trade') {
     if (type === 'currency') {
-      return { type: AccountType.ASSET, tax: 'CASH', currency: asset as Currency, plugin: options.plugin }
+      return { type: AccountType.ASSET, tax: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin }
     }
     if (type === 'stock') {
       return { type: AccountType.ASSET, tax: 'CURRENT_PUBLIC_STOCK_SHARES', plugin: options.plugin }
@@ -123,7 +124,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'transfer') {
     if (type === 'currency') {
-      return { type: AccountType.ASSET, tax: 'CASH', currency: asset as Currency, plugin: options.plugin }
+      return { type: AccountType.ASSET, tax: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin }
     }
     if (type === 'external') {
       if (asset === 'NEEDS_MANUAL_INSPECTION') {
@@ -135,9 +136,11 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'withdrawal') {
     if (type === 'currency') {
-      return { tax: 'CASH', currency: asset as Currency, plugin: options.plugin }
+      return { tax: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET }
     }
-    // TODO: External.
+    if (type === 'external') {
+      return { tax: 'CASH', addChildren: true, currency: asset as Currency, '!plugin': options.plugin, type: AccountType.ASSET }
+    }
   }
 
   const message = `No SQL conversion known for account address '${addr}'.`
@@ -166,11 +169,14 @@ export function address2sql(addr: AccountAddress, options: AccountLookupOption, 
   }
 
   const addSql: string[] = []
+
+  // If looking for default currency, it can be also unset.
   if (cond.currency === options.defaultCurrency) {
     addSql.push(`(data->>'currency' = '${cond.currency}' OR data->>'currency' IS NULL)`)
     delete cond.currency
   }
 
+  // Add condition for type(s).
   if (cond.type) {
     if (typeof cond.type === 'string') {
       addSql.push(`(type = '${cond.type}')`)
@@ -180,11 +186,25 @@ export function address2sql(addr: AccountAddress, options: AccountLookupOption, 
     delete cond.type
   }
 
+  // Allow any children.
+  if (cond.addChildren) {
+    cond.tax = [cond.tax as Asset, ...knowledge.children(cond.tax as Asset) as Asset[]]
+    delete cond.addChildren
+  }
+
+  // Helper to handle other conditions.
   const key2sql = (key: string): string => {
     if (key[0] === '!') {
       return `(data->>'${key.substring(1)}' != '${cond[key]}')`
     }
-    return `(data->>'${key}' = '${cond[key]}')`
+    let values = cond[key]
+    if (values instanceof Array) {
+      if (values.length > 1) {
+        return `(data->>'${key}' IN (${values.map(k => "'" + k + "'").join(', ')}))`
+      }
+      values = values[0]
+    }
+    return `(data->>'${key}' = '${values}')`
   }
 
   const sql = Object.keys(cond).map(key => key2sql(key))

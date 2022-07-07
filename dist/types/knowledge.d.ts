@@ -4,7 +4,7 @@
  * @module tasenor-common/src/types/knowledge
  */
 import { AssetCode } from './assetCodes';
-import { TaxType } from './assets';
+import { Asset, TaxType } from './assets';
 import { ExpenseSink } from './expense';
 import { IncomeSource } from './income';
 import { ShortDate } from './time';
@@ -13,13 +13,21 @@ import { ShortDate } from './time';
  */
 export declare type VATTarget = ExpenseSink | IncomeSource;
 /**
+ * Known knowledge linked tree node value types.
+ */
+export declare type KnowledgeNodeType = string | number | symbol | Asset;
+/**
  * A tree structure for fast lookup.
  */
-export interface LinkedTree<NodeType extends string | number | symbol | ExpenseSink | IncomeSource = string> {
+export interface LinkedTree<NodeType extends KnowledgeNodeType = string> {
     root: NodeType | null;
     children: Partial<Record<NodeType, NodeType[]>>;
-    parents: Partial<Record<NodeType, NodeType>>;
+    parents: Partial<Record<NodeType, NodeType | null>>;
 }
+/**
+ * Generate empty linked tree.
+ */
+export declare function emptyLinkedTree<T extends KnowledgeNodeType>(): LinkedTree<T>;
 /**
  * An entry describing VATs for various income and expense IDs VAT for date range.
  * For currently valid data, end date `to` is set to null.

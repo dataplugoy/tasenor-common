@@ -20,10 +20,10 @@ function conditions(addr, options) {
     }
     if (reason === 'deposit') {
         if (type === 'currency') {
-            return { tax: 'CASH', currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET };
+            return { tax: 'CASH', addChildren: true, currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET };
         }
         if (type === 'external') {
-            return { tax: 'CASH', currency: asset, '!plugin': options.plugin, type: types_1.AccountType.ASSET };
+            return { tax: 'CASH', addChildren: true, currency: asset, '!plugin': options.plugin, type: types_1.AccountType.ASSET };
         }
     }
     if (reason === 'distribution') {
@@ -40,7 +40,7 @@ function conditions(addr, options) {
     }
     if (reason === 'expense') {
         if (type === 'currency') {
-            return options.plugin ? { tax: 'CASH', currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET } : null;
+            return options.plugin ? { tax: 'CASH', addChildren: true, currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET } : null;
         }
         if (type === 'statement') {
             return { type: types_1.AccountType.EXPENSE, tax: asset };
@@ -48,7 +48,7 @@ function conditions(addr, options) {
     }
     if (reason === 'fee') {
         if (type === 'currency') {
-            return options.plugin ? { tax: 'CASH', currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET } : null;
+            return options.plugin ? { tax: 'CASH', addChildren: true, currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET } : null;
         }
     }
     if (reason === 'forex') {
@@ -58,7 +58,7 @@ function conditions(addr, options) {
     }
     if (reason === 'income') {
         if (type === 'currency') {
-            return options.plugin ? { tax: 'CASH', currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET } : null;
+            return options.plugin ? { tax: 'CASH', addChildren: true, currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET } : null;
         }
         if (type === 'statement') {
             return { type: types_1.AccountType.REVENUE, tax: asset };
@@ -82,7 +82,7 @@ function conditions(addr, options) {
     }
     if (reason === 'trade') {
         if (type === 'currency') {
-            return { type: types_1.AccountType.ASSET, tax: 'CASH', currency: asset, plugin: options.plugin };
+            return { type: types_1.AccountType.ASSET, tax: 'CASH', addChildren: true, currency: asset, plugin: options.plugin };
         }
         if (type === 'stock') {
             return { type: types_1.AccountType.ASSET, tax: 'CURRENT_PUBLIC_STOCK_SHARES', plugin: options.plugin };
@@ -93,7 +93,7 @@ function conditions(addr, options) {
     }
     if (reason === 'transfer') {
         if (type === 'currency') {
-            return { type: types_1.AccountType.ASSET, tax: 'CASH', currency: asset, plugin: options.plugin };
+            return { type: types_1.AccountType.ASSET, tax: 'CASH', addChildren: true, currency: asset, plugin: options.plugin };
         }
         if (type === 'external') {
             if (asset === 'NEEDS_MANUAL_INSPECTION') {
@@ -104,9 +104,11 @@ function conditions(addr, options) {
     }
     if (reason === 'withdrawal') {
         if (type === 'currency') {
-            return { tax: 'CASH', currency: asset, plugin: options.plugin };
+            return { tax: 'CASH', addChildren: true, currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET };
         }
-        // TODO: External.
+        if (type === 'external') {
+            return { tax: 'CASH', addChildren: true, currency: asset, '!plugin': options.plugin, type: types_1.AccountType.ASSET };
+        }
     }
     const message = `No SQL conversion known for account address '${addr}'.`;
     if (options.strict) {
@@ -132,10 +134,12 @@ function address2sql(addr, options, knowledge = null) {
         return null;
     }
     const addSql = [];
+    // If looking for default currency, it can be also unset.
     if (cond.currency === options.defaultCurrency) {
         addSql.push(`(data->>'currency' = '${cond.currency}' OR data->>'currency' IS NULL)`);
         delete cond.currency;
     }
+    // Add condition for type(s).
     if (cond.type) {
         if (typeof cond.type === 'string') {
             addSql.push(`(type = '${cond.type}')`);
@@ -145,11 +149,24 @@ function address2sql(addr, options, knowledge = null) {
         }
         delete cond.type;
     }
+    // Allow any children.
+    if (cond.addChildren) {
+        cond.tax = [cond.tax, ...knowledge.children(cond.tax)];
+        delete cond.addChildren;
+    }
+    // Helper to handle other conditions.
     const key2sql = (key) => {
         if (key[0] === '!') {
             return `(data->>'${key.substring(1)}' != '${cond[key]}')`;
         }
-        return `(data->>'${key}' = '${cond[key]}')`;
+        let values = cond[key];
+        if (values instanceof Array) {
+            if (values.length > 1) {
+                return `(data->>'${key}' IN (${values.map(k => "'" + k + "'").join(', ')}))`;
+            }
+            values = values[0];
+        }
+        return `(data->>'${key}' = '${values}')`;
     };
     const sql = Object.keys(cond).map(key => key2sql(key));
     return [...sql, ...addSql].join(' AND ');
