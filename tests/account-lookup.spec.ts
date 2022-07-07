@@ -1,4 +1,4 @@
-import { address2sql, PluginCode, AccountAddress, Knowledge, LinkedTree, AssetCode, VATRange, ExpenseSink, IncomeSource, emptyLinkedTree } from '../src'
+import { address2sql, PluginCode, AccountAddress, Knowledge, LinkedTree, AssetCode, ExpenseSink, IncomeSource, emptyLinkedTree } from '../src'
 
 test('Convert account address to account default', async () => {
   const addr2sql = (addr: string, options: Record<string, string>) => address2sql(addr as AccountAddress, {
