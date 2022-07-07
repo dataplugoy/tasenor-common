@@ -8,6 +8,11 @@
  * * `CAPITAL_RESERVERS` - Capital and reserves
  * * `CAPITAL_RESERVERS_AND_LIABILITIES` - Capital, reserves and liabilities
  * * `CASH` - Cash at bank and in hand
+ * * `CASH_AT_BANK` - Cash at bank
+ * * `CASH_AT_CRYPTO_BROKER` - Cash at cryptocurrency broker account
+ * * `CASH_AT_P2P` - Cash at peer-to-peer lender
+ * * `CASH_AT_STOCK_BROKER` - Cash at stock broker account
+ * * `CASH_IN_HAND` - Cash in hand
  * * `CONVERTIBLE_BONDS` - Convertible bonds
  * * `CREDITORS` - Creditors
  * * `CURRENT_ASSETS` - Current assets
@@ -45,6 +50,11 @@ export type AssetCode = 'ACCRUED_INCOME' |
   'CAPITAL_RESERVERS' |
   'CAPITAL_RESERVERS_AND_LIABILITIES' |
   'CASH' |
+  'CASH_AT_BANK' |
+  'CASH_AT_CRYPTO_BROKER' |
+  'CASH_AT_P2P' |
+  'CASH_AT_STOCK_BROKER' |
+  'CASH_IN_HAND' |
   'CONVERTIBLE_BONDS' |
   'CREDITORS' |
   'CURRENT_ASSETS' |
