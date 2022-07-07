@@ -2,6 +2,7 @@ import { Action, ActiveElement, BooleanElement, ButtonElement, FlatElement, BoxE
 import { Store, Tag, TagType } from ".";
 import { PluginCode } from "..";
 import { FilterRule } from "../..";
+import { AccountNumber } from "./accounts";
 /**
  * A setup for RISP used in Tasenor project.
  */
@@ -26,6 +27,7 @@ export declare type TasenorAction = Action | SaveSettingsAction;
 export declare type AccountElement = ActiveElement<TasenorSetup, AccountElement> & NamedElement & {
     readonly type: 'account';
     filter?: FilterRule;
+    preferred?: AccountNumber[];
 };
 /**
  * An element that allows one to select one of the accounts from dropdown.

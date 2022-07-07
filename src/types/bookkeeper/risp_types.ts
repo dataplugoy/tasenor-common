@@ -2,6 +2,7 @@ import { Action, ActiveElement, BooleanElement, ButtonElement, FlatElement, BoxE
 import { Store, Tag, TagType } from "."
 import { PluginCode } from ".."
 import { FilterRule } from "../.."
+import { AccountNumber } from "./accounts"
 
 /**
  * A setup for RISP used in Tasenor project.
@@ -30,6 +31,7 @@ export type TasenorAction = Action | SaveSettingsAction
 export type AccountElement = ActiveElement<TasenorSetup, AccountElement> & NamedElement & {
   readonly type: 'account'
   filter?: FilterRule
+  preferred?: AccountNumber[]
 }
 
 /**

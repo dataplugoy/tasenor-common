@@ -19,10 +19,10 @@ function conditions(addr, options) {
     }
     if (reason === 'deposit') {
         if (type === 'currency') {
-            return { tax: 'CASH', currency: asset, plugin: options.plugin };
+            return { tax: 'CASH', currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET };
         }
         if (type === 'external') {
-            return { tax: 'CASH', currency: asset, '!plugin': options.plugin };
+            return { tax: 'CASH', currency: asset, '!plugin': options.plugin, type: types_1.AccountType.ASSET };
         }
     }
     if (reason === 'distribution') {
@@ -39,7 +39,7 @@ function conditions(addr, options) {
     }
     if (reason === 'expense') {
         if (type === 'currency') {
-            return options.plugin ? { tax: 'CASH', currency: asset, plugin: options.plugin } : null;
+            return options.plugin ? { tax: 'CASH', currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET } : null;
         }
         if (type === 'statement') {
             return { type: types_1.AccountType.EXPENSE, tax: asset };
@@ -47,7 +47,7 @@ function conditions(addr, options) {
     }
     if (reason === 'fee') {
         if (type === 'currency') {
-            return options.plugin ? { tax: 'CASH', currency: asset, plugin: options.plugin } : null;
+            return options.plugin ? { tax: 'CASH', currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET } : null;
         }
     }
     if (reason === 'forex') {
@@ -57,7 +57,7 @@ function conditions(addr, options) {
     }
     if (reason === 'income') {
         if (type === 'currency') {
-            return options.plugin ? { tax: 'CASH', currency: asset, plugin: options.plugin } : null;
+            return options.plugin ? { tax: 'CASH', currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET } : null;
         }
         if (type === 'statement') {
             return { type: types_1.AccountType.REVENUE, tax: asset };

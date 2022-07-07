@@ -39,10 +39,10 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'deposit') {
     if (type === 'currency') {
-      return { tax: 'CASH', currency: asset as Currency, plugin: options.plugin }
+      return { tax: 'CASH', currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET }
     }
     if (type === 'external') {
-      return { tax: 'CASH', currency: asset as Currency, '!plugin': options.plugin }
+      return { tax: 'CASH', currency: asset as Currency, '!plugin': options.plugin, type: AccountType.ASSET }
     }
   }
 
@@ -62,7 +62,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'expense') {
     if (type === 'currency') {
-      return options.plugin ? { tax: 'CASH', currency: asset as Currency, plugin: options.plugin } : null
+      return options.plugin ? { tax: 'CASH', currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET } : null
     }
     if (type === 'statement') {
       return { type: AccountType.EXPENSE, tax: asset as ExpenseSink }
@@ -71,7 +71,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'fee') {
     if (type === 'currency') {
-      return options.plugin ? { tax: 'CASH', currency: asset as Currency, plugin: options.plugin } : null
+      return options.plugin ? { tax: 'CASH', currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET } : null
     }
   }
 
@@ -83,7 +83,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'income') {
     if (type === 'currency') {
-      return options.plugin ? { tax: 'CASH', currency: asset as Currency, plugin: options.plugin } : null
+      return options.plugin ? { tax: 'CASH', currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET } : null
     }
     if (type === 'statement') {
       return { type: AccountType.REVENUE, tax: asset as IncomeSource }
