@@ -1,3 +1,4 @@
+import { Knowledge } from "../bookkeeper"
 import { warning } from "../logging"
 import { AccountAddress, AccountType, Asset, AssetCode, Currency, ExpenseSink, IncomeSource, PluginCode, TaxType } from "../types"
 
@@ -154,7 +155,11 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
  * @param options
  * @returns
  */
-export function address2sql(addr: AccountAddress, options: AccountLookupOption): string | null {
+export function address2sql(addr: AccountAddress, options: AccountLookupOption, knowledge: Knowledge | null = null): string | null {
+  if (knowledge === null) {
+    knowledge = new Knowledge()
+  }
+
   const cond = conditions(addr, options)
   if (cond === null) {
     return null

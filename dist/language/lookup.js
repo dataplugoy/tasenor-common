@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.address2sql = exports.conditions = void 0;
+const bookkeeper_1 = require("../bookkeeper");
 const logging_1 = require("../logging");
 const types_1 = require("../types");
 /**
@@ -122,7 +123,10 @@ exports.conditions = conditions;
  * @param options
  * @returns
  */
-function address2sql(addr, options) {
+function address2sql(addr, options, knowledge = null) {
+    if (knowledge === null) {
+        knowledge = new bookkeeper_1.Knowledge();
+    }
     const cond = conditions(addr, options);
     if (cond === null) {
         return null;

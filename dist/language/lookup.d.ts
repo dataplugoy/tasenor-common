@@ -1,3 +1,4 @@
+import { Knowledge } from "../bookkeeper";
 import { AccountAddress, AccountType, Asset, AssetCode, Currency, PluginCode, TaxType } from "../types";
 /**
  * A condition description to match accunts.
@@ -31,4 +32,4 @@ export declare function conditions(addr: AccountAddress, options: AccountLookupO
  * @param options
  * @returns
  */
-export declare function address2sql(addr: AccountAddress, options: AccountLookupOption): string | null;
+export declare function address2sql(addr: AccountAddress, options: AccountLookupOption, knowledge?: Knowledge | null): string | null;
