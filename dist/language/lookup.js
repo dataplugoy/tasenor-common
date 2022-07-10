@@ -14,15 +14,15 @@ function conditions(addr, options) {
     const [reason, type, asset] = addr.split('.');
     if (reason === 'debt') {
         if (type === 'currency') {
-            return { tax: 'CREDITORS', addChildren: true, currency: asset, plugin: options.plugin };
+            return { code: 'CREDITORS', addChildren: true, currency: asset, plugin: options.plugin };
         }
     }
     if (reason === 'deposit') {
         if (type === 'currency') {
-            return { tax: 'CASH', addChildren: true, currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET };
+            return { code: 'CASH', addChildren: true, currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET };
         }
         if (type === 'external') {
-            return { tax: 'CASH', addChildren: true, currency: asset, '!plugin': options.plugin, type: types_1.AccountType.ASSET };
+            return { code: 'CASH', addChildren: true, currency: asset, '!plugin': options.plugin, type: types_1.AccountType.ASSET };
         }
     }
     if (reason === 'distribution') {
@@ -30,33 +30,33 @@ function conditions(addr, options) {
     }
     if (reason === 'dividend') {
         if (type === 'currency') {
-            return { tax: 'DIVIDEND', addChildren: true, currency: asset, plugin: options.plugin };
+            return { code: 'DIVIDEND', addChildren: true, currency: asset, plugin: options.plugin };
         }
     }
     if (reason === 'expense') {
         if (type === 'currency') {
-            return options.plugin ? { tax: 'CASH', addChildren: true, currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET } : null;
+            return options.plugin ? { code: 'CASH', addChildren: true, currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET } : null;
         }
         if (type === 'statement') {
-            return { type: types_1.AccountType.EXPENSE, tax: asset };
+            return { type: types_1.AccountType.EXPENSE, code: asset };
         }
     }
     if (reason === 'fee') {
         if (type === 'currency') {
-            return options.plugin ? { tax: 'CASH', addChildren: true, currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET } : null;
+            return options.plugin ? { code: 'CASH', addChildren: true, currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET } : null;
         }
     }
     if (reason === 'forex') {
         if (type === 'currency') {
-            return { tax: 'CASH', currency: asset, plugin: options.plugin };
+            return { code: 'CASH', currency: asset, plugin: options.plugin };
         }
     }
     if (reason === 'income') {
         if (type === 'currency') {
-            return options.plugin ? { tax: 'CASH', addChildren: true, currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET } : null;
+            return options.plugin ? { code: 'CASH', addChildren: true, currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET } : null;
         }
         if (type === 'statement') {
-            return { type: types_1.AccountType.REVENUE, tax: asset };
+            return { type: types_1.AccountType.REVENUE, code: asset };
         }
     }
     if (reason === 'investment') {
@@ -64,7 +64,7 @@ function conditions(addr, options) {
             return null;
         }
         if (type === 'statement') {
-            return { type: types_1.AccountType.EQUITY, tax: asset, plugin: options.plugin };
+            return { type: types_1.AccountType.EQUITY, code: asset, plugin: options.plugin };
         }
     }
     if (reason === 'tax') {
@@ -72,37 +72,37 @@ function conditions(addr, options) {
             return null;
         }
         if (type === 'statement') {
-            return { type: [types_1.AccountType.LIABILITY, types_1.AccountType.ASSET], tax: asset };
+            return { type: [types_1.AccountType.LIABILITY, types_1.AccountType.ASSET], code: asset };
         }
     }
     if (reason === 'trade') {
         if (type === 'currency') {
-            return { type: types_1.AccountType.ASSET, tax: 'CASH', addChildren: true, currency: asset, plugin: options.plugin };
+            return { type: types_1.AccountType.ASSET, code: 'CASH', addChildren: true, currency: asset, plugin: options.plugin };
         }
         if (type === 'stock') {
-            return { type: types_1.AccountType.ASSET, tax: 'CURRENT_PUBLIC_STOCK_SHARES', plugin: options.plugin };
+            return { type: types_1.AccountType.ASSET, code: 'CURRENT_PUBLIC_STOCK_SHARES', plugin: options.plugin };
         }
         if (type === 'crypto') {
-            return { type: types_1.AccountType.ASSET, tax: 'CURRENT_CRYPTOCURRENCIES', plugin: options.plugin };
+            return { type: types_1.AccountType.ASSET, code: 'CURRENT_CRYPTOCURRENCIES', plugin: options.plugin };
         }
     }
     if (reason === 'transfer') {
         if (type === 'currency') {
-            return { type: types_1.AccountType.ASSET, tax: 'CASH', addChildren: true, currency: asset, plugin: options.plugin };
+            return { type: types_1.AccountType.ASSET, code: 'CASH', addChildren: true, currency: asset, plugin: options.plugin };
         }
         if (type === 'external') {
             if (asset === 'NEEDS_MANUAL_INSPECTION') {
-                return { tax: asset };
+                return { code: asset };
             }
             return null;
         }
     }
     if (reason === 'withdrawal') {
         if (type === 'currency') {
-            return { tax: 'CASH', addChildren: true, currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET };
+            return { code: 'CASH', addChildren: true, currency: asset, plugin: options.plugin, type: types_1.AccountType.ASSET };
         }
         if (type === 'external') {
-            return { tax: 'CASH', addChildren: true, currency: asset, '!plugin': options.plugin, type: types_1.AccountType.ASSET };
+            return { code: 'CASH', addChildren: true, currency: asset, '!plugin': options.plugin, type: types_1.AccountType.ASSET };
         }
     }
     const message = `No SQL conversion known for account address '${addr}'.`;
@@ -146,7 +146,7 @@ function address2sql(addr, options, knowledge = null) {
     }
     // Allow any children.
     if (cond.addChildren) {
-        cond.tax = [cond.tax, ...knowledge.children(cond.tax)];
+        cond.code = [cond.code, ...knowledge.children(cond.code)];
         delete cond.addChildren;
     }
     // Helper to handle other conditions.

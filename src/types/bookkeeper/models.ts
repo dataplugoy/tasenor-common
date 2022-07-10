@@ -18,7 +18,7 @@ export interface AccountModelData {
   type: AccountType
   data: {
     favourite?: boolean
-    tax?: VATTarget | null
+    code?: VATTarget | null // TODO: Define new type AccountCode including assets, expenses and incomes.
     plugin?: PluginCode
     currency?: Currency
   }
@@ -36,7 +36,7 @@ export declare class AccountModel implements AccountModelData {
   type: AccountType
   data: {
     favourite?: boolean
-    tax?: VATTarget | null
+    code?: VATTarget | null // TODO: Define new type AccountCode including assets, expenses and incomes.
     plugin?: PluginCode
     currency?: Currency
   }

@@ -13,7 +13,7 @@ export interface AccountModelData {
     type: AccountType;
     data: {
         favourite?: boolean;
-        tax?: VATTarget | null;
+        code?: VATTarget | null;
         plugin?: PluginCode;
         currency?: Currency;
     };
@@ -30,7 +30,7 @@ export declare class AccountModel implements AccountModelData {
     type: AccountType;
     data: {
         favourite?: boolean;
-        tax?: VATTarget | null;
+        code?: VATTarget | null;
         plugin?: PluginCode;
         currency?: Currency;
     };

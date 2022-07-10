@@ -6,7 +6,7 @@ import { AccountAddress, AccountType, Asset, AssetCode, Currency, ExpenseSink, I
  * A condition description to match accunts.
  */
 export type AccountLookupCondition = {
-  tax: Asset | TaxType | AssetCode | Asset[] | TaxType[] | AssetCode[]
+  code: Asset | TaxType | AssetCode | Asset[] | TaxType[] | AssetCode[]
   currency?: Currency
   type?: AccountType | AccountType[]
   plugin?: PluginCode
@@ -34,16 +34,16 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'debt') {
     if (type === 'currency') {
-      return { tax: 'CREDITORS', addChildren: true, currency: asset as Currency, plugin: options.plugin }
+      return { code: 'CREDITORS', addChildren: true, currency: asset as Currency, plugin: options.plugin }
     }
   }
 
   if (reason === 'deposit') {
     if (type === 'currency') {
-      return { tax: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET }
+      return { code: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET }
     }
     if (type === 'external') {
-      return { tax: 'CASH', addChildren: true, currency: asset as Currency, '!plugin': options.plugin, type: AccountType.ASSET }
+      return { code: 'CASH', addChildren: true, currency: asset as Currency, '!plugin': options.plugin, type: AccountType.ASSET }
     }
   }
 
@@ -53,37 +53,37 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'dividend') {
     if (type === 'currency') {
-      return { tax: 'DIVIDEND', addChildren: true, currency: asset as Currency, plugin: options.plugin }
+      return { code: 'DIVIDEND', addChildren: true, currency: asset as Currency, plugin: options.plugin }
     }
   }
 
   if (reason === 'expense') {
     if (type === 'currency') {
-      return options.plugin ? { tax: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET } : null
+      return options.plugin ? { code: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET } : null
     }
     if (type === 'statement') {
-      return { type: AccountType.EXPENSE, tax: asset as ExpenseSink }
+      return { type: AccountType.EXPENSE, code: asset as ExpenseSink }
     }
   }
 
   if (reason === 'fee') {
     if (type === 'currency') {
-      return options.plugin ? { tax: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET } : null
+      return options.plugin ? { code: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET } : null
     }
   }
 
   if (reason === 'forex') {
     if (type === 'currency') {
-      return { tax: 'CASH', currency: asset as Currency, plugin: options.plugin }
+      return { code: 'CASH', currency: asset as Currency, plugin: options.plugin }
     }
   }
 
   if (reason === 'income') {
     if (type === 'currency') {
-      return options.plugin ? { tax: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET } : null
+      return options.plugin ? { code: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET } : null
     }
     if (type === 'statement') {
-      return { type: AccountType.REVENUE, tax: asset as IncomeSource }
+      return { type: AccountType.REVENUE, code: asset as IncomeSource }
     }
   }
 
@@ -92,7 +92,7 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
       return null
     }
     if (type === 'statement') {
-      return { type: AccountType.EQUITY, tax: asset as Currency, plugin: options.plugin }
+      return { type: AccountType.EQUITY, code: asset as Currency, plugin: options.plugin }
     }
   }
 
@@ -101,29 +101,29 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
       return null
     }
     if (type === 'statement') {
-      return { type: [AccountType.LIABILITY, AccountType.ASSET], tax: asset as TaxType }
+      return { type: [AccountType.LIABILITY, AccountType.ASSET], code: asset as TaxType }
     }
   }
 
   if (reason === 'trade') {
     if (type === 'currency') {
-      return { type: AccountType.ASSET, tax: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin }
+      return { type: AccountType.ASSET, code: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin }
     }
     if (type === 'stock') {
-      return { type: AccountType.ASSET, tax: 'CURRENT_PUBLIC_STOCK_SHARES', plugin: options.plugin }
+      return { type: AccountType.ASSET, code: 'CURRENT_PUBLIC_STOCK_SHARES', plugin: options.plugin }
     }
     if (type === 'crypto') {
-      return { type: AccountType.ASSET, tax: 'CURRENT_CRYPTOCURRENCIES', plugin: options.plugin }
+      return { type: AccountType.ASSET, code: 'CURRENT_CRYPTOCURRENCIES', plugin: options.plugin }
     }
   }
 
   if (reason === 'transfer') {
     if (type === 'currency') {
-      return { type: AccountType.ASSET, tax: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin }
+      return { type: AccountType.ASSET, code: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin }
     }
     if (type === 'external') {
       if (asset === 'NEEDS_MANUAL_INSPECTION') {
-        return { tax: asset }
+        return { code: asset }
       }
       return null
     }
@@ -131,10 +131,10 @@ export function conditions(addr: AccountAddress, options: AccountLookupOption): 
 
   if (reason === 'withdrawal') {
     if (type === 'currency') {
-      return { tax: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET }
+      return { code: 'CASH', addChildren: true, currency: asset as Currency, plugin: options.plugin, type: AccountType.ASSET }
     }
     if (type === 'external') {
-      return { tax: 'CASH', addChildren: true, currency: asset as Currency, '!plugin': options.plugin, type: AccountType.ASSET }
+      return { code: 'CASH', addChildren: true, currency: asset as Currency, '!plugin': options.plugin, type: AccountType.ASSET }
     }
   }
 
@@ -183,7 +183,7 @@ export function address2sql(addr: AccountAddress, options: AccountLookupOption, 
 
   // Allow any children.
   if (cond.addChildren) {
-    cond.tax = [cond.tax as Asset, ...knowledge.children(cond.tax as Asset) as Asset[]]
+    cond.code = [cond.code as Asset, ...knowledge.children(cond.code as Asset) as Asset[]]
     delete cond.addChildren
   }
 
