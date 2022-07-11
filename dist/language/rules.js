@@ -50,6 +50,7 @@ exports.RuleParsingError = RuleParsingError;
  * * `str` - {@link RulesEngine.str}
  * * `rates` - {@link RulesEngine.rates}
  * * `regex` - {@link RulesEngine.regex}
+ * * `times` - {@link RulesEngine.times}
  * * `ucfirst` - {@link RulesEngine.ucfirst}
  *
  */
@@ -121,6 +122,7 @@ class RulesEngine {
             rates: (...args) => this.rates(args),
             regex: (re, compare, flags) => this.regex(re, compare, flags),
             str: (column) => this.str(column),
+            times: (count, target) => this.times(count, target),
             ucfirst: (s) => this.ucfirst(s),
             // Disable dangerous functions.
             import: function () { throw new Error('Function import is disabled.'); },
@@ -397,6 +399,20 @@ class RulesEngine {
     d(...args) {
         (0, logging_1.note)(`[DEBUG]`, ...args);
         return args.length ? args[args.length - 1] : undefined;
+    }
+    /**
+     * Convert numeric multiplier to text.
+     * @param count
+     * @param target
+     * If count is not given, the value is empty string.
+     * Otherwise if it is greater than zero the strint `<count> x <targer>` is returned.
+     */
+    times(count, target) {
+        if (count === undefined || count === null || count === 0) {
+            return '';
+        }
+        const num = parseInt(`${count}`);
+        return `${num} x ${target}`;
     }
 }
 exports.RulesEngine = RulesEngine;

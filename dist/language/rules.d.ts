@@ -53,6 +53,7 @@ export declare class RuleParsingError extends Error {
  * * `str` - {@link RulesEngine.str}
  * * `rates` - {@link RulesEngine.rates}
  * * `regex` - {@link RulesEngine.regex}
+ * * `times` - {@link RulesEngine.times}
  * * `ucfirst` - {@link RulesEngine.ucfirst}
  *
  */
@@ -230,4 +231,12 @@ export declare class RulesEngine {
      * @returns
      */
     d(...args: unknown[]): unknown;
+    /**
+     * Convert numeric multiplier to text.
+     * @param count
+     * @param target
+     * If count is not given, the value is empty string.
+     * Otherwise if it is greater than zero the strint `<count> x <targer>` is returned.
+     */
+    times(count: unknown, target: unknown): string;
 }

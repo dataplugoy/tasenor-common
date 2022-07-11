@@ -66,6 +66,7 @@ export class RuleParsingError extends Error {
  * * `str` - {@link RulesEngine.str}
  * * `rates` - {@link RulesEngine.rates}
  * * `regex` - {@link RulesEngine.regex}
+ * * `times` - {@link RulesEngine.times}
  * * `ucfirst` - {@link RulesEngine.ucfirst}
  *
  */
@@ -152,6 +153,7 @@ export class RulesEngine {
       rates: (...args) => this.rates(args),
       regex: (re: string, compare: string, flags: string | undefined) => this.regex(re, compare, flags),
       str: (column: unknown) => this.str(column),
+      times: (count: unknown, target: unknown) => this.times(count, target),
       ucfirst: (s: string) => this.ucfirst(s),
 
       // Disable dangerous functions.
@@ -447,5 +449,20 @@ export class RulesEngine {
   d(...args: unknown[]) {
     note(`[DEBUG]`, ...args)
     return args.length ? args[args.length - 1] : undefined
+  }
+
+  /**
+   * Convert numeric multiplier to text.
+   * @param count
+   * @param target
+   * If count is not given, the value is empty string.
+   * Otherwise if it is greater than zero the strint `<count> x <targer>` is returned.
+   */
+  times(count: unknown, target: unknown): string {
+    if (count === undefined || count === null || count === 0) {
+      return ''
+    }
+    const num = parseInt(`${count}`)
+    return `${num} x ${target}`
   }
 }
