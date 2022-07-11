@@ -11,14 +11,31 @@ function filter2function(rule) {
     if (rule === null || rule === undefined) {
         return () => true;
     }
-    // Field equality rule.
+    // Function to verify that the argument is valid for comparison.
+    const isValid = (arg) => typeof arg === 'object' || arg !== null;
+    // Helper to create function for matching.
+    const makeRule = (k, v) => {
+        const t = typeof v;
+        if (t === 'number' || t === 'string') {
+            return (arg) => arg[k] === v;
+        }
+        if (t === 'object' && v instanceof Array) {
+            const s = new Set(v);
+            return (arg) => s.has(arg[k]);
+        }
+        throw new Error(`No interpretation of value ${JSON.stringify(v)} in filtering rule ${JSON.stringify(rule)}.`);
+    };
+    // Compose a rule from objects.
     if (typeof rule === 'object') {
+        const testers = [];
+        Object.entries(rule).map(([k, v]) => {
+            testers.push(makeRule(k, v));
+        });
         return (arg) => {
-            for (const [k, v] of Object.entries(rule)) {
-                if (typeof arg !== 'object' || arg === null) {
-                    return false;
-                }
-                if (arg[k] !== v) {
+            if (!isValid(arg))
+                return false;
+            for (let i = 0; i < testers.length; i++) {
+                if (!testers[i](arg)) {
                     return false;
                 }
             }

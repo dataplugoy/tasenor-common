@@ -27,19 +27,43 @@ export function filter2function<TargetType=Record<string, unknown> >(rule: Filte
   if (rule === null || rule === undefined) {
     return () => true
   }
-  // Field equality rule.
+
+  // Function to verify that the argument is valid for comparison.
+  const isValid =(arg: TargetType) => typeof arg === 'object' || arg !== null
+
+  // Helper to create function for matching.
+  const makeRule = (k, v): FilterFunction<TargetType> => {
+    const t = typeof v
+    if (t === 'number' || t === 'string') {
+      return (arg: TargetType) => arg[k] === v
+    }
+    if (t === 'object' && v instanceof Array) {
+      const s = new Set(v)
+      return (arg: TargetType) => s.has(arg[k])
+    }
+    throw new Error(`No interpretation of value ${JSON.stringify(v)} in filtering rule ${JSON.stringify(rule)}.`)
+  }
+
+  // Compose a rule from objects.
   if (typeof rule === 'object') {
+
+    const testers: FilterFunction<TargetType>[] = []
+    Object.entries(rule).map(([k, v]) => {
+      testers.push(makeRule(k, v))
+    })
+
     return (arg: TargetType) => {
-      for (const [k, v] of Object.entries(rule)) {
-        if (typeof arg !== 'object' || arg === null) {
-          return false
-        }
-        if (arg[k] !== v) {
+
+      if (!isValid(arg)) return false
+
+      for (let i = 0; i < testers.length; i++) {
+        if (!testers[i](arg)) {
           return false
         }
       }
       return true
     }
   }
+
   throw new Error(`Syntax error in filtering rule ${JSON.stringify(rule)}`)
 }
