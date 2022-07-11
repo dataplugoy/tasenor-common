@@ -1,6 +1,6 @@
 import { ID, RealID } from "interactive-elements"
 import { AccountNumber, AccountType, Tag, TagType } from "."
-import { Asset, ShortDate, StockValueData, Url, VATTarget } from ".."
+import { Asset, ShortDate, StockValueData, Url } from ".."
 import { Currency, Language } from "../common"
 import { PluginCode } from "../plugins"
 
@@ -18,7 +18,7 @@ export interface AccountModelData {
   type: AccountType
   data: {
     favourite?: boolean
-    code?: VATTarget | null // TODO: Define new type AccountCode including assets, expenses and incomes.
+    code?: Asset | null
     plugin?: PluginCode
     currency?: Currency
   }
@@ -36,7 +36,7 @@ export declare class AccountModel implements AccountModelData {
   type: AccountType
   data: {
     favourite?: boolean
-    code?: VATTarget | null // TODO: Define new type AccountCode including assets, expenses and incomes.
+    code?: Asset | null
     plugin?: PluginCode
     currency?: Currency
   }
