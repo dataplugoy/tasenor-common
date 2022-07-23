@@ -31,10 +31,11 @@
  * * `HOTEL` - Hotel
  * * `INFORMATION` - Information Services
  * * `INTEREST_EXPENSE` - Interest Expense
+ * * `INTERNAL_MEETING` - Internal meeting
  * * `INTERNET` - Internet Expenses
  * * `LAPTOP` - Laptop Computers
  * * `MACHINERY` - Machinery
- * * `MEETINGS` - undefined
+ * * `MEETINGS` - Meetings
  * * `MISC_EXPENSES` - Miscellaneous Expenses
  * * `NEEDS_MANUAL_INSPECTION` - Needs Manual Inspection
  * * `NEWSPAPERS` - Newspapers
@@ -46,6 +47,7 @@
  * * `PHONE` - Phone Expenses
  * * `PLANE_TICKET` - Airplane Tickets
  * * `POSTAGE` - Postage
+ * * `POSTAGE_STAMPS` - Postage Stamps
  * * `PRINTER` - Printers
  * * `ROUNDING_ERROR` - Rounding Errors
  * * `SHAREHOLDER_LOAN_PAYMENT` - Shareholder Loan Payment
@@ -96,6 +98,7 @@ export type ExpenseSink = 'ACCOMMODATION' |
   'HOTEL' |
   'INFORMATION' |
   'INTEREST_EXPENSE' |
+  'INTERNAL_MEETING' |
   'INTERNET' |
   'LAPTOP' |
   'MACHINERY' |
@@ -111,6 +114,7 @@ export type ExpenseSink = 'ACCOMMODATION' |
   'PHONE' |
   'PLANE_TICKET' |
   'POSTAGE' |
+  'POSTAGE_STAMPS' |
   'PRINTER' |
   'ROUNDING_ERROR' |
   'SHAREHOLDER_LOAN_PAYMENT' |
