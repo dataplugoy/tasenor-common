@@ -16,28 +16,45 @@ class BalanceBookkeeping {
      * Apply initial balances.
      * @param balances
      */
-    set(account, value, name) {
+    set(account, value) {
         this.balance[account] = value;
-        this.number[name] = account;
-        (0, logging_1.debug)('BALANCE', `Set ${account} ${name} initial balance ${(0, sprintf_js_1.sprintf)('%.2f', this.balance[account] / 100)}`);
+        (0, logging_1.debug)('BALANCE', `Set ${account} ${this.name(account)} initial balance ${(0, sprintf_js_1.sprintf)('%.2f', this.balance[account] / 100)}`);
+    }
+    /**
+     * Set up name and number mapping from process config.
+     */
+    configureNames(config) {
+        Object.keys(config).forEach(key => {
+            if (key.startsWith('account.')) {
+                this.number[key.substring(8)] = config[key];
+            }
+        });
+    }
+    /**
+     * Get the real or temporary name for an account.
+     * @param account
+     */
+    name(account) {
+        if (!this.number[account]) {
+            // warning(`Account ${account} has no name set.`)
+        }
+        return this.number[account] || `unknown.account.${account}`;
     }
     /**
      * Change the account balance and return new total.
      */
-    change(account, change, name) {
+    change(account, change) {
         this.balance[account] = (this.balance[account] || 0) + change;
-        this.number[name] = account;
-        (0, logging_1.debug)('BALANCE', `Change ${account} ${name} Δ ${change >= 0 ? '+' : ''}${(0, sprintf_js_1.sprintf)('%.2f', change / 100)} ⟹ ${(0, sprintf_js_1.sprintf)('%.2f', this.balance[account] / 100)}`);
+        (0, logging_1.debug)('BALANCE', `Change ${account} ${this.name(account)} Δ ${change >= 0 ? '+' : ''}${(0, sprintf_js_1.sprintf)('%.2f', change / 100)} ⟹ ${(0, sprintf_js_1.sprintf)('%.2f', this.balance[account] / 100)}`);
         return this.balance[account];
     }
     /**
      * Apply transaction resulting from transfer.
      * @param txEntry
-     * @param transfer
      * @returns
      */
-    apply(txEntry, name) {
-        return this.change(txEntry.account, txEntry.amount, name);
+    apply(txEntry) {
+        return this.change(txEntry.account, txEntry.amount);
     }
     /**
      * Find the balance for the given account.
@@ -77,8 +94,7 @@ class BalanceBookkeeping {
      * @param addr
      */
     debtAddress(addr) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [reason, type, asset] = addr.split('.');
+        const [, type, asset] = addr.split('.');
         return `debt.${type}.${asset}`;
     }
 }

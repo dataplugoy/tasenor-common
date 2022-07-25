@@ -1,4 +1,5 @@
 import { AccountAddress, AccountNumber, Asset, AssetTransferReason, AssetType, TransactionLine } from '../types';
+import { ProcessConfig } from 'interactive-elements';
 /**
  * An object describing the account and its balance.
  */
@@ -20,18 +21,26 @@ export declare class BalanceBookkeeping {
      * Apply initial balances.
      * @param balances
      */
-    set(account: AccountNumber, value: number, name: AccountAddress): void;
+    set(account: AccountNumber, value: number): void;
+    /**
+     * Set up name and number mapping from process config.
+     */
+    configureNames(config: ProcessConfig): void;
+    /**
+     * Get the real or temporary name for an account.
+     * @param account
+     */
+    name(account: AccountNumber): string;
     /**
      * Change the account balance and return new total.
      */
-    change(account: AccountNumber, change: number, name: AccountAddress): number;
+    change(account: AccountNumber, change: number): number;
     /**
      * Apply transaction resulting from transfer.
      * @param txEntry
-     * @param transfer
      * @returns
      */
-    apply(txEntry: TransactionLine, name: AccountAddress): number;
+    apply(txEntry: TransactionLine): number;
     /**
      * Find the balance for the given account.
      */
