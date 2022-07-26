@@ -1,4 +1,4 @@
-import { debug, warning } from '../logging'
+import { debug } from '../logging'
 import { AccountAddress, AccountNumber, Asset, AssetTransferReason, AssetType, TransactionLine } from '../types'
 import { sprintf } from 'sprintf-js'
 import { ProcessConfig } from 'interactive-elements'
@@ -54,7 +54,8 @@ export class BalanceBookkeeping {
    */
   name(account: AccountNumber): string {
     if (!this.number[account]) {
-      // warning(`Account ${account} has no name set.`)
+      // TODO: Should be enabled. Messes up unit test prints.
+      // warning(`BalanceBookkeeping: Account ${account} has no name set.`)
     }
     return this.number[account] || `unknown.account.${account}`
   }
@@ -112,7 +113,8 @@ export class BalanceBookkeeping {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   mayTakeLoan(reason: AssetTransferReason, type: AssetType, asset: Asset): boolean {
-    return reason !== 'fee' && type === 'currency'
+    // TODO: Profit might not make sense with currency anyway? Only with statement.
+    return reason !== 'fee' && reason !== 'profit' && type === 'currency'
   }
 
   /**

@@ -36,7 +36,8 @@ class BalanceBookkeeping {
      */
     name(account) {
         if (!this.number[account]) {
-            // warning(`Account ${account} has no name set.`)
+            // TODO: Should be enabled. Messes up unit test prints.
+            // warning(`BalanceBookkeeping: Account ${account} has no name set.`)
         }
         return this.number[account] || `unknown.account.${account}`;
     }
@@ -87,7 +88,8 @@ class BalanceBookkeeping {
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mayTakeLoan(reason, type, asset) {
-        return reason !== 'fee' && type === 'currency';
+        // TODO: Profit might not make sense with currency anyway? Only with statement.
+        return reason !== 'fee' && reason !== 'profit' && type === 'currency';
     }
     /**
      * Convert account address to corresponding debt address.
