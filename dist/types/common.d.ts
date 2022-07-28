@@ -34,3 +34,4 @@ export declare type UUID = Opaque<string, 'UUID'>;
 export declare type Email = Opaque<string, 'Email'>;
 export declare type DatabaseName = Opaque<string, 'DatabaseName'>;
 export declare type PK = Opaque<number, 'PK'>;
+export declare const isDatabaseName: (name: unknown) => name is DatabaseName;

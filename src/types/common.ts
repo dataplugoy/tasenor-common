@@ -78,3 +78,7 @@ export type Email = Opaque<string, 'Email'>
 // -------------
 export type DatabaseName = Opaque<string, 'DatabaseName'>
 export type PK = Opaque<number, 'PK'>
+
+export const isDatabaseName = (name: unknown): name is DatabaseName => {
+  return typeof name === 'string' && /^[_a-z0-9]+$/.test(name)
+}
