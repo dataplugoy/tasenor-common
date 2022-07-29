@@ -1,5 +1,6 @@
 import { AccountModel, AccountNumber, BalanceModel, DatabaseModel, EntryModel, ImporterModel, PeriodModel } from "."
 import { Catalog } from "./catalog"
+import { TasenorSetup } from "./risp_types"
 
 /**
  * A Mobx store for keeping all currently loaded data in memory.
@@ -21,4 +22,5 @@ import { Catalog } from "./catalog"
   getDocuments(accounts?: AccountNumber[], filter?: (e: EntryModel) => boolean)
   fetchBalances(db?: string, periodId?: number): Promise<void>
   request(path, method?: string, data?: unknown, file?: unknown, noDimming?: boolean): Promise<unknown>
+  rispSetup(baseUrl: string): TasenorSetup
 }

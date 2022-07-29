@@ -7,7 +7,11 @@ import { AccountNumber } from "./accounts";
  * A setup for RISP used in Tasenor project.
  */
 export declare type TasenorSetup = Setup & {
+    baseUrl: string;
     store: Store;
+    token: string;
+    errorMessage: (msg: string) => void;
+    successMessage: (msg: string) => void;
 };
 /**
  * An action for storing a plugin or general settings.

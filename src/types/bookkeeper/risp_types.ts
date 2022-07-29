@@ -8,7 +8,11 @@ import { AccountNumber } from "./accounts"
  * A setup for RISP used in Tasenor project.
  */
 export type TasenorSetup = Setup & {
+  baseUrl: string
   store: Store
+  token: string
+  errorMessage: (msg: string) => void
+  successMessage: (msg: string) => void
 }
 
 /**

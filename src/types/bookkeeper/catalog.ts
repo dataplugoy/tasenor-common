@@ -1,4 +1,5 @@
 import { Currency, Language } from ".."
+import { TasenorPlugin } from "../plugins"
 
 /**
  * An accessor for UI plugin functionality.
@@ -12,6 +13,7 @@ export declare class Catalog {
   money2str(cents: number, currency?: Currency, signed?: boolean): string
   date2str(date: string | number): string
   t(str: string): string
+  getImportOptions(): Record<string, TasenorPlugin>
 }
 
 /**
