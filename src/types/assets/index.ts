@@ -108,18 +108,19 @@ export type AssetExchange = Opaque<string, 'AssetExchange'>
 
 /**
  * Primary classification of the asset itself or describing counterpart of the transfer.
- * * `stock` - An instrument tradeable in the stock exchange.
- * * `short` - A short position of the tradable instrument.
+ * * `account` - Direct reference to the account number.
+ * * `crypto` - Crypto money.
  * * `currency` - Fiat money.
  * * `debt` - A debt recording for a currency account.
- * * `crypto` - Crypto money.
  * * `external` - External unknown source or destination used in deposits and withdrawals.
- * * `statement` - Entry for income and expense statement purposes.
  * * `other` - Anything else.
+ * * `short` - A short position of the tradable instrument.
+ * * `statement` - Entry for income and expense statement purposes.
+ * * `stock` - An instrument tradeable in the stock exchange.
  */
-export type AssetType = 'stock' | 'short' | 'currency' | 'debt' | 'crypto' | 'external' | 'statement' | 'other'
+export type AssetType = 'account' | 'stock' | 'short' | 'currency' | 'debt' | 'crypto' | 'external' | 'statement' | 'other'
 export function isAssetType(s: unknown): s is AssetType {
-  return typeof s === 'string' && ['stock', 'short', 'currency', 'debt', 'crypto', 'external', 'statement', 'other'].includes(s)
+  return typeof s === 'string' && ['account', 'stock', 'short', 'currency', 'debt', 'crypto', 'external', 'statement', 'other'].includes(s)
 }
 
 /**

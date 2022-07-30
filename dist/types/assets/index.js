@@ -36,7 +36,7 @@ function isAssetTransferReason(s) {
 }
 exports.isAssetTransferReason = isAssetTransferReason;
 function isAssetType(s) {
-    return typeof s === 'string' && ['stock', 'short', 'currency', 'debt', 'crypto', 'external', 'statement', 'other'].includes(s);
+    return typeof s === 'string' && ['account', 'stock', 'short', 'currency', 'debt', 'crypto', 'external', 'statement', 'other'].includes(s);
 }
 exports.isAssetType = isAssetType;
 function isStockChangeDelta(o) {
