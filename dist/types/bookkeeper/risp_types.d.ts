@@ -1,4 +1,4 @@
-import { Action, ActiveElement, BooleanElement, ButtonElement, FlatElement, BoxElement, MessageElement, NamedElement, RadioElement, Setup, TextElement, HtmlElement, TextFileLineElement, CaseElement, YesNoElement, NumberElement } from "interactive-elements";
+import { Action, ActiveElement, BooleanElement, ButtonElement, FlatElement, BoxElement, MessageElement, NamedElement, RadioElement, Setup, TextElement, HtmlElement, TextFileLineElement, CaseElement, YesNoElement, NumberElement, TextFileLine } from "interactive-elements";
 import { Store, Tag, TagType } from ".";
 import { PluginCode } from "..";
 import { FilterRule } from "../..";
@@ -60,6 +60,13 @@ export declare type CurrencyElement = ActiveElement<TasenorSetup, CurrencyElemen
     readonly type: 'currency';
 };
 /**
+ * Editor for import rules.
+ */
+export declare type RuleEditorElement = ActiveElement<TasenorSetup, RuleEditorElement> & {
+    readonly type: 'ruleEditor';
+    lines: TextFileLine[];
+};
+/**
  * A type for all Tasenor and RISP elements used.
  */
-export declare type TasenorElement = AccountElement | TagsElement | CurrencyElement | BooleanElement<TasenorSetup, TasenorElement, TasenorAction> | BoxElement<TasenorElement> | ButtonElement<TasenorSetup, TasenorElement, TasenorAction> | CaseElement<TasenorElement> | FlatElement<TasenorElement> | HtmlElement | MessageElement | RadioElement<TasenorSetup, TasenorElement, TasenorAction> | TextElement<TasenorSetup, TasenorElement, TasenorAction> | NumberElement<TasenorSetup, TasenorElement, TasenorAction> | TextFileLineElement | YesNoElement<TasenorSetup, TasenorElement, TasenorAction>;
+export declare type TasenorElement = AccountElement | TagsElement | CurrencyElement | BooleanElement<TasenorSetup, TasenorElement, TasenorAction> | BoxElement<TasenorElement> | ButtonElement<TasenorSetup, TasenorElement, TasenorAction> | CaseElement<TasenorElement> | FlatElement<TasenorElement> | HtmlElement | MessageElement | RadioElement<TasenorSetup, TasenorElement, TasenorAction> | TextElement<TasenorSetup, TasenorElement, TasenorAction> | NumberElement<TasenorSetup, TasenorElement, TasenorAction> | TextFileLineElement | YesNoElement<TasenorSetup, TasenorElement, TasenorAction> | RuleEditorElement;

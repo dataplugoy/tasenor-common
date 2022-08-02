@@ -1,4 +1,4 @@
-import { Action, ActiveElement, BooleanElement, ButtonElement, FlatElement, BoxElement, MessageElement, NamedElement, RadioElement, Setup, TextElement, HtmlElement, TextFileLineElement, CaseElement, YesNoElement, NumberElement } from "interactive-elements"
+import { Action, ActiveElement, BooleanElement, ButtonElement, FlatElement, BoxElement, MessageElement, NamedElement, RadioElement, Setup, TextElement, HtmlElement, TextFileLineElement, CaseElement, YesNoElement, NumberElement, TextFileLine } from "interactive-elements"
 import { Store, Tag, TagType } from "."
 import { PluginCode } from ".."
 import { FilterRule } from "../.."
@@ -62,8 +62,16 @@ export type TagsElement = ActiveElement<TasenorSetup, TagsElement> & NamedElemen
 /**
  * An element that allows one to select a currency.
  */
- export type CurrencyElement = ActiveElement<TasenorSetup, CurrencyElement> & NamedElement & {
+export type CurrencyElement = ActiveElement<TasenorSetup, CurrencyElement> & NamedElement & {
   readonly type: 'currency'
+}
+
+/**
+ * Editor for import rules.
+ */
+export type RuleEditorElement = ActiveElement<TasenorSetup, RuleEditorElement> & {
+  readonly type: 'ruleEditor'
+  lines: TextFileLine[]
 }
 
 /**
@@ -83,4 +91,5 @@ export type TasenorElement = AccountElement |
   TextElement<TasenorSetup, TasenorElement, TasenorAction> |
   NumberElement<TasenorSetup, TasenorElement, TasenorAction> |
   TextFileLineElement |
-  YesNoElement<TasenorSetup, TasenorElement, TasenorAction>
+  YesNoElement<TasenorSetup, TasenorElement, TasenorAction> |
+  RuleEditorElement
