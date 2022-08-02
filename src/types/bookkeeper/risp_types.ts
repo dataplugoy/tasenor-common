@@ -52,6 +52,11 @@ export type TagsElement = ActiveElement<TasenorSetup, TagsElement> & NamedElemen
   single?: boolean
   options: Tag[]
   add?: Tag[]
+} | ActiveElement<TasenorSetup, TagsElement> & NamedElement & {
+  readonly type: 'tags'
+  label?: string
+  single?: boolean
+  all: true
 }
 
 /**

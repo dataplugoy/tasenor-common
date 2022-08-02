@@ -47,6 +47,11 @@ export declare type TagsElement = ActiveElement<TasenorSetup, TagsElement> & Nam
     single?: boolean;
     options: Tag[];
     add?: Tag[];
+} | ActiveElement<TasenorSetup, TagsElement> & NamedElement & {
+    readonly type: 'tags';
+    label?: string;
+    single?: boolean;
+    all: true;
 };
 /**
  * An element that allows one to select a currency.
