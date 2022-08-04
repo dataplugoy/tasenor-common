@@ -69,7 +69,7 @@ export type CurrencyElement = ActiveElement<TasenorSetup, CurrencyElement> & Nam
 /**
  * Editor for import rules.
  */
-export type RuleEditorElement = ActiveElement<TasenorSetup, RuleEditorElement> & {
+export type RuleEditorElement = ActiveElement<TasenorSetup, RuleEditorElement> & NamedElement & {
   readonly type: 'ruleEditor'
   lines: TextFileLine[]
 }
