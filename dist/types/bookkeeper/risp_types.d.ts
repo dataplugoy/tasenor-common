@@ -65,6 +65,7 @@ export declare type CurrencyElement = ActiveElement<TasenorSetup, CurrencyElemen
 export declare type RuleEditorElement = ActiveElement<TasenorSetup, RuleEditorElement> & NamedElement & {
     readonly type: 'ruleEditor';
     lines: TextFileLine[];
+    cashAccount: AccountNumber | null;
 };
 /**
  * A type for all Tasenor and RISP elements used.

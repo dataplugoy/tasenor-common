@@ -72,6 +72,7 @@ export type CurrencyElement = ActiveElement<TasenorSetup, CurrencyElement> & Nam
 export type RuleEditorElement = ActiveElement<TasenorSetup, RuleEditorElement> & NamedElement & {
   readonly type: 'ruleEditor'
   lines: TextFileLine[]
+  cashAccount: AccountNumber | null
 }
 
 /**
