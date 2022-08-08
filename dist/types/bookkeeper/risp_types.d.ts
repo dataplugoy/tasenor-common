@@ -1,4 +1,4 @@
-import { Action, ActiveElement, BooleanElement, ButtonElement, FlatElement, BoxElement, MessageElement, NamedElement, RadioElement, Setup, TextElement, HtmlElement, TextFileLineElement, CaseElement, YesNoElement, NumberElement, TextFileLine, SegmentId } from "interactive-elements";
+import { Action, ActiveElement, BooleanElement, ButtonElement, FlatElement, BoxElement, MessageElement, NamedElement, RadioElement, Setup, TextElement, HtmlElement, TextFileLineElement, CaseElement, YesNoElement, NumberElement, TextFileLine } from "interactive-elements";
 import { Store, Tag, TagType } from ".";
 import { PluginCode } from "..";
 import { FilterRule } from "../..";
@@ -65,7 +65,6 @@ export declare type CurrencyElement = ActiveElement<TasenorSetup, CurrencyElemen
 export declare type RuleEditorElement = ActiveElement<TasenorSetup, RuleEditorElement> & NamedElement & {
     readonly type: 'ruleEditor';
     lines: TextFileLine[];
-    segment: SegmentId;
 };
 /**
  * A type for all Tasenor and RISP elements used.
