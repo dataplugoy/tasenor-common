@@ -19,6 +19,7 @@ export declare class Store {
     deleteDocument(doc: any): Promise<BalanceModel[]>;
     getDocuments(accounts?: AccountNumber[], filter?: (e: EntryModel) => boolean): any;
     fetchBalances(db?: string, periodId?: number): Promise<void>;
+    fetchDocuments(db?: string, periodId?: number): Promise<void>;
     request(path: any, method?: string, data?: unknown, file?: unknown, noDimming?: boolean): Promise<unknown>;
     rispSetup(baseUrl: string): TasenorSetup;
 }
