@@ -1,6 +1,7 @@
 import Opaque from 'ts-opaque';
 import { AssetTransfer } from '..';
 import { UIQuery } from './query';
+import { RuleFilterView } from './editor';
 export declare type Expression = Opaque<string, 'Expression'>;
 export declare type RuleValue = number | string | null | false | true | object | Array<RuleValue>;
 export declare type RuleVariables = Record<string, RuleValue>;
@@ -8,6 +9,9 @@ export declare type ImportRuleResult = Record<Partial<keyof AssetTransfer>, Expr
 export declare type ImportRule = {
     name: string;
     filter: Expression;
+    view?: {
+        filter: RuleFilterView[];
+    };
     questions?: Record<string, UIQuery>;
     result: ImportRuleResult | ImportRuleResult[];
 };

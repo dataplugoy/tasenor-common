@@ -23,6 +23,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  *
  * @module tasenor-common/src/language
  */
+__exportStar(require("./editor"), exports);
 __exportStar(require("./filtering"), exports);
 __exportStar(require("./lookup"), exports);
 __exportStar(require("./query"), exports);

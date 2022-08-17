@@ -4,6 +4,7 @@ import { AssetTransfer, isCurrency, warning } from '..'
 import { num } from 'interactive-elements'
 import { UIQuery } from './query'
 import { note } from '../logging'
+import { RuleFilterView } from './editor'
 
 export type Expression = Opaque<string, 'Expression'>
 
@@ -13,6 +14,9 @@ export type ImportRuleResult = Record<Partial<keyof AssetTransfer>, Expression>
 export type ImportRule = {
   name: string
   filter: Expression
+  view?: {
+    filter: RuleFilterView[]
+  },
   questions?: Record<string, UIQuery>
   result: ImportRuleResult | ImportRuleResult[]
 }
