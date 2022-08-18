@@ -1,7 +1,7 @@
 import Opaque from 'ts-opaque'
 import { create, all, factory, MathJsStatic, clone, typed } from 'mathjs'
 import { AssetTransfer, isCurrency, warning } from '..'
-import { num } from 'interactive-elements'
+import { num, TextFileLine } from 'interactive-elements'
 import { UIQuery } from './query'
 import { note } from '../logging'
 import { RuleFilterView } from './editor'
@@ -19,6 +19,7 @@ export type ImportRule = {
   },
   questions?: Record<string, UIQuery>
   result: ImportRuleResult | ImportRuleResult[]
+  examples?: TextFileLine[]
 }
 
 /**

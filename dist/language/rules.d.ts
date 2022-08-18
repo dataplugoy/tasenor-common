@@ -1,5 +1,6 @@
 import Opaque from 'ts-opaque';
 import { AssetTransfer } from '..';
+import { TextFileLine } from 'interactive-elements';
 import { UIQuery } from './query';
 import { RuleFilterView } from './editor';
 export declare type Expression = Opaque<string, 'Expression'>;
@@ -14,6 +15,7 @@ export declare type ImportRule = {
     };
     questions?: Record<string, UIQuery>;
     result: ImportRuleResult | ImportRuleResult[];
+    examples?: TextFileLine[];
 };
 /**
  * Failure to parse a rule.
