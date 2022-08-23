@@ -118,7 +118,7 @@ export declare class RulesEngine {
      * **Example**
      *
      * ```typescript
-     * rates("USD", 0.88, "GBP", 1.19) // => { "USD": 0.88, "GBP": 1.19 }
+     * rates("USD", 0.88, "GBP", 1.19) => { "USD": 0.88, "GBP": 1.19 }
      * ```
      * @param args [asset, rate, asset2, rate2,...]
      */
