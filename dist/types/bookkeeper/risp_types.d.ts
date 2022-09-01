@@ -1,5 +1,5 @@
 import { Action, ActiveElement, BooleanElement, ButtonElement, FlatElement, BoxElement, MessageElement, NamedElement, RadioElement, Setup, TextElement, HtmlElement, TextFileLineElement, CaseElement, YesNoElement, NumberElement, TextFileLine } from "interactive-elements";
-import { Store, Tag, TagType } from ".";
+import { Store, Tag, TagType, TransactionImportOptions } from ".";
 import { PluginCode } from "..";
 import { FilterRule } from "../..";
 import { AccountNumber } from "./accounts";
@@ -66,6 +66,7 @@ export declare type RuleEditorElement = ActiveElement<TasenorSetup, RuleEditorEl
     readonly type: 'ruleEditor';
     lines: TextFileLine[];
     cashAccount: AccountNumber | null;
+    options: TransactionImportOptions;
 };
 /**
  * A type for all Tasenor and RISP elements used.

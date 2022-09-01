@@ -1,5 +1,5 @@
 import Opaque from 'ts-opaque'
-import { ID } from 'interactive-elements'
+import { ID, ImportCSVOptions } from 'interactive-elements'
 import { Currency, Language } from '..'
 import { ImportRule, UIQuery } from '../..'
 import { AccountNumber, Tag } from '.'
@@ -41,4 +41,16 @@ export type ImporterConfig = {
 export interface Importer {
   id: ID
   config: ImporterConfig
+}
+
+/**
+ * Options for import handler.
+ */
+export interface TransactionImportOptions {
+  parser: 'csv' | 'custom'
+  numericFields: string[]
+  requiredFields: string[]
+  totalAmountField: string | null
+  textField: string | null
+  csv?: ImportCSVOptions
 }
