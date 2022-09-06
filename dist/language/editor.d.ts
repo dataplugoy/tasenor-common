@@ -1,3 +1,4 @@
+import { Expression } from "./rules";
 /**
  * The mode for rule editor is using currently for editing components.
  */
@@ -17,3 +18,9 @@ export declare type RuleFilterView = {
     text?: string;
     value?: number;
 };
+/**
+ * Convert a `RuleFilterView` description to the rule expression.
+ * @param view
+ * @returns
+ */
+export declare function filterView2rule(view: RuleFilterView): Expression;

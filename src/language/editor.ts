@@ -1,3 +1,5 @@
+import { Expression } from "./rules"
+
 /**
  * The mode for rule editor is using currently for editing components.
  */
@@ -18,4 +20,25 @@ export type RuleFilterView = {
   field: string
   text?: string
   value?: number
+}
+
+/**
+ * Convert a `RuleFilterView` description to the rule expression.
+ * @param view
+ * @returns
+ */
+export function filterView2rule(view: RuleFilterView): Expression {
+  const { op, field, text, value } = view
+  const variable = /^[a-zA-Z]\w*$/.test(field) ? field : '$(' + JSON.stringify(field) + ')'
+
+  switch (op) {
+    case 'caseInsensitiveMatch':
+      return `(${variable} = ${JSON.stringify(text)})` as Expression
+    case 'isLessThan':
+      return `(${variable} < ${JSON.stringify(value)})` as Expression
+    case 'isGreaterThan':
+      return `(${variable} > ${JSON.stringify(value)})` as Expression
+    default:
+      throw new Error(`A RuleFilterView with operation '${op}' is not implemented.`)
+  }
 }
