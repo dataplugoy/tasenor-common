@@ -8,7 +8,7 @@ export type RuleColumnEditMode = null | 'textMatch'
  *
  * Each matching mode defines how the visual presentation is formed for the rule.
  */
-export type RuleViewOp = 'caseInsensitiveMatch'
+export type RuleViewOp = 'caseInsensitiveMatch' | 'isLessThan' | 'isGreaterThan'
 
 /**
  * Description how the filter expression has been constructed for visual presentation.
@@ -16,5 +16,6 @@ export type RuleViewOp = 'caseInsensitiveMatch'
 export type RuleFilterView = {
   op: RuleViewOp
   field: string
-  text: string
+  text?: string
+  value?: number
 }
