@@ -27,13 +27,16 @@ export type RuleFilterView = {
  * @param view
  * @returns
  */
-export function filterView2rule(view: RuleFilterView): Expression {
+export function filterView2rule(view: RuleFilterView | RuleFilterView[]): Expression {
+  if (view instanceof Array) {
+    return view.map(v => filterView2rule(v)).join(' && ') as Expression
+  }
   const { op, field, text, value } = view
   const variable = /^[a-zA-Z]\w*$/.test(field) ? field : '$(' + JSON.stringify(field) + ')'
 
   switch (op) {
     case 'caseInsensitiveMatch':
-      return `(${variable} = ${JSON.stringify(text)})` as Expression
+      return `(${variable} === ${JSON.stringify(text)})` as Expression
     case 'isLessThan':
       return `(${variable} < ${JSON.stringify(value)})` as Expression
     case 'isGreaterThan':

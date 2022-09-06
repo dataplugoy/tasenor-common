@@ -23,4 +23,4 @@ export declare type RuleFilterView = {
  * @param view
  * @returns
  */
-export declare function filterView2rule(view: RuleFilterView): Expression;
+export declare function filterView2rule(view: RuleFilterView | RuleFilterView[]): Expression;
