@@ -50,6 +50,7 @@ export interface TransactionImportOptions {
   parser: 'csv' | 'custom'
   numericFields: string[]
   requiredFields: string[]
+  insignificantFields?: string[]
   totalAmountField: string | null
   textField: string | null
   csv?: ImportCSVOptions
