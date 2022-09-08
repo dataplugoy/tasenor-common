@@ -24,3 +24,9 @@ export declare type RuleFilterView = {
  * @returns
  */
 export declare function filterView2rule(view: RuleFilterView | RuleFilterView[]): Expression;
+/**
+ * Convert a `RuleFilterView` description to the rule name proposal.
+ * @param view
+ * @returns
+ */
+export declare function filterView2name(view: RuleFilterView | RuleFilterView[]): string;

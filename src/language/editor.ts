@@ -36,12 +36,35 @@ export function filterView2rule(view: RuleFilterView | RuleFilterView[]): Expres
 
   switch (op) {
     case 'caseInsensitiveMatch':
-      return `(${variable} === ${JSON.stringify(text)})` as Expression
+      return `(lower(${variable}) === ${JSON.stringify(text?.toLowerCase())})` as Expression
     case 'isLessThan':
       return `(${variable} < ${JSON.stringify(value)})` as Expression
     case 'isGreaterThan':
       return `(${variable} > ${JSON.stringify(value)})` as Expression
     default:
-      throw new Error(`A RuleFilterView with operation '${op}' is not implemented.`)
+      throw new Error(`A filterView2rule with operation '${op}' is not implemented.`)
+  }
+}
+
+/**
+ * Convert a `RuleFilterView` description to the rule name proposal.
+ * @param view
+ * @returns
+ */
+ export function filterView2name(view: RuleFilterView | RuleFilterView[]): string {
+  if (view instanceof Array) {
+    return view.map(v => filterView2name(v)).join(' and ')
+  }
+  const { op, field, text, value } = view
+
+  switch (op) {
+    case 'caseInsensitiveMatch':
+      return `${field} in lower case contains '${text?.toLowerCase()}'`
+    case 'isLessThan':
+      return `${field} is less than ${value}`
+    case 'isGreaterThan':
+      return `${field} is greater than ${value}`
+    default:
+      throw new Error(`A filterView2name with operation '${op}' is not implemented.`)
   }
 }
