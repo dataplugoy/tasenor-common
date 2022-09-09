@@ -51,12 +51,12 @@ export type RuleResultView = {
     field?: string,
     value?: string
   },
-  tags: {
+  tags?: {
     op: RuleViewOp,
     field?: string,
     value?: string
   },
-  data: {
+  data?: {
     text: {
       op: RuleViewOp,
       field?: string,

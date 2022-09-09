@@ -42,7 +42,12 @@ export declare type RuleResultView = {
         field?: string;
         value?: string;
     };
-    data: {
+    tags?: {
+        op: RuleViewOp;
+        field?: string;
+        value?: string;
+    };
+    data?: {
         text: {
             op: RuleViewOp;
             field?: string;
