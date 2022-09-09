@@ -2,7 +2,7 @@ import Opaque from 'ts-opaque';
 import { AssetTransfer } from '..';
 import { TextFileLine } from 'interactive-elements';
 import { UIQuery } from './query';
-import { RuleFilterView } from './editor';
+import { RuleFilterView, RuleResultView } from './editor';
 export declare type Expression = Opaque<string, 'Expression'>;
 export declare type RuleValue = number | string | null | false | true | object | Array<RuleValue>;
 export declare type RuleVariables = Record<string, RuleValue>;
@@ -12,6 +12,7 @@ export declare type ImportRule = {
     filter: Expression;
     view?: {
         filter: RuleFilterView[];
+        result: RuleResultView[];
     };
     questions?: Record<string, UIQuery>;
     result: ImportRuleResult | ImportRuleResult[];

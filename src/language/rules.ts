@@ -4,7 +4,7 @@ import { AssetTransfer, isCurrency, warning } from '..'
 import { num, TextFileLine } from 'interactive-elements'
 import { UIQuery } from './query'
 import { note } from '../logging'
-import { RuleFilterView } from './editor'
+import { RuleFilterView, RuleResultView } from './editor'
 
 export type Expression = Opaque<string, 'Expression'>
 
@@ -16,6 +16,7 @@ export type ImportRule = {
   filter: Expression
   view?: {
     filter: RuleFilterView[]
+    result: RuleResultView[]
   },
   questions?: Record<string, UIQuery>
   result: ImportRuleResult | ImportRuleResult[]

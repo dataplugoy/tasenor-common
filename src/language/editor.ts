@@ -10,7 +10,12 @@ export type RuleColumnEditMode = null | 'textMatch'
  *
  * Each matching mode defines how the visual presentation is formed for the rule.
  */
-export type RuleViewOp = 'caseInsensitiveMatch' | 'isLessThan' | 'isGreaterThan'
+export type RuleViewOp = 'caseInsensitiveMatch' |
+  'isLessThan' |
+  'isGreaterThan' |
+  'setLiteral' |
+  'copyInverseField' |
+  'copyField'
 
 /**
  * Description how the filter expression has been constructed for visual presentation.
@@ -20,6 +25,44 @@ export type RuleFilterView = {
   field: string
   text?: string
   value?: number
+}
+
+/**
+ * Descriptiion how the result expression has been constructed for visual presentation.
+ */
+export type RuleResultView = {
+  reason: {
+    op: RuleViewOp,
+    field?: string,
+    value?: string
+  },
+  type: {
+    op: RuleViewOp,
+    field?: string,
+    value?: string
+  },
+  asset: {
+    op: RuleViewOp,
+    field?: string,
+    value?: string
+  },
+  amount: {
+    op: RuleViewOp,
+    field?: string,
+    value?: string
+  },
+  tags: {
+    op: RuleViewOp,
+    field?: string,
+    value?: string
+  },
+  data: {
+    text: {
+      op: RuleViewOp,
+      field?: string,
+      value?: string
+    }
+  }
 }
 
 /**
