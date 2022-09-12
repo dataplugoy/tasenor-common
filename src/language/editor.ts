@@ -11,6 +11,9 @@ export type RuleColumnEditMode = null | 'textMatch'
  * Each matching mode defines how the visual presentation is formed for the rule.
  */
 export type RuleViewOp = 'caseInsensitiveMatch' |
+  'caseSensitiveMatch' |
+  'caseInsensitiveFullMatch' |
+  'caseSensitiveFullMatch' |
   'isLessThan' |
   'isGreaterThan' |
   'setLiteral' |
@@ -78,8 +81,14 @@ export function filterView2rule(view: RuleFilterView | RuleFilterView[]): Expres
   const variable = /^[a-zA-Z]\w*$/.test(field) ? field : '$(' + JSON.stringify(field) + ')'
 
   switch (op) {
-    case 'caseInsensitiveMatch':
+    case 'caseInsensitiveFullMatch':
       return `(lower(${variable}) === ${JSON.stringify(text?.toLowerCase())})` as Expression
+    case 'caseSensitiveFullMatch':
+      return `(${variable} === ${JSON.stringify(text)})` as Expression
+    case 'caseInsensitiveMatch':
+      return `contains(lower(${variable}), ${JSON.stringify(text?.toLowerCase())})` as Expression
+    case 'caseSensitiveMatch':
+      return `contains(${variable}, ${JSON.stringify(text)})` as Expression
     case 'isLessThan':
       return `(${variable} < ${JSON.stringify(value)})` as Expression
     case 'isGreaterThan':
@@ -101,6 +110,12 @@ export function filterView2rule(view: RuleFilterView | RuleFilterView[]): Expres
   const { op, field, text, value } = view
 
   switch (op) {
+    case 'caseInsensitiveFullMatch':
+      return `${field} in lower case is '${text?.toLowerCase()}'`
+    case 'caseSensitiveFullMatch':
+      return `${field} is '${text}'`
+    case 'caseSensitiveMatch':
+      return `${field} contains '${text}'`
     case 'caseInsensitiveMatch':
       return `${field} in lower case contains '${text?.toLowerCase()}'`
     case 'isLessThan':

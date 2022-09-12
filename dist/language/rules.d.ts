@@ -51,6 +51,7 @@ export declare class RuleParsingError extends Error {
  * * `capitalize` - {@link RulesEngine.capitalize}
  * * `cents` - {@link RulesEngine.cents}
  * * `chosen` - {@link RulesEngine.chosen}
+ * * `contains` - {@link RulesEngine.contains}
  * * `d` - {@link RulesEngine.d}
  * * `isCurrency` - {@link RulesEngine.isCurrency}
  * * `join` - {@link RulesEngine.join}
@@ -167,6 +168,13 @@ export declare class RulesEngine {
      * If more than one match is found, they are returned comma separated.
      */
     chosen(questionVar: string): string;
+    /**
+     * Check if the first string contains the second string.
+     * @param s
+     * @param r
+     * @returns
+     */
+    contains(s: string, r: string): boolean;
     /**
      * Convert first letter to upper case.
      *

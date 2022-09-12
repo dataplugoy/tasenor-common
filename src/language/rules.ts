@@ -63,6 +63,7 @@ export class RuleParsingError extends Error {
  * * `capitalize` - {@link RulesEngine.capitalize}
  * * `cents` - {@link RulesEngine.cents}
  * * `chosen` - {@link RulesEngine.chosen}
+ * * `contains` - {@link RulesEngine.contains}
  * * `d` - {@link RulesEngine.d}
  * * `isCurrency` - {@link RulesEngine.isCurrency}
  * * `join` - {@link RulesEngine.join}
@@ -150,6 +151,7 @@ export class RulesEngine {
       capitalize: (s: string) => this.capitalize(s),
       cents: (n: number) => this.cents(n),
       chosen: (question: string) => this.chosen(question),
+      contains: (s: string, r: string) => this.contains(s, r),
       d: (...args: unknown[]) => this.d(...args),
       isCurrency: (str: string) => this.isCurrency(str),
       join: (...args: unknown[]) => this.join(...args),
@@ -359,6 +361,16 @@ export class RulesEngine {
       throw new Error(`Unable to find any matches for answer ${JSON.stringify(ans)} from question ${JSON.stringify(question)}.`)
     }
     throw new Error(`Cannot reverse map question ${JSON.stringify(question)}, when looking for chosen '${questionVar}'.`)
+  }
+
+  /**
+   * Check if the first string contains the second string.
+   * @param s
+   * @param r
+   * @returns
+   */
+  contains(s: string, r: string): boolean {
+    return s.indexOf(r) >= 0
   }
 
   /**

@@ -8,7 +8,7 @@ export declare type RuleColumnEditMode = null | 'textMatch';
  *
  * Each matching mode defines how the visual presentation is formed for the rule.
  */
-export declare type RuleViewOp = 'caseInsensitiveMatch' | 'isLessThan' | 'isGreaterThan' | 'setLiteral' | 'copyInverseField' | 'copyField';
+export declare type RuleViewOp = 'caseInsensitiveMatch' | 'caseSensitiveMatch' | 'caseInsensitiveFullMatch' | 'caseSensitiveFullMatch' | 'isLessThan' | 'isGreaterThan' | 'setLiteral' | 'copyInverseField' | 'copyField';
 /**
  * Description how the filter expression has been constructed for visual presentation.
  */
