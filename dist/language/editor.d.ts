@@ -14,9 +14,9 @@ export declare type RuleViewOp = 'caseInsensitiveMatch' | 'caseSensitiveMatch' |
  */
 export declare type RuleFilterView = {
     op: RuleViewOp;
-    field: string;
+    field?: string;
     text?: string;
-    value?: number;
+    value?: number | string;
 };
 /**
  * Descriptiion how the result expression has been constructed for visual presentation.

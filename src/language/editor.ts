@@ -25,9 +25,9 @@ export type RuleViewOp = 'caseInsensitiveMatch' |
  */
 export type RuleFilterView = {
   op: RuleViewOp
-  field: string
+  field?: string
   text?: string
-  value?: number
+  value?: number | string
 }
 
 /**
@@ -78,9 +78,15 @@ export function filterView2rule(view: RuleFilterView | RuleFilterView[]): Expres
     return view.map(v => filterView2rule(v)).join(' && ') as Expression
   }
   const { op, field, text, value } = view
-  const variable = /^[a-zA-Z]\w*$/.test(field) ? field : '$(' + JSON.stringify(field) + ')'
+  const variable = field === undefined ? '' : (/^[a-zA-Z]\w*$/.test(field) ? field : '$(' + JSON.stringify(field) + ')')
 
   switch (op) {
+    case 'setLiteral':
+      return JSON.stringify(value) as Expression
+    case 'copyInverseField':
+      return `(-${variable})` as Expression
+    case 'copyField':
+      return `${variable}` as Expression
     case 'caseInsensitiveFullMatch':
       return `(lower(${variable}) === ${JSON.stringify(text?.toLowerCase())})` as Expression
     case 'caseSensitiveFullMatch':
@@ -110,6 +116,12 @@ export function filterView2rule(view: RuleFilterView | RuleFilterView[]): Expres
   const { op, field, text, value } = view
 
   switch (op) {
+    case 'setLiteral':
+      return `set ${JSON.stringify(value)}`
+    case 'copyInverseField':
+      return `copy '${field}' negated`
+    case 'copyField':
+      return `copy '${field}'`
     case 'caseInsensitiveFullMatch':
       return `${field} in lower case is '${text?.toLowerCase()}'`
     case 'caseSensitiveFullMatch':
