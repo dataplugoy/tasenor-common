@@ -16,8 +16,8 @@
     "zlib": "browserify-zlib"
   },
   "scripts": {
-    "dev": "./make.js --dev --minify",
-    "build": "rm -rf dist/* && ./make.js --minify && tsc --emitDeclarationOnly",
+    "dev": "./make.js --dev",
+    "build": "rm -rf dist/* && ./make.js && tsc --emitDeclarationOnly",
     "test:unit:ci": "jest --clearCache && yarn test:unit",
     "test:unit": "jest",
     "test:watch": "jest --watch",
@@ -31,7 +31,7 @@
     "clone": "^2.1.2",
     "dayjs": "1.10.8",
     "form-data": "^4.0.0",
-    "interactive-elements": "^1.0.94",
+    "interactive-elements": "1.0.95",
     "jwt-decode": "^3.1.2",
     "mathjs": "^10.0.2",
     "sprintf-js": "^1.1.2",

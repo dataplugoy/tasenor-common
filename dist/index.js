@@ -1,1 +1,2266 @@
-var Be=Object.create;var V=Object.defineProperty;var Ve=Object.getOwnPropertyDescriptor;var He=Object.getOwnPropertyNames;var Ke=Object.getPrototypeOf,Ge=Object.prototype.hasOwnProperty;var qe=(r,e)=>{for(var n in e)V(r,n,{get:e[n],enumerable:!0})},fe=(r,e,n,t)=>{if(e&&typeof e=="object"||typeof e=="function")for(let o of He(e))!Ge.call(r,o)&&o!==n&&V(r,o,{get:()=>e[o],enumerable:!(t=Ve(e,o))||t.enumerable});return r};var I=(r,e,n)=>(n=r!=null?Be(Ke(r)):{},fe(e||!r||!r.__esModule?V(n,"default",{value:r,enumerable:!0}):n,r)),je=r=>fe(V({},"__esModule",{value:!0}),r);var Ht={};qe(Ht,{API:()=>Vt,AccountType:()=>ie,BalanceBookkeeping:()=>ne,Bookkeeper:()=>Je,Crypto:()=>ce,DAYS:()=>Pe,ERP_API:()=>Bt,HOURS:()=>we,Knowledge:()=>_,MAX_TARGET_ID_LEN:()=>nr,MAX_UPLOAD_SIZE:()=>or,MINUTES:()=>F,REFRESH_TOKEN_EXPIRY_TIME:()=>Ot,RuleParsingError:()=>q,RulesEngine:()=>ue,StockBookkeeping:()=>se,TOKEN_EXPIRY_TIME:()=>_e,TOKEN_ISSUER:()=>wt,TransactionApplyResults:()=>oe,YEARS:()=>Ct,ZERO_CENTS:()=>ye,ZERO_STOCK:()=>sr,address2sql:()=>Pt,conditions:()=>Le,currencies:()=>Ie,debug:()=>b,emptyLinkedTree:()=>ee,error:()=>E,filter2function:()=>Et,filterView2name:()=>ke,filterView2rule:()=>De,haveCatalog:()=>We,haveCursor:()=>ze,haveKnowledge:()=>tt,haveSettings:()=>et,haveStore:()=>Ze,isAccountAddress:()=>gt,isAccountAddressConfig:()=>ht,isAccountNumber:()=>At,isAssetStockType:()=>Ce,isAssetTransfer:()=>dt,isAssetTransferReason:()=>Re,isAssetType:()=>be,isCurrency:()=>$,isDatabaseName:()=>yt,isHttpFailureResponse:()=>vt,isHttpSuccessResponse:()=>$e,isLanguage:()=>mt,isLocalUrl:()=>ae,isNode:()=>rt,isReportID:()=>Rt,isShortDate:()=>Nt,isStockChangeData:()=>pt,isStockChangeDelta:()=>U,isStockChangeFixed:()=>M,isTag:()=>Oe,isTagConfig:()=>St,isTagString:()=>bt,isTagType:()=>xt,isUIQuery:()=>Lt,isUIQueryRef:()=>_t,isUi:()=>C,isUrl:()=>kt,isVersion:()=>ft,languages:()=>xe,latestVersion:()=>Tt,less:()=>te,log:()=>D,month:()=>Dt,mute:()=>ct,near:()=>Ee,net:()=>de,note:()=>v,realNegative:()=>st,realPositive:()=>it,setGlobalComponents:()=>Qe,setServiceUrl:()=>Ft,sortTransactions:()=>It,timestamp:()=>L,ucfirst:()=>ot,unmute:()=>lt,versionCompare:()=>Ne,waitPromise:()=>nt,warning:()=>R});module.exports=je(Ht);var u=require("buffer"),a=I(require("process")),Ye=function(r){function e(){var t=this||self;return delete r.prototype.__magic__,t}if(typeof globalThis=="object")return globalThis;if(this)return e();r.defineProperty(r.prototype,"__magic__",{configurable:!0,get:e});var n=__magic__;return n}(Object),c=Ye;var Xe=()=>({scheme:null,schemeVersion:null,companyName:null,companyCode:null,language:null,currency:null}),Je={createConfig:Xe};var J,Q,z,W,Z;function Qe(r,e,n,t,o){J=r,Q=e,z=n,W=t,Z=o}function ze(){if(!z)throw new Error("Call to haveCursor() before global components set with setGlobalComponents().");return z}function We(){if(!Q)throw new Error("Call to haveCatalog() before global components set with setGlobalComponents().");return Q}function Ze(){if(!J)throw new Error("Call to haveStore() before global components set with setGlobalComponents().");return J}function et(){if(!W)throw new Error("Call to haveSettings() before global components set with setGlobalComponents().");return W}function tt(){if(!Z)throw new Error("Call to haveKnowledge() before global components set with setGlobalComponents().");return Z}var Te=I(require("dayjs"));function ee(){return{root:null,children:{},parents:{}}}var _=class{constructor(e){e==null&&(e={income:{root:null,children:{},parents:{}},expense:{root:null,children:{},parents:{}},assetCodes:{root:null,children:{},parents:{}},taxTypes:[],vat:[]}),this.data=e}update(e){Object.assign(this.data,e)}isIncome(e){if(!this.data.income)throw new Error(`Cannot look for income ${e} since no income classification loaded.`);return typeof e=="string"&&e in this.data.income.parents}isExpense(e){if(!this.data.expense)throw new Error(`Cannot look for expense ${e} since no expense classification loaded.`);return typeof e=="string"&&e in this.data.expense.parents}treeLookup(e,n,t){if(e in n)return n[e];if(e in t.parents){let o=t.parents[e];if(o!=null)return this.treeLookup(o,n,t)}return null}findVatRange(e){if(!this.data.vat)throw new Error("Cannot look for VAT since no VAT data loaded.");e||(e=new Date),e instanceof Date&&(e=(0,Te.default)(e).format("YYYY-MM-DD"));for(let n=0;n<this.data.vat.length;n++){let{from:t,to:o}=this.data.vat[n];if(t<=e&&(o===null||e<=o))return this.data.vat[n]}return null}vat(e,n){if(!e)return null;e=e.replace(/[0-9]+$/,"");let t=this.findVatRange(n);return t?this.isIncome(e)?this.treeLookup(e,t.percentage,this.data.income):this.isExpense(e)?this.treeLookup(e,t.percentage,this.data.expense):null:null}vatTable(e){e||(e=new Date);let n=this.findVatRange(e);if(!n)return[];let t={};Object.entries(this.data.income.parents).forEach(([i,p])=>{let h=i in n.percentage?n.percentage[i]:void 0;t[i]={name:i,type:"income",parent:p,children:[],handled:!1,collected:!1,value:h}}),Object.entries(this.data.expense.parents).forEach(([i,p])=>{let h=i in n.percentage?n.percentage[i]:void 0;t[i]={name:i,type:"expense",parent:p,children:[],handled:!1,collected:!1,value:h}});let o=i=>{if(!t[i])throw new Error(`Reference to undefined VAT ID: '${i}''.`);if(t[i].handled)return t[i].value;let p=t[i].parent;if(p){let h=o(p);t[i].value===void 0&&(t[i].value=h),t[p].children.push(i)}return t[i].handled=!0,t[i].value};Object.keys(n.percentage).forEach(i=>{o(i)});let s=[],l=(i,p=0)=>{t[i].collected||(s.push({id:i,name:`${t[i].type}-${i}`,level:p,value:t[i].value}),t[i].collected=!0,t[i].children.forEach(h=>l(h,p+1)))};return Object.keys(t).forEach(i=>{t[i].handled&&!t[i].collected&&l(i)}),s}count(){return{assets:Object.keys(this.data.assetCodes.parents).length,income:Object.keys(this.data.income.parents).length,expense:Object.keys(this.data.expense.parents).length,vat:this.data.vat.length}}findTree(e){return e in this.data.assetCodes.parents?this.data.assetCodes:e in this.data.income.parents?this.data.income:e in this.data.expense.parents?this.data.expense:ee()}children(e,n=void 0){let t=n||this.findTree(e);if(e in t.children){let o=t.children[e];for(let s of o)o=o.concat(this.children(s,t));return o}return[]}};var H=I(require("dayjs")),he=I(require("dayjs/plugin/utc"));var nr=64,or=1073741824,ye=1e-4,sr=1e-6;function C(){return typeof window<"u"}function rt(){return!C()}async function nt(r){return new Promise(e=>{setTimeout(e,r)})}function ot(r){return r[0].toUpperCase()+r.substr(1)}function Ee(r,e){return Math.abs(r-e)<1e-4}function te(r,e){return r<e&&!Ee(e-r,0)}function st(r){return te(r,0)}function it(r){return te(0,r)}H.default.extend(he.default);var re=!1,at=!C(),Se=()=>C()?{STOCK:"DEBUG_STOCK"in window&&window.DEBUG_STOCK==="yes",BALANCE:"DEBUG_BALANCE"in window&&window.DEBUG_BALANCE==="yes",RULES:"DEBUG_RULES"in window&&window.DEBUG_RULES==="yes",SEGMENTATION:"DEBUG_SEGMENTATION"in window&&window.DEBUG_SEGMENTATION==="yes",CLASSIFICATION:"DEBUG_CLASSIFICATION"in window&&window.DEBUG_CLASSIFICATION==="yes",ANALYSIS:"DEBUG_ANALYSIS"in window&&window.DEBUG_ANALYSIS==="yes",EXECUTION:"DEBUG_EXECUTION"in window&&window.DEBUG_EXECUTION==="yes"}:{STOCK:a.default.env.DEBUG_STOCK==="yes"||!1,BALANCE:a.default.env.DEBUG_BALANCE==="yes"||!1,RULES:a.default.env.DEBUG_RULES==="yes"||!1,SEGMENTATION:a.default.env.DEBUG_SEGMENTATION==="yes"||!1,CLASSIFICATION:a.default.env.DEBUG_CLASSIFICATION==="yes"||!1,ANALYSIS:a.default.env.DEBUG_ANALYSIS==="yes"||!1,EXECUTION:a.default.env.DEBUG_EXECUTION==="yes"||!1},Ae=!1;function ut(){if(Ae)return;Ae=!0;let r=Se();if(Object.values(r).filter(e=>e).length!==0)for(let e of["STOCK","RULES","SEGMENTATION","CLASSIFICATION","ANALYSIS","EXECUTION"])console.log(`\x1B[93mDEBUG_${e} = ${r[e]?"yes":"no"}\x1B[0m`)}function K(){return C()?!("DEBUG"in window):re}function L(r=new Date){return C()?H.default.utc(r).format("HH:mm:ss"):H.default.utc(r).format("YYYY-MM-DDTHH:mm:ssZ")}function N(r){if(!at)return"";switch(r){case"info":return"\x1B[32m";case"note":return"\x1B[33m";case"warning":return"\x1B[34m";case"error":return"\x1B[31m";case"reset":return"\x1B[0m"}}function D(...r){K()||console.log(N("info")+L(),...r,N("reset"))}function v(...r){K()||console.log(N("note")+L(),...r,N("reset"))}function R(...r){K()||console.warn(N("warning")+L(),...r,N("reset"))}function E(...r){K()||console.error(N("error")+L(),...r,N("reset"))}function ct(){re=!0}function lt(){re=!1}function b(r,...e){if(ut(),!Se()[r])return;if(e.every(o=>typeof o=="string"||typeof o=="number"||typeof o=="boolean"||o===null))console.log("\x1B[35m"+e.join(" ")+"\x1B[0m");else for(let o of e)console.dir(o,{depth:null,maxArrayLength:null})}var G=require("sprintf-js"),ne=class{constructor(){this.balance={},this.number={},b("BALANCE","Created new balance bookkeeper.")}set(e,n){this.balance[e]=n,b("BALANCE",`Set ${e} ${this.name(e)} initial balance ${(0,G.sprintf)("%.2f",this.balance[e]/100)}`)}configureNames(e){Object.keys(e).forEach(n=>{n.startsWith("account.")&&(this.number[n.substring(8)]=e[n])})}name(e){return this.number[e],this.number[e]||`unknown.account.${e}`}change(e,n){return this.balance[e]=(this.balance[e]||0)+n,b("BALANCE",`Change ${e} ${this.name(e)} \u0394 ${n>=0?"+":""}${(0,G.sprintf)("%.2f",n/100)} \u27F9 ${(0,G.sprintf)("%.2f",this.balance[e]/100)}`),this.balance[e]}apply(e){return this.change(e.account,e.amount)}get(e){return this.balance[this.number[e]]||0}summary(){let e=[];return Object.keys(this.number).forEach(n=>{let[t,o,s]=n.split(".");e.push({account:this.number[n],address:n,debtAddress:this.debtAddress(n),balance:this.balance[this.number[n]],mayTakeLoan:this.mayTakeLoan(t,o,s)})}),e}mayTakeLoan(e,n,t){return e!=="fee"&&e!=="profit"&&n==="currency"}debtAddress(e){let[,n,t]=e.split(".");return`debt.${n}.${t}`}};var oe=class{constructor(){this.created=0,this.duplicates=0,this.ignored=0,this.accounts={}}create(e){this.created++,this.record(e)}ignore(e){this.ignored++}duplicate(e){this.duplicates++}record(e){for(let n of e.entries){let{account:t,amount:o}=n;this.accounts[t]=(this.accounts[t]||0)+o}}add(e){if("created"in e&&(this.created+=parseInt(e.created||"0")),"duplicates"in e&&(this.duplicates+=parseInt(e.duplicates||"0")),"ignored"in e&&(this.ignored+=parseInt(e.ignored||"0")),"accounts"in e){let n=e.accounts;Object.keys(n).forEach(t=>{this.accounts[t]=(this.accounts[t]||0)+n[t]})}}toJSON(){return{created:this.created,ignored:this.ignored,duplicates:this.duplicates,accounts:this.accounts}}};function Re(r){return typeof r=="string"&&["correction","deposit","distribution","dividend","expense","fee","forex","income","investment","loss","profit","tax","trade","transfer","withdrawal"].includes(r)}function be(r){return typeof r=="string"&&["account","stock","short","currency","debt","crypto","external","statement","other"].includes(r)}function U(r){return typeof r=="object"&&r!==null&&"stock"in r&&"change"in r.stock}function M(r){return typeof r=="object"&&r!==null&&"stock"in r&&"set"in r.stock}function pt(r){return U(r)||M(r)}function dt(r){return typeof r=="object"&&r!==null&&"reason"in r&&"type"in r&&"asset"in r&&r.reason&&r.type&&r.asset}function gt(r){if(typeof r!="string"||!/^[a-z]+\.[a-z]+\.[*a-z]+$/.test(r))return!1;let[e,n]=r.split(".");return Re(e)&&be(n)}var xe=new Set(["aa","ab","af","ak","am","an","ar","as","av","ay","az","ba","be","bg","bh","bi","bm","bn","bo","br","bs","ca","ce","ch","co","cr","cs","cu","cv","cy","da","de","dv","dz","ee","el","en","eo","es","et","eu","fa","ff","fi","fj","fo","fr","fy","ga","gd","gl","gn","gu","gv","ha","he","hi","ho","hr","ht","hu","hy","hz","ia","id","ie","ig","ii","ik","io","is","it","iu","ja","jv","kg","ki","kj","kk","kl","km","kn","ko","kr","ks","ku","kv","kw","ky","la","lb","lg","li","ln","lo","lt","lv","mg","mh","mi","mk","ml","mn","mo","mr","ms","mt","my","na","nd","ne","ng","nl","nn","no","nr","nv","ny","oc","oj","om","or","os","pa","pi","pl","ps","pt","qu","rm","rn","ro","ru","rw","sa","sc","sd","sg","sh","si","sk","sl","sm","sn","so","sq","sr","ss","st","su","sv","sw","ta","te","tg","th","ti","tk","tl","tn","to","tr","ts","tt","tw","ty","ug","ur","ve","vi","vo","wa","wo","xh","yi","yo","za","zh","zu"]);function mt(r){return typeof r=="string"&&xe.has(r)}var Ie=new Set(["AFN","ALL","DZD","ARS","AMD","AUD","AZN","BHD","BDT","BYN","BZD","BOB","BAM","BWP","BRL","GBP","BND","BGN","BIF","KHR","CAD","CVE","XAF","CLP","CNY","COP","KMF","CDF","CRC","HRK","CZK","DKK","DJF","DOP","EGP","ERN","EEK","ETB","EUR","GEL","GHS","GTQ","GNF","HNL","HKD","HUF","ISK","INR","IDR","IRR","IQD","ILS","JMD","JPY","JOD","KZT","KES","KWD","LVL","LBP","LYD","LTL","MOP","MKD","MGA","MYR","MUR","MXN","MDL","MAD","MZN","MMK","NAD","NPR","TWD","NZD","NIO","NGN","NOK","OMR","PKR","PAB","PYG","PEN","PHP","PLN","QAR","RON","RUB","RWF","SAR","RSD","SGD","SOS","ZAR","KRW","LKR","SDG","SEK","CHF","SYP","TZS","THB","TOP","TTD","TND","TRY","USD","UGX","UAH","AED","UYU","UZS","VEF","VND","XOF","YER","ZMK","ZWL"]);function $(r){return typeof r=="string"&&Ie.has(r)}function ft(r){return typeof r=="string"&&/^\d+(\.\d+)+$/.test(r)}function Ne(r,e){let n=r.split("."),t=e.split("."),o=Math.max(n.length,t.length);for(let s=0;s<o;s++){let l=parseInt(n[s])-parseInt(t[s]);if(l<0)return-1;if(l>0)return 1}return n.length<t.length?-1:n.length>t.length?1:0}function Tt(r){if(r.length===0)return null;let e;for(let n of r)(!e||Ne(n,e)>0)&&(e=n);return e}var yt=r=>typeof r=="string"&&/^[_a-z0-9]+$/.test(r);function Ce(r){return typeof r=="string"&&["crypto","stock","currency","other"].includes(r)}var se=class{constructor(e="No name"){this.name=e,this.reset(),b("STOCK",`[${this.name}]: Created new stock bookkeeper.`)}reset(){this.stock={crypto:{},stock:{},currency:{},other:{}}}set(e,n,t,o,s){typeof e=="string"&&(e=new Date(e)),t in this.stock[n]||(this.stock[n][t]=[]);let l=this.stock[n][t]||[];l.push({time:e,amount:o,value:s}),this.stock[n][t]=l.sort((i,p)=>i.time.getTime()-p.time.getTime()),b("STOCK",`[${this.name}] ${e.toISOString()}: Set ${n} ${t} = ${o} (${s}).`)}has(e,n){return Ce(e)?n in this.stock[e]:!1}last(e,n){let t=this.stock[e][n]||[];if(!t||!t.length)throw new Error(`There is no asset ${n} of ${e} in stock bookkeeping.`);return t[t.length-1]}change(e,n,t,o,s){let l=o,i=s;if(typeof e=="string"&&(e=new Date(e)),!this.has(n,t))this.set(e,n,t,o,s);else{let p=this.last(n,t);if(e<p.time)throw b("STOCK",this.stock),new Error(`Cannot insert ${n} ${t} at ${e.toISOString()}, since last timestamp is ${p.time.toISOString()}`);o+=p.amount,s+=p.value,(this.stock[n][t]||[]).push({time:e,amount:o,value:s}),b("STOCK",`[${this.name}] ${e.toISOString()}: Change ${n} ${t} \u0394 ${l>=0?"+":""}${l} (${i>=0?"+":""}${i}) \u21D2 ${o} ${t} (${s})`)}}get(e,n,t){let o,s=this.stock[n][t]||[];for(this.has(n,t)?o=s.length-1:o=-1;o>=0&&s[o].time>e;)o--;return o<0?{time:e,amount:0,value:0}:s[o]}getType(e){return $(e)?"currency":this.stock.crypto[e]?"crypto":this.stock.stock[e]?"stock":"other"}apply(e,n){typeof e=="string"&&(e=new Date(e)),M(n)&&Object.keys(n.stock.set).forEach(t=>{let{amount:o,value:s}=n.stock.set[t];this.set(e,this.getType(t),t,o,s)}),U(n)&&Object.keys(n.stock.change).forEach(t=>{let{amount:o,value:s}=n.stock.change[t];this.change(e,this.getType(t),t,o,s)})}applyAll(e){e.forEach(n=>this.apply(n.time,n.data))}changedAssets(e){let n=new Set;return U(e)&&Object.keys(e.stock.change).forEach(t=>n.add(t)),M(e)&&Object.keys(e.stock.set).forEach(t=>n.add(t)),[...n]}assets(){let e=[];return Object.keys(this.stock).map(n=>Object.keys(this.stock[n]).forEach(t=>e.push([n,t]))),e}totals(){return this.assets().map(([e,n])=>[e,n,this.last(e,n).amount])}total(e,n=void 0){return n||(n=e,e=this.getType(n)),this.has(e,n)?this.last(e,n).amount:0}summary(e=null,n=!0,t=!0){let o={};if(n)for(let[s,l]of this.assets())o[`${s}.${l}`]=this.last(s,l),t||delete o[`${s}.${l}`].time,e&&Math.abs(o[`${s}.${l}`].amount)<e&&delete o[`${s}.${l}`];else for(let[s,l]of this.assets())o[l]=this.last(s,l),t||delete o[l].time,e&&Math.abs(o[l].amount)<e&&delete o[l];return o}toJSON(){let e={};for(let[,n,t]of this.totals())e[n]=(e[n]||0)+t;return e}};function De(r){if(r instanceof Array)return r.map(l=>De(l)).join(" && ");let{op:e,field:n,text:t,value:o}=r,s=n===void 0?"":/^[a-zA-Z]\w*$/.test(n)?n:"$("+JSON.stringify(n)+")";switch(e){case"setLiteral":return JSON.stringify(o);case"copyInverseField":return`(-${s})`;case"copyField":return`${s}`;case"caseInsensitiveFullMatch":return`(lower(${s}) === ${JSON.stringify(t?.toLowerCase())})`;case"caseSensitiveFullMatch":return`(${s} === ${JSON.stringify(t)})`;case"caseInsensitiveMatch":return`contains(lower(${s}), ${JSON.stringify(t?.toLowerCase())})`;case"caseSensitiveMatch":return`contains(${s}, ${JSON.stringify(t)})`;case"isLessThan":return`(${s} < ${JSON.stringify(o)})`;case"isGreaterThan":return`(${s} > ${JSON.stringify(o)})`;default:throw new Error(`A filterView2rule with operation '${e}' is not implemented.`)}}function ke(r){if(r instanceof Array)return r.map(s=>ke(s)).join(" and ");let{op:e,field:n,text:t,value:o}=r;switch(e){case"setLiteral":return`set ${JSON.stringify(o)}`;case"copyInverseField":return`copy '${n}' negated`;case"copyField":return`copy '${n}'`;case"caseInsensitiveFullMatch":return`${n} in lower case is '${t?.toLowerCase()}'`;case"caseSensitiveFullMatch":return`${n} is '${t}'`;case"caseSensitiveMatch":return`${n} contains '${t}'`;case"caseInsensitiveMatch":return`${n} in lower case contains '${t?.toLowerCase()}'`;case"isLessThan":return`${n} is less than ${o}`;case"isGreaterThan":return`${n} is greater than ${o}`;default:throw new Error(`A filterView2name with operation '${e}' is not implemented.`)}}function Et(r){if(r==null)return()=>!0;let e=t=>typeof t=="object"||t!==null,n=(t,o)=>{let s=typeof o;if(s==="number"||s==="string")return l=>l[t]===o;if(s==="object"&&o instanceof Array){let l=new Set(o);return i=>l.has(i[t])}throw new Error(`No interpretation of value ${JSON.stringify(o)} in filtering rule ${JSON.stringify(r)}.`)};if(typeof r=="object"){let t=[];return Object.entries(r).map(([o,s])=>{t.push(n(o,s))}),o=>{if(!e(o))return!1;for(let s=0;s<t.length;s++)if(!t[s](o))return!1;return!0}}throw new Error(`Syntax error in filtering rule ${JSON.stringify(r)}`)}var ie=(i=>(i.ASSET="ASSET",i.LIABILITY="LIABILITY",i.EQUITY="EQUITY",i.REVENUE="REVENUE",i.EXPENSE="EXPENSE",i.PROFIT_PREV="PROFIT_PREV",i.PROFIT="PROFIT",i))(ie||{});function At(r){return typeof r=="string"&&/^\d+$/.test(r)}function ht(r){return typeof r=="string"&&/^account\./.test(r)}function St(r){return typeof r=="string"&&/^tags\./.test(r)}function Rt(r){return typeof r=="string"&&/^[-a-z]+$/.test(r)}function Oe(r){return typeof r=="string"&&/^[A-Za-z0-9]+$/.test(r)}function bt(r){return typeof r!="string"||!/^\[\]$/.test(r)?!1:r.substr(1,r.length-2).split("][").filter(n=>!Oe(n)).length>0}function xt(r){return typeof r=="string"}function It(r){for(let e of r)e.entries=e.entries.sort((n,t)=>n.account===t.account?0:n.account<t.account?-1:1);return r.sort((e,n)=>new Date(e.date).getTime()-new Date(n.date).getTime())}function Nt(r){return typeof r=="string"&&/^\d{4}-\d{2}-\d{2}$/.test(r)}var F=60,we=F*60,Pe=we*24,Ct=Pe*365;function Dt(r){return{jan:"January",feb:"February",mar:"March",apr:"April",may:"May",jun:"June",jul:"July",aug:"August",sep:"September",oct:"October",nov:"November",dec:"December"}[r.toLowerCase()]||null}function kt(r){return typeof r=="string"&&/^\w+:/.test(r)}function ae(r){return typeof r=="string"&&!/^\w+:/.test(r)}var _e=30*F,Ot=_e+10*F,wt="Tasenor";function Le(r,e){let[n,t,o]=r.split(".");if(n==="debt"&&t==="currency")return{code:"CREDITORS",addChildren:!0,currency:o,plugin:e.plugin};if(n==="deposit"){if(t==="currency")return{code:"CASH",addChildren:!0,currency:o,plugin:e.plugin,type:"ASSET"};if(t==="external")return{code:"CASH",addChildren:!0,currency:o,"!plugin":e.plugin,type:"ASSET"}}if(n==="distribution")return null;if(n==="dividend"&&t==="currency")return{code:"DIVIDEND",addChildren:!0,currency:o,plugin:e.plugin};if(n==="expense"){if(t==="currency")return e.plugin?{code:"CASH",addChildren:!0,currency:o,plugin:e.plugin,type:"ASSET"}:null;if(t==="statement")return{type:"EXPENSE",code:o}}if(n==="fee"&&t==="currency")return e.plugin?{code:"CASH",addChildren:!0,currency:o,plugin:e.plugin,type:"ASSET"}:null;if(n==="forex"&&t==="currency")return{code:"CASH",currency:o,plugin:e.plugin};if(n==="income"){if(t==="currency")return e.plugin?{code:"CASH",addChildren:!0,currency:o,plugin:e.plugin,type:"ASSET"}:null;if(t==="statement")return{type:"REVENUE",code:o}}if(n==="investment"){if(t==="currency")return null;if(t==="statement")return{type:"EQUITY",code:o,plugin:e.plugin}}if(n==="tax"){if(t==="currency")return null;if(t==="statement")return{type:["LIABILITY","ASSET"],code:o}}if(n==="trade"){if(t==="currency")return{type:"ASSET",code:"CASH",addChildren:!0,currency:o,plugin:e.plugin};if(t==="stock")return{type:"ASSET",code:"CURRENT_PUBLIC_STOCK_SHARES",plugin:e.plugin};if(t==="crypto")return{type:"ASSET",code:"CURRENT_CRYPTOCURRENCIES",plugin:e.plugin}}if(n==="transfer"){if(t==="currency")return{type:"ASSET",code:"CASH",addChildren:!0,currency:o,plugin:e.plugin};if(t==="external")return o==="NEEDS_MANUAL_INSPECTION"?{code:o}:null}if(n==="withdrawal"){if(t==="currency")return{code:"CASH",addChildren:!0,currency:o,plugin:e.plugin,type:"ASSET"};if(t==="external")return{code:"CASH",addChildren:!0,currency:o,"!plugin":e.plugin,type:"ASSET"}}let s=`No SQL conversion known for account address '${r}'.`;if(e.strict)throw new Error(s);return R(s),null}function Pt(r,e,n=null){n===null&&(n=new _);let t=Le(r,e);if(t===null)return null;let o=[];t.currency===e.defaultCurrency&&(o.push(`(data->>'currency' = '${t.currency}' OR data->>'currency' IS NULL)`),delete t.currency),t.type&&(typeof t.type=="string"?o.push(`(type = '${t.type}')`):o.push("("+t.type.map(i=>`type = '${i}'`).join(" OR ")+")"),delete t.type),t.addChildren&&(t.code=[t.code,...n.children(t.code)],delete t.addChildren);let s=i=>{if(i[0]==="!")return`(data->>'${i.substring(1)}' != '${t[i]}')`;let p=t[i];if(p instanceof Array){if(p.length>1)return`(data->>'${i}' IN (${p.map(h=>"'"+h+"'").join(", ")}))`;p=p[0]}return`(data->>'${i}' = '${p}')`};return[...Object.keys(t).map(i=>s(i)),...o].join(" AND ")}function _t(r){return typeof r=="object"&&r!==null&&Object.keys(r).length===1&&Object.keys(r)[0]==="name"}function Lt(r){return typeof r=="object"&&r!==null&&(typeof r.ask=="object"||typeof r.chooseTag=="object"&&r.chooseTag instanceof Array)}var d=require("mathjs");var ve=require("interactive-elements");var q=class extends Error{constructor(n,t,o){super(n);this.expression=t,this.variables=(0,d.clone)(o)}},ue=class{constructor(e,n=!1){this.quiet=n,this.engine=(0,d.create)({...d.all,createEqual:(0,d.factory)("equal",[],()=>(0,d.typed)("equal",{"string, string":function(o,s){return o===s}})),createUnequal:(0,d.factory)("unequal",[],()=>(0,d.typed)("unequal",{"string, string":function(o,s){return o!==s}})),createSmaller:(0,d.factory)("smaller",[],()=>(0,d.typed)("smaller",{"string, string":function(o,s){return o<s}})),createSmallerEq:(0,d.factory)("smallerEq",[],()=>(0,d.typed)("smallerEq",{"string, string":function(o,s){return o<=s}})),createLarger:(0,d.factory)("larger",[],()=>(0,d.typed)("larger",{"string, string":function(o,s){return o>s}})),createLargerEq:(0,d.factory)("largerEq",[],()=>(0,d.typed)("largerEq",{"string, string":function(o,s){return o>=s}})),createCompare:(0,d.factory)("compare",[],()=>(0,d.typed)("compare",{"string, string":function(o,s){return o>s?1:o<s?-1:0}})),createAdd:(0,d.factory)("add",[],()=>(0,d.typed)("add",{"number, number":function(o,s){return o+s},"string, string":function(o,s){return`${o}${s}`}}))},{}),this.scope={$:t=>this.$(t),capitalize:t=>this.capitalize(t),cents:t=>this.cents(t),chosen:t=>this.chosen(t),contains:(t,o)=>this.contains(t,o),d:(...t)=>this.d(...t),isCurrency:t=>this.isCurrency(t),join:(...t)=>this.join(...t),lower:t=>this.lower(t),num:t=>this.num(t),par:(...t)=>this.par(...t),rates:(...t)=>this.rates(t),regex:(t,o,s)=>this.regex(t,o,s),str:t=>this.str(t),times:(t,o)=>this.times(t,o),ucfirst:t=>this.ucfirst(t),import:function(){throw new Error("Function import is disabled.")},createUnit:function(){throw new Error("Function createUnit is disabled.")},evaluate:function(){throw new Error("Function evaluate is disabled.")},parse:function(){throw new Error("Function parse is disabled.")},simplify:function(){throw new Error("Function simplify is disabled.")},derivative:function(){throw new Error("Function derivative is disabled.")}},this.variables=e||{}}eval(e,n){if(n&&(this.variables=(0,d.clone)(n)),e instanceof Object){if(e===null)return null;if(e instanceof Array)return e.map(s=>this.eval(s));let o={};return Object.keys(e).forEach(s=>o[s]=this.eval(e[s])),o}let t;try{if(t=this.engine.evaluate(e,{...this.scope,...this.variables}),t&&typeof t=="object"&&t._data&&t._size)return t._data}catch(o){throw new q(o.message,e,n||{})}return t}$(e){return e in this.variables?this.variables[e]:void 0}num(e){if(typeof e=="number")return e;let n=(0,ve.num)(`${e}`);return!this.quiet&&isNaN(n)&&R(`Unable to parse number from ${JSON.stringify(e)}.`),n}isCurrency(e){return $(e)}rates(e){let n={};for(let t=0;t<e.length;t+=2)n[`${e[t]}`]=this.num(e[t+1]);return n}regex(e,n,t=void 0){let s=(t?new RegExp(e,t):new RegExp(e)).exec(n);if(!s)return!1;let l=[];for(let i=1;s[i]!==void 0;i++)l.push(s[i]);return l.length?l:!0}par(...e){let n=e.filter(t=>t!==null&&t!==!1).map(t=>`${t}`.trim()).filter(t=>t!=="");return n.length?` (${n.join(", ")})`:""}var(e){if(!(e in this.variables))throw new Error(`A variable '${e}' is not defined.`);return this.variables[e]}chosen(e){let n=this.var(e),t=this.var("rule"),o=t.questions;if(!(e in o))throw new Error(`Cannot find variable '${e}' from questions of the rule ${JSON.stringify(t.questions)}'.`);let s=o[e];if("ask"in s){let l=Object.entries(s.ask).filter(([,i])=>i===n).map(([i])=>i);if(l.length)return l.join(", ");throw new Error(`Unable to find any matches for answer ${JSON.stringify(n)} from question ${JSON.stringify(s)}.`)}throw new Error(`Cannot reverse map question ${JSON.stringify(s)}, when looking for chosen '${e}'.`)}contains(e,n){return e.indexOf(n)>=0}ucfirst(e){return e.substring(0,1).toUpperCase()+e.substring(1)}lower(e){return e.toLowerCase()}capitalize(e){return e.toLowerCase().split(" ").map(n=>this.ucfirst(n)).join(" ")}cents(e){if(typeof e!="number")throw new Error(`Invalid argument ${JSON.stringify(e)} for cents().`);return Math.round(e*100)}str(e){return`${e}`}join(...e){return e.filter(n=>n!=null).map(n=>`${n}`.trim()).filter(n=>n!=="").join(" ")}d(...e){return v("[DEBUG]",...e),e.length?e[e.length-1]:void 0}times(e,n){return e==null||e===0?"":`${parseInt(`${e}`)} x ${n}`}};var k=I(require("crypto")),Ue=I(require("buffer"));c.Buffer=c.Buffer||Ue.default.Buffer;var ce=class{constructor(e){if(!e||e.length<32)throw new Error("Encryption key is too short or does not exist.");this.algorithm="aes-128-cbc";let n=e,t=k.default.createHash("sha1");t.update(n),this.key=t.digest().slice(0,16)}encrypt(e){let n=k.default.randomBytes(16),t=k.default.createCipheriv(this.algorithm,this.key,n);return[t.update(e,"utf8","hex")+t.final("hex"),u.Buffer.from(n).toString("hex")].join("|")}decrypt(e){let[n,t]=e.split("|");if(!t)throw new Error("IV not found when decrypting.");let o;try{return o=k.default.createDecipheriv(this.algorithm,this.key,u.Buffer.from(t,"hex")),o.update(n,"hex","utf8")+o.final("utf8")}catch{return E(`Decrypting ${e} failed.`),null}}static hash(e){return k.default.randomBytes(e).toString("hex")}};var Me=I(require("jwt-decode")),pe=I(require("axios"));function $e(r){return typeof r=="object"&&r!==null&&r.hasOwnProperty("success")?r.success:!1}function vt(r){return!$e(r)}var m={sites:{}};function Ut(r){if(r.baseUrl&&(m.baseUrl=r.baseUrl),r.sites)for(let e of Object.keys(r.sites))m.sites||(m.sites={}),m.sites[e]||(m.sites[e]={}),Object.assign(m.sites[e],r.sites[e])}var f=(r,e)=>{let n=new URL(r).origin;return m.sites&&m.sites[n]&&e in m.sites[n]?m.sites[n][e]:null},j=(r,e,n)=>{let t=new URL(r).origin;m.sites||(m.sites={}),m.sites[t]||(m.sites[t]={}),m.sites[t][e]=n},Mt=r=>{if(ae(r)){if(!m.baseUrl)throw new Error(`Cannot use local URL '${r}' when there is no base URL configured.`);return m.baseUrl.replace(/\/$/,"")+"/"+r.replace(/^\//,"")}return r};async function le(r){if(j(r,"token",null),f(r,"refreshToken")&&f(r,"refreshUrl")){let e=`${new URL(r).origin}${f(r,"refreshUrl")}`;D(`Refreshing token from ${e}.`);let n={Authorization:`Bearer ${f(r,"refreshToken")}`};f(r,"uuid")&&(n["X-UUID"]=f(r,"uuid"));let t=await(0,pe.default)({method:"GET",url:e,headers:n}).catch(s=>{let l=f(r,"logout");return l?(l(),!1):(E(`Fetching token for ${r} failed: ${s}`),s)});if(t.status===200&&t.data&&t.data.token)return j(r,"token",t.data.token),t.data.refresh&&j(r,"refreshToken",t.data.refresh),D(`Received new token from ${r}.`),!0;let o=f(r,"logout");return o?(o(),!1):(E("Invalid response:",t),new Error("Unable to understand token response."))}return new Error(`Site ${r} not configured for token refreshing.`)}function O(r){return async(e,n,t)=>{let o=Mt(e),s=new URL(o).origin;(!m.sites||!m.sites[s])&&R(`We don't have any net configuration for site ${s}.`);async function l({method:g,url:y,data:T}){let x={};Object.assign(x,t),m.sites&&m.sites[s]&&!x.Authorization&&(f(y,"token")&&(x.Authorization=`Bearer ${f(y,"token")}`),f(y,"uuid")&&(x["X-UUID"]=f(y,"uuid")));let P={method:g,url:y,data:T,headers:x};g==="GET"&&T&&(P.params=T),T==null&&delete P.data,T&&T instanceof Object&&T.constructor&&T.constructor.name==="FormData"&&T.getHeaders&&Object.assign(x,T.getHeaders());let A=await(0,pe.default)(P).catch(X=>{if(X.response)return X.response;let me=`Network call failed: ${X}.`;return E(me),{status:-1,success:!1,data:{message:me}}});v("Net:",g,y,"HTTP",A.status);let S;switch(A.status){case-1:return A;case 200:return{status:200,success:!0,data:A.data};case 204:return{status:204,success:!0,data:!0};case 400:S="Bad Request";case 401:S=S||"Unauthorized";case 403:S=S||"Forbidden";case 404:S=S||"Not Found";case 500:return S=S||"Internal Server Error",E(`A call ${g} ${y} failed with ${A.status}. Data:`),E(A.data),{status:A.status,success:!1,message:A.data&&A.data.message?A.data.message:S};default:throw R(`Net: No handler for HTTP ${A.status}.`),new Error(`Net library has no handler yet for status ${A.status}.`)}}async function i(g){let y=500;if(g.response)switch(g.response.status){case 401:case 403:if(y=g.response.status,f(o,"refreshToken")&&f(o,"refreshUrl")&&(R(`Request ${r} ${o} gave ${g.response.status} but trying to refresh the token.`),g=await le(o),g===!0)){let x=!0,P=await l({method:r,url:o,data:n}).catch(Y=>{R(`We got token but retrying ${r} ${o} failed as well. Error was:`),E(Y),g=Y,y=500,x=!1});if(x)return D(`Retrying ${r} ${o} successful.`),P}break}let T="";return g.response&&g.response.data&&(T=` (${g.response.data.message})`),E(`Request ${r} ${o} failed: ${JSON.stringify(g)}${JSON.stringify(T)}`),{status:y,success:!1,message:`Request ${r} ${o} failed.`}}let p=f(o,"token"),ge=!!f(o,"refreshToken")&&!p;if(p)try{let y=(0,Me.default)(p).exp*1e3,T=new Date().getTime();y-T<1e3&&(D("Token has been expired."),ge=!0)}catch{}if(ge){D("Token needs refreshing.");let g=await le(o);g!==!0&&E(`Trying to refresh token gave an error: ${g}`)}let w=await l({method:r,url:o,data:n}).catch(g=>i(g));return!w.success&&(w.status===403||w.status===401)?i({response:w}):w}}async function $t(r){let e=await le(r);return e===!0?{token:f(r,"token"),refresh:f(r,"refreshToken")}:(E(`Token refresh for ${r} failed:`,e),null)}var de={configure:Ut,getConf:f,setConf:j,refresh:$t,DELETE:O("DELETE"),GET:O("GET"),HEAD:O("HEAD"),PATCH:O("PATCH"),POST:O("POST"),PUT:O("PUT")};var B={API:{url:""},ERP_API:{url:""}};function Fe(r){return{call:async(e,n,t,o={})=>{if(!B[r])throw new Error(`Service configuration variable ${r} is not set and related service is unusable.`);if(!B[r].url)throw new Error(`Service configuration URL for ${r} is not set and related service is unusable.`);if("Authorization"in o&&!o.Authorization)throw new Error(`Invalid Authorization header for ${r} call.`);return n=`${B[r].url}${n}`,de[e](n,t,o)}}}function Ft(r,e){if(r in B)B[r].url=e;else throw new Error(`A service ${r} does not exist.`)}var Bt=Fe("ERP_API"),Vt=Fe("API");0&&(module.exports={API,AccountType,BalanceBookkeeping,Bookkeeper,Crypto,DAYS,ERP_API,HOURS,Knowledge,MAX_TARGET_ID_LEN,MAX_UPLOAD_SIZE,MINUTES,REFRESH_TOKEN_EXPIRY_TIME,RuleParsingError,RulesEngine,StockBookkeeping,TOKEN_EXPIRY_TIME,TOKEN_ISSUER,TransactionApplyResults,YEARS,ZERO_CENTS,ZERO_STOCK,address2sql,conditions,currencies,debug,emptyLinkedTree,error,filter2function,filterView2name,filterView2rule,haveCatalog,haveCursor,haveKnowledge,haveSettings,haveStore,isAccountAddress,isAccountAddressConfig,isAccountNumber,isAssetStockType,isAssetTransfer,isAssetTransferReason,isAssetType,isCurrency,isDatabaseName,isHttpFailureResponse,isHttpSuccessResponse,isLanguage,isLocalUrl,isNode,isReportID,isShortDate,isStockChangeData,isStockChangeDelta,isStockChangeFixed,isTag,isTagConfig,isTagString,isTagType,isUIQuery,isUIQueryRef,isUi,isUrl,isVersion,languages,latestVersion,less,log,month,mute,near,net,note,realNegative,realPositive,setGlobalComponents,setServiceUrl,sortTransactions,timestamp,ucfirst,unmute,versionCompare,waitPromise,warning});
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all2) => {
+  for (var name in all2)
+    __defProp(target, name, { get: all2[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/index.ts
+var src_exports = {};
+__export(src_exports, {
+  API: () => API,
+  AccountType: () => AccountType,
+  BalanceBookkeeping: () => BalanceBookkeeping,
+  Bookkeeper: () => Bookkeeper,
+  Crypto: () => Crypto,
+  DAYS: () => DAYS,
+  ERP_API: () => ERP_API,
+  HOURS: () => HOURS,
+  Knowledge: () => Knowledge,
+  MAX_TARGET_ID_LEN: () => MAX_TARGET_ID_LEN,
+  MAX_UPLOAD_SIZE: () => MAX_UPLOAD_SIZE,
+  MINUTES: () => MINUTES,
+  REFRESH_TOKEN_EXPIRY_TIME: () => REFRESH_TOKEN_EXPIRY_TIME,
+  RuleParsingError: () => RuleParsingError,
+  RulesEngine: () => RulesEngine,
+  StockBookkeeping: () => StockBookkeeping,
+  TOKEN_EXPIRY_TIME: () => TOKEN_EXPIRY_TIME,
+  TOKEN_ISSUER: () => TOKEN_ISSUER,
+  TransactionApplyResults: () => TransactionApplyResults,
+  YEARS: () => YEARS,
+  ZERO_CENTS: () => ZERO_CENTS,
+  ZERO_STOCK: () => ZERO_STOCK,
+  address2sql: () => address2sql,
+  conditions: () => conditions,
+  currencies: () => currencies,
+  debug: () => debug,
+  emptyLinkedTree: () => emptyLinkedTree,
+  error: () => error,
+  filter2function: () => filter2function,
+  filterView2name: () => filterView2name,
+  filterView2rule: () => filterView2rule,
+  haveCatalog: () => haveCatalog,
+  haveCursor: () => haveCursor,
+  haveKnowledge: () => haveKnowledge,
+  haveSettings: () => haveSettings,
+  haveStore: () => haveStore,
+  isAccountAddress: () => isAccountAddress,
+  isAccountAddressConfig: () => isAccountAddressConfig,
+  isAccountNumber: () => isAccountNumber,
+  isAssetStockType: () => isAssetStockType,
+  isAssetTransfer: () => isAssetTransfer,
+  isAssetTransferReason: () => isAssetTransferReason,
+  isAssetType: () => isAssetType,
+  isCurrency: () => isCurrency,
+  isDatabaseName: () => isDatabaseName,
+  isHttpFailureResponse: () => isHttpFailureResponse,
+  isHttpSuccessResponse: () => isHttpSuccessResponse,
+  isLanguage: () => isLanguage,
+  isLocalUrl: () => isLocalUrl,
+  isNode: () => isNode,
+  isReportID: () => isReportID,
+  isShortDate: () => isShortDate,
+  isStockChangeData: () => isStockChangeData,
+  isStockChangeDelta: () => isStockChangeDelta,
+  isStockChangeFixed: () => isStockChangeFixed,
+  isTag: () => isTag,
+  isTagConfig: () => isTagConfig,
+  isTagString: () => isTagString,
+  isTagType: () => isTagType,
+  isUIQuery: () => isUIQuery,
+  isUIQueryRef: () => isUIQueryRef,
+  isUi: () => isUi,
+  isUrl: () => isUrl,
+  isVersion: () => isVersion,
+  languages: () => languages,
+  latestVersion: () => latestVersion,
+  less: () => less,
+  log: () => log,
+  month: () => month,
+  mute: () => mute,
+  near: () => near,
+  net: () => net,
+  note: () => note,
+  realNegative: () => realNegative,
+  realPositive: () => realPositive,
+  setGlobalComponents: () => setGlobalComponents,
+  setServiceUrl: () => setServiceUrl,
+  sortTransactions: () => sortTransactions,
+  timestamp: () => timestamp,
+  ucfirst: () => ucfirst,
+  unmute: () => unmute,
+  versionCompare: () => versionCompare,
+  waitPromise: () => waitPromise,
+  warning: () => warning
+});
+module.exports = __toCommonJS(src_exports);
+
+// node_modules/node-stdlib-browser/helpers/esbuild/shim.js
+var import_buffer = require("buffer");
+var import_process = __toESM(require("process"));
+var _globalThis = function(Object2) {
+  function get() {
+    var _global3 = this || self;
+    delete Object2.prototype.__magic__;
+    return _global3;
+  }
+  if (typeof globalThis === "object") {
+    return globalThis;
+  }
+  if (this) {
+    return get();
+  } else {
+    Object2.defineProperty(Object2.prototype, "__magic__", {
+      configurable: true,
+      get
+    });
+    var _global2 = __magic__;
+    return _global2;
+  }
+}(Object);
+var _global = _globalThis;
+
+// src/bookkeeper/config.ts
+var createConfig = () => {
+  return {
+    scheme: null,
+    schemeVersion: null,
+    companyName: null,
+    companyCode: null,
+    language: null,
+    currency: null
+  };
+};
+var Bookkeeper = {
+  createConfig
+};
+
+// src/bookkeeper/globals.ts
+var _store;
+var _catalog;
+var _cursor;
+var _settings;
+var _knowledge;
+function setGlobalComponents(store, catalog, cursor, settings, knowledge) {
+  _store = store;
+  _catalog = catalog;
+  _cursor = cursor;
+  _settings = settings;
+  _knowledge = knowledge;
+}
+function haveCursor() {
+  if (!_cursor) {
+    throw new Error("Call to haveCursor() before global components set with setGlobalComponents().");
+  }
+  return _cursor;
+}
+function haveCatalog() {
+  if (!_catalog) {
+    throw new Error("Call to haveCatalog() before global components set with setGlobalComponents().");
+  }
+  return _catalog;
+}
+function haveStore() {
+  if (!_store) {
+    throw new Error("Call to haveStore() before global components set with setGlobalComponents().");
+  }
+  return _store;
+}
+function haveSettings() {
+  if (!_settings) {
+    throw new Error("Call to haveSettings() before global components set with setGlobalComponents().");
+  }
+  return _settings;
+}
+function haveKnowledge() {
+  if (!_knowledge) {
+    throw new Error("Call to haveKnowledge() before global components set with setGlobalComponents().");
+  }
+  return _knowledge;
+}
+
+// src/bookkeeper/Knowledge.ts
+var import_dayjs = __toESM(require("dayjs"));
+
+// src/types/knowledge.ts
+function emptyLinkedTree() {
+  return {
+    "root": null,
+    "children": {},
+    "parents": {}
+  };
+}
+
+// src/bookkeeper/Knowledge.ts
+var Knowledge = class {
+  constructor(init) {
+    if (init == void 0) {
+      init = {
+        income: {
+          root: null,
+          children: {},
+          parents: {}
+        },
+        expense: {
+          root: null,
+          children: {},
+          parents: {}
+        },
+        assetCodes: {
+          root: null,
+          children: {},
+          parents: {}
+        },
+        taxTypes: [],
+        vat: []
+      };
+    }
+    this.data = init;
+  }
+  update(data) {
+    Object.assign(this.data, data);
+  }
+  isIncome(target) {
+    if (!this.data.income) {
+      throw new Error(`Cannot look for income ${target} since no income classification loaded.`);
+    }
+    return typeof target === "string" && target in this.data.income.parents;
+  }
+  isExpense(target) {
+    if (!this.data.expense) {
+      throw new Error(`Cannot look for expense ${target} since no expense classification loaded.`);
+    }
+    return typeof target === "string" && target in this.data.expense.parents;
+  }
+  treeLookup(id, table, tree) {
+    if (id in table) {
+      return table[id];
+    }
+    if (id in tree.parents) {
+      const parent = tree.parents[id];
+      if (parent !== void 0 && parent !== null) {
+        return this.treeLookup(parent, table, tree);
+      }
+    }
+    return null;
+  }
+  findVatRange(date) {
+    if (!this.data.vat) {
+      throw new Error(`Cannot look for VAT since no VAT data loaded.`);
+    }
+    if (!date) {
+      date = new Date();
+    }
+    if (date instanceof Date) {
+      date = (0, import_dayjs.default)(date).format("YYYY-MM-DD");
+    }
+    for (let i = 0; i < this.data.vat.length; i++) {
+      const { from, to } = this.data.vat[i];
+      if (from <= date && (to === null || date <= to)) {
+        return this.data.vat[i];
+      }
+    }
+    return null;
+  }
+  vat(target, date) {
+    if (!target) {
+      return null;
+    }
+    target = target.replace(/[0-9]+$/, "");
+    const vat = this.findVatRange(date);
+    if (!vat) {
+      return null;
+    }
+    if (this.isIncome(target)) {
+      return this.treeLookup(target, vat.percentage, this.data.income);
+    }
+    if (this.isExpense(target)) {
+      return this.treeLookup(target, vat.percentage, this.data.expense);
+    }
+    return null;
+  }
+  vatTable(date) {
+    if (!date) {
+      date = new Date();
+    }
+    const vat = this.findVatRange(date);
+    if (!vat) {
+      return [];
+    }
+    const tree = {};
+    Object.entries(this.data.income.parents).forEach(([item, parent]) => {
+      const value = item in vat.percentage ? vat.percentage[item] : void 0;
+      tree[item] = {
+        name: item,
+        type: "income",
+        parent,
+        children: [],
+        handled: false,
+        collected: false,
+        value
+      };
+    });
+    Object.entries(this.data.expense.parents).forEach(([item, parent]) => {
+      const value = item in vat.percentage ? vat.percentage[item] : void 0;
+      tree[item] = {
+        name: item,
+        type: "expense",
+        parent,
+        children: [],
+        handled: false,
+        collected: false,
+        value
+      };
+    });
+    const handle = (id) => {
+      if (!tree[id]) {
+        throw new Error(`Reference to undefined VAT ID: '${id}''.`);
+      }
+      if (tree[id].handled) {
+        return tree[id].value;
+      }
+      const parent = tree[id].parent;
+      if (parent) {
+        const parentValue = handle(parent);
+        if (tree[id].value === void 0) {
+          tree[id].value = parentValue;
+        }
+        tree[parent].children.push(id);
+      }
+      tree[id].handled = true;
+      return tree[id].value;
+    };
+    Object.keys(vat.percentage).forEach((id) => {
+      handle(id);
+    });
+    const result = [];
+    const collect = (id, level = 0) => {
+      if (tree[id].collected) {
+        return;
+      }
+      result.push({
+        id,
+        name: `${tree[id].type}-${id}`,
+        level,
+        value: tree[id].value
+      });
+      tree[id].collected = true;
+      tree[id].children.forEach((child) => collect(child, level + 1));
+    };
+    Object.keys(tree).forEach((key) => {
+      if (tree[key].handled && !tree[key].collected) {
+        collect(key);
+      }
+    });
+    return result;
+  }
+  count() {
+    return {
+      assets: Object.keys(this.data.assetCodes.parents).length,
+      income: Object.keys(this.data.income.parents).length,
+      expense: Object.keys(this.data.expense.parents).length,
+      vat: this.data.vat.length
+    };
+  }
+  findTree(code) {
+    if (code in this.data.assetCodes.parents) {
+      return this.data.assetCodes;
+    }
+    if (code in this.data.income.parents) {
+      return this.data.income;
+    }
+    if (code in this.data.expense.parents) {
+      return this.data.expense;
+    }
+    return emptyLinkedTree();
+  }
+  children(code, tree = void 0) {
+    const t = tree || this.findTree(code);
+    if (code in t.children) {
+      let ret = t.children[code];
+      for (const child of ret) {
+        ret = ret.concat(this.children(child, t));
+      }
+      return ret;
+    }
+    return [];
+  }
+};
+
+// src/logging.ts
+var import_dayjs2 = __toESM(require("dayjs"));
+var import_utc = __toESM(require("dayjs/plugin/utc"));
+
+// src/constants.ts
+var MAX_TARGET_ID_LEN = 64;
+var MAX_UPLOAD_SIZE = 1024 * 1024 * 1024 * 1;
+var ZERO_CENTS = 1e-4;
+var ZERO_STOCK = 1e-6;
+
+// src/utils.ts
+function isUi() {
+  return typeof window !== "undefined";
+}
+function isNode() {
+  return !isUi();
+}
+async function waitPromise(msec) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, msec);
+  });
+}
+function ucfirst(text) {
+  return text[0].toUpperCase() + text.substr(1);
+}
+function near(value1, value2) {
+  return Math.abs(value1 - value2) < ZERO_CENTS;
+}
+function less(value1, value2) {
+  return value1 < value2 && !near(value2 - value1, 0);
+}
+function realNegative(value) {
+  return less(value, 0);
+}
+function realPositive(value) {
+  return less(0, value);
+}
+
+// src/logging.ts
+import_dayjs2.default.extend(import_utc.default);
+var muted = false;
+var colors = !isUi();
+var debugChannels = () => {
+  return isUi() ? {
+    STOCK: "DEBUG_STOCK" in window && window["DEBUG_STOCK"] === "yes",
+    BALANCE: "DEBUG_BALANCE" in window && window["DEBUG_BALANCE"] === "yes",
+    RULES: "DEBUG_RULES" in window && window["DEBUG_RULES"] === "yes",
+    SEGMENTATION: "DEBUG_SEGMENTATION" in window && window["DEBUG_SEGMENTATION"] === "yes",
+    CLASSIFICATION: "DEBUG_CLASSIFICATION" in window && window["DEBUG_CLASSIFICATION"] === "yes",
+    ANALYSIS: "DEBUG_ANALYSIS" in window && window["DEBUG_ANALYSIS"] === "yes",
+    EXECUTION: "DEBUG_EXECUTION" in window && window["DEBUG_EXECUTION"] === "yes"
+  } : {
+    STOCK: import_process.default.env.DEBUG_STOCK === "yes" || false,
+    BALANCE: import_process.default.env.DEBUG_BALANCE === "yes" || false,
+    RULES: import_process.default.env.DEBUG_RULES === "yes" || false,
+    SEGMENTATION: import_process.default.env.DEBUG_SEGMENTATION === "yes" || false,
+    CLASSIFICATION: import_process.default.env.DEBUG_CLASSIFICATION === "yes" || false,
+    ANALYSIS: import_process.default.env.DEBUG_ANALYSIS === "yes" || false,
+    EXECUTION: import_process.default.env.DEBUG_EXECUTION === "yes" || false
+  };
+};
+var channelsDisplayed = false;
+function displayChannels() {
+  if (channelsDisplayed)
+    return;
+  channelsDisplayed = true;
+  const channels = debugChannels();
+  if (Object.values(channels).filter((flag) => flag).length === 0) {
+    return;
+  }
+  for (const channel of ["STOCK", "RULES", "SEGMENTATION", "CLASSIFICATION", "ANALYSIS", "EXECUTION"]) {
+    console.log(`\x1B[93mDEBUG_${channel} = ${channels[channel] ? "yes" : "no"}\x1B[0m`);
+  }
+}
+function isMuted() {
+  if (isUi()) {
+    return !("DEBUG" in window);
+  }
+  return muted;
+}
+function timestamp(stamp = new Date()) {
+  if (isUi())
+    return import_dayjs2.default.utc(stamp).format("HH:mm:ss");
+  return import_dayjs2.default.utc(stamp).format("YYYY-MM-DDTHH:mm:ssZ");
+}
+function ansi(color) {
+  if (!colors) {
+    return "";
+  }
+  switch (color) {
+    case "info":
+      return "\x1B[32m";
+    case "note":
+      return "\x1B[33m";
+    case "warning":
+      return "\x1B[34m";
+    case "error":
+      return "\x1B[31m";
+    case "reset":
+      return "\x1B[0m";
+  }
+}
+function log(...args) {
+  if (isMuted())
+    return;
+  console.log(ansi("info") + timestamp(), ...args, ansi("reset"));
+}
+function note(...args) {
+  if (isMuted())
+    return;
+  console.log(ansi("note") + timestamp(), ...args, ansi("reset"));
+}
+function warning(...args) {
+  if (isMuted())
+    return;
+  console.warn(ansi("warning") + timestamp(), ...args, ansi("reset"));
+}
+function error(...args) {
+  if (isMuted())
+    return;
+  console.error(ansi("error") + timestamp(), ...args, ansi("reset"));
+}
+function mute() {
+  muted = true;
+}
+function unmute() {
+  muted = false;
+}
+function debug(channel, ...args) {
+  displayChannels();
+  const channels = debugChannels();
+  if (!channels[channel]) {
+    return;
+  }
+  const allString = args.every((arg) => typeof arg === "string" || typeof arg === "number" || typeof arg === "boolean" || arg === null);
+  if (allString) {
+    console.log("\x1B[35m" + args.join(" ") + "\x1B[0m");
+  } else {
+    for (const arg of args) {
+      console.dir(arg, { depth: null, maxArrayLength: null });
+    }
+  }
+}
+
+// src/bookkeeper/BalanceBookkeeping.ts
+var import_sprintf_js = require("sprintf-js");
+var BalanceBookkeeping = class {
+  constructor() {
+    this.balance = {};
+    this.number = {};
+    debug("BALANCE", `Created new balance bookkeeper.`);
+  }
+  set(account, value) {
+    this.balance[account] = value;
+    debug("BALANCE", `Set ${account} ${this.name(account)} initial balance ${(0, import_sprintf_js.sprintf)("%.2f", this.balance[account] / 100)}`);
+  }
+  configureNames(config2) {
+    Object.keys(config2).forEach((key) => {
+      if (key.startsWith("account.")) {
+        this.number[key.substring(8)] = config2[key];
+      }
+    });
+  }
+  name(account) {
+    if (!this.number[account]) {
+    }
+    return this.number[account] || `unknown.account.${account}`;
+  }
+  change(account, change) {
+    this.balance[account] = (this.balance[account] || 0) + change;
+    debug("BALANCE", `Change ${account} ${this.name(account)} \u0394 ${change >= 0 ? "+" : ""}${(0, import_sprintf_js.sprintf)("%.2f", change / 100)} \u27F9 ${(0, import_sprintf_js.sprintf)("%.2f", this.balance[account] / 100)}`);
+    return this.balance[account];
+  }
+  apply(txEntry) {
+    return this.change(txEntry.account, txEntry.amount);
+  }
+  get(account) {
+    return this.balance[this.number[account]] || 0;
+  }
+  summary() {
+    const summary = [];
+    Object.keys(this.number).forEach((addr) => {
+      const [reason, type, asset] = addr.split(".");
+      summary.push({
+        account: this.number[addr],
+        address: addr,
+        debtAddress: this.debtAddress(addr),
+        balance: this.balance[this.number[addr]],
+        mayTakeLoan: this.mayTakeLoan(reason, type, asset)
+      });
+    });
+    return summary;
+  }
+  mayTakeLoan(reason, type, asset) {
+    return reason !== "fee" && reason !== "profit" && type === "currency";
+  }
+  debtAddress(addr) {
+    const [, type, asset] = addr.split(".");
+    return `debt.${type}.${asset}`;
+  }
+};
+
+// src/types/assets/TransactionApplyResults.ts
+var TransactionApplyResults = class {
+  constructor() {
+    this.created = 0;
+    this.duplicates = 0;
+    this.ignored = 0;
+    this.accounts = {};
+  }
+  create(tx) {
+    this.created++;
+    this.record(tx);
+  }
+  ignore(tx) {
+    this.ignored++;
+  }
+  duplicate(tx) {
+    this.duplicates++;
+  }
+  record(tx) {
+    for (const entry of tx.entries) {
+      const { account, amount } = entry;
+      this.accounts[account] = (this.accounts[account] || 0) + amount;
+    }
+  }
+  add(result) {
+    if ("created" in result) {
+      this.created += parseInt(result.created || "0");
+    }
+    if ("duplicates" in result) {
+      this.duplicates += parseInt(result.duplicates || "0");
+    }
+    if ("ignored" in result) {
+      this.ignored += parseInt(result.ignored || "0");
+    }
+    if ("accounts" in result) {
+      const accounts = result.accounts;
+      Object.keys(accounts).forEach((account) => {
+        this.accounts[account] = (this.accounts[account] || 0) + accounts[account];
+      });
+    }
+  }
+  toJSON() {
+    return {
+      created: this.created,
+      ignored: this.ignored,
+      duplicates: this.duplicates,
+      accounts: this.accounts
+    };
+  }
+};
+
+// src/types/assets/index.ts
+function isAssetTransferReason(s) {
+  return typeof s === "string" && [
+    "correction",
+    "deposit",
+    "distribution",
+    "dividend",
+    "expense",
+    "fee",
+    "forex",
+    "income",
+    "investment",
+    "loss",
+    "profit",
+    "tax",
+    "trade",
+    "transfer",
+    "withdrawal"
+  ].includes(s);
+}
+function isAssetType(s) {
+  return typeof s === "string" && ["account", "stock", "short", "currency", "debt", "crypto", "external", "statement", "other"].includes(s);
+}
+function isStockChangeDelta(o) {
+  return typeof o === "object" && o !== null && "stock" in o && "change" in o["stock"];
+}
+function isStockChangeFixed(o) {
+  return typeof o === "object" && o !== null && "stock" in o && "set" in o["stock"];
+}
+function isStockChangeData(o) {
+  return isStockChangeDelta(o) || isStockChangeFixed(o);
+}
+function isAssetTransfer(s) {
+  return typeof s === "object" && s !== null && "reason" in s && "type" in s && "asset" in s && s["reason"] && s["type"] && s["asset"];
+}
+function isAccountAddress(obj) {
+  if (typeof obj !== "string" || !/^[a-z]+\.[a-z]+\.[*a-z]+$/.test(obj))
+    return false;
+  const [reason, type] = obj.split(".");
+  return isAssetTransferReason(reason) && isAssetType(type);
+}
+
+// src/types/common.ts
+var languages = /* @__PURE__ */ new Set([
+  "aa",
+  "ab",
+  "af",
+  "ak",
+  "am",
+  "an",
+  "ar",
+  "as",
+  "av",
+  "ay",
+  "az",
+  "ba",
+  "be",
+  "bg",
+  "bh",
+  "bi",
+  "bm",
+  "bn",
+  "bo",
+  "br",
+  "bs",
+  "ca",
+  "ce",
+  "ch",
+  "co",
+  "cr",
+  "cs",
+  "cu",
+  "cv",
+  "cy",
+  "da",
+  "de",
+  "dv",
+  "dz",
+  "ee",
+  "el",
+  "en",
+  "eo",
+  "es",
+  "et",
+  "eu",
+  "fa",
+  "ff",
+  "fi",
+  "fj",
+  "fo",
+  "fr",
+  "fy",
+  "ga",
+  "gd",
+  "gl",
+  "gn",
+  "gu",
+  "gv",
+  "ha",
+  "he",
+  "hi",
+  "ho",
+  "hr",
+  "ht",
+  "hu",
+  "hy",
+  "hz",
+  "ia",
+  "id",
+  "ie",
+  "ig",
+  "ii",
+  "ik",
+  "io",
+  "is",
+  "it",
+  "iu",
+  "ja",
+  "jv",
+  "kg",
+  "ki",
+  "kj",
+  "kk",
+  "kl",
+  "km",
+  "kn",
+  "ko",
+  "kr",
+  "ks",
+  "ku",
+  "kv",
+  "kw",
+  "ky",
+  "la",
+  "lb",
+  "lg",
+  "li",
+  "ln",
+  "lo",
+  "lt",
+  "lv",
+  "mg",
+  "mh",
+  "mi",
+  "mk",
+  "ml",
+  "mn",
+  "mo",
+  "mr",
+  "ms",
+  "mt",
+  "my",
+  "na",
+  "nd",
+  "ne",
+  "ng",
+  "nl",
+  "nn",
+  "no",
+  "nr",
+  "nv",
+  "ny",
+  "oc",
+  "oj",
+  "om",
+  "or",
+  "os",
+  "pa",
+  "pi",
+  "pl",
+  "ps",
+  "pt",
+  "qu",
+  "rm",
+  "rn",
+  "ro",
+  "ru",
+  "rw",
+  "sa",
+  "sc",
+  "sd",
+  "sg",
+  "sh",
+  "si",
+  "sk",
+  "sl",
+  "sm",
+  "sn",
+  "so",
+  "sq",
+  "sr",
+  "ss",
+  "st",
+  "su",
+  "sv",
+  "sw",
+  "ta",
+  "te",
+  "tg",
+  "th",
+  "ti",
+  "tk",
+  "tl",
+  "tn",
+  "to",
+  "tr",
+  "ts",
+  "tt",
+  "tw",
+  "ty",
+  "ug",
+  "ur",
+  "ve",
+  "vi",
+  "vo",
+  "wa",
+  "wo",
+  "xh",
+  "yi",
+  "yo",
+  "za",
+  "zh",
+  "zu"
+]);
+function isLanguage(s) {
+  return typeof s === "string" && languages.has(s);
+}
+var currencies = /* @__PURE__ */ new Set([
+  "AFN",
+  "ALL",
+  "DZD",
+  "ARS",
+  "AMD",
+  "AUD",
+  "AZN",
+  "BHD",
+  "BDT",
+  "BYN",
+  "BZD",
+  "BOB",
+  "BAM",
+  "BWP",
+  "BRL",
+  "GBP",
+  "BND",
+  "BGN",
+  "BIF",
+  "KHR",
+  "CAD",
+  "CVE",
+  "XAF",
+  "CLP",
+  "CNY",
+  "COP",
+  "KMF",
+  "CDF",
+  "CRC",
+  "HRK",
+  "CZK",
+  "DKK",
+  "DJF",
+  "DOP",
+  "EGP",
+  "ERN",
+  "EEK",
+  "ETB",
+  "EUR",
+  "GEL",
+  "GHS",
+  "GTQ",
+  "GNF",
+  "HNL",
+  "HKD",
+  "HUF",
+  "ISK",
+  "INR",
+  "IDR",
+  "IRR",
+  "IQD",
+  "ILS",
+  "JMD",
+  "JPY",
+  "JOD",
+  "KZT",
+  "KES",
+  "KWD",
+  "LVL",
+  "LBP",
+  "LYD",
+  "LTL",
+  "MOP",
+  "MKD",
+  "MGA",
+  "MYR",
+  "MUR",
+  "MXN",
+  "MDL",
+  "MAD",
+  "MZN",
+  "MMK",
+  "NAD",
+  "NPR",
+  "TWD",
+  "NZD",
+  "NIO",
+  "NGN",
+  "NOK",
+  "OMR",
+  "PKR",
+  "PAB",
+  "PYG",
+  "PEN",
+  "PHP",
+  "PLN",
+  "QAR",
+  "RON",
+  "RUB",
+  "RWF",
+  "SAR",
+  "RSD",
+  "SGD",
+  "SOS",
+  "ZAR",
+  "KRW",
+  "LKR",
+  "SDG",
+  "SEK",
+  "CHF",
+  "SYP",
+  "TZS",
+  "THB",
+  "TOP",
+  "TTD",
+  "TND",
+  "TRY",
+  "USD",
+  "UGX",
+  "UAH",
+  "AED",
+  "UYU",
+  "UZS",
+  "VEF",
+  "VND",
+  "XOF",
+  "YER",
+  "ZMK",
+  "ZWL"
+]);
+function isCurrency(s) {
+  return typeof s === "string" && currencies.has(s);
+}
+function isVersion(s) {
+  return typeof s === "string" && /^\d+(\.\d+)+$/.test(s);
+}
+function versionCompare(a, b) {
+  const verA = a.split(".");
+  const verB = b.split(".");
+  const N = Math.max(verA.length, verB.length);
+  for (let i = 0; i < N; i++) {
+    const diff = parseInt(verA[i]) - parseInt(verB[i]);
+    if (diff < 0)
+      return -1;
+    if (diff > 0)
+      return 1;
+  }
+  if (verA.length < verB.length)
+    return -1;
+  if (verA.length > verB.length)
+    return 1;
+  return 0;
+}
+function latestVersion(versions) {
+  if (versions.length === 0) {
+    return null;
+  }
+  let best;
+  for (const version of versions) {
+    if (!best || versionCompare(version, best) > 0) {
+      best = version;
+    }
+  }
+  return best;
+}
+var isDatabaseName = (name) => {
+  return typeof name === "string" && /^[_a-z0-9]+$/.test(name);
+};
+
+// src/bookkeeper/StockBookkeeping.ts
+function isAssetStockType(obj) {
+  return typeof obj === "string" && ["crypto", "stock", "currency", "other"].includes(obj);
+}
+var StockBookkeeping = class {
+  constructor(name = "No name") {
+    this.name = name;
+    this.reset();
+    debug("STOCK", `[${this.name}]: Created new stock bookkeeper.`);
+  }
+  reset() {
+    this.stock = {
+      crypto: {},
+      stock: {},
+      currency: {},
+      other: {}
+    };
+  }
+  set(time, type, asset, amount, value) {
+    if (typeof time === "string") {
+      time = new Date(time);
+    }
+    if (!(asset in this.stock[type])) {
+      this.stock[type][asset] = [];
+    }
+    const stock = this.stock[type][asset] || [];
+    stock.push({
+      time,
+      amount,
+      value
+    });
+    this.stock[type][asset] = stock.sort((a, b) => a.time.getTime() - b.time.getTime());
+    debug("STOCK", `[${this.name}] ${time.toISOString()}: Set ${type} ${asset} = ${amount} (${value}).`);
+  }
+  has(type, asset) {
+    return isAssetStockType(type) ? asset in this.stock[type] : false;
+  }
+  last(type, asset) {
+    const stock = this.stock[type][asset] || [];
+    if (!stock || !stock.length) {
+      throw new Error(`There is no asset ${asset} of ${type} in stock bookkeeping.`);
+    }
+    return stock[stock.length - 1];
+  }
+  change(time, type, asset, amount, value) {
+    const originalAmount = amount;
+    const originalValue = value;
+    if (typeof time === "string") {
+      time = new Date(time);
+    }
+    if (!this.has(type, asset)) {
+      this.set(time, type, asset, amount, value);
+    } else {
+      const last = this.last(type, asset);
+      if (time < last.time) {
+        debug("STOCK", this.stock);
+        throw new Error(`Cannot insert ${type} ${asset} at ${time.toISOString()}, since last timestamp is ${last.time.toISOString()}`);
+      }
+      amount += last.amount;
+      value += last.value;
+      const stock = this.stock[type][asset] || [];
+      stock.push({
+        time,
+        amount,
+        value
+      });
+      debug("STOCK", `[${this.name}] ${time.toISOString()}: Change ${type} ${asset} \u0394 ${originalAmount >= 0 ? "+" : ""}${originalAmount} (${originalValue >= 0 ? "+" : ""}${originalValue}) \u21D2 ${amount} ${asset} (${value})`);
+    }
+  }
+  get(time, type, asset) {
+    let i;
+    const stock = this.stock[type][asset] || [];
+    if (this.has(type, asset)) {
+      i = stock.length - 1;
+    } else {
+      i = -1;
+    }
+    while (i >= 0 && stock[i].time > time) {
+      i--;
+    }
+    return i < 0 ? {
+      time,
+      amount: 0,
+      value: 0
+    } : stock[i];
+  }
+  getType(asset) {
+    if (isCurrency(asset)) {
+      return "currency";
+    }
+    if (this.stock.crypto[asset]) {
+      return "crypto";
+    }
+    if (this.stock.stock[asset]) {
+      return "stock";
+    }
+    return "other";
+  }
+  apply(time, data) {
+    if (typeof time === "string") {
+      time = new Date(time);
+    }
+    if (isStockChangeFixed(data)) {
+      Object.keys(data.stock.set).forEach((asset) => {
+        const { amount, value } = data.stock.set[asset];
+        this.set(time, this.getType(asset), asset, amount, value);
+      });
+    }
+    if (isStockChangeDelta(data)) {
+      Object.keys(data.stock.change).forEach((asset) => {
+        const { amount, value } = data.stock.change[asset];
+        this.change(time, this.getType(asset), asset, amount, value);
+      });
+    }
+  }
+  applyAll(data) {
+    data.forEach((entry) => this.apply(entry.time, entry.data));
+  }
+  changedAssets(data) {
+    const assets = /* @__PURE__ */ new Set();
+    if (isStockChangeDelta(data)) {
+      Object.keys(data.stock.change).forEach((asset) => assets.add(asset));
+    }
+    if (isStockChangeFixed(data)) {
+      Object.keys(data.stock.set).forEach((asset) => assets.add(asset));
+    }
+    return [...assets];
+  }
+  assets() {
+    const ret = [];
+    Object.keys(this.stock).map(
+      (type) => Object.keys(this.stock[type]).forEach(
+        (asset) => ret.push([type, asset])
+      )
+    );
+    return ret;
+  }
+  totals() {
+    return this.assets().map(([type, asset]) => [type, asset, this.last(type, asset).amount]);
+  }
+  total(type, asset = void 0) {
+    if (!asset) {
+      asset = type;
+      type = this.getType(asset);
+    }
+    return this.has(type, asset) ? this.last(type, asset).amount : 0;
+  }
+  summary(roundToZero = null, addType = true, addTime = true) {
+    const result = {};
+    if (addType) {
+      for (const [type, asset] of this.assets()) {
+        result[`${type}.${asset}`] = this.last(type, asset);
+        if (!addTime) {
+          delete result[`${type}.${asset}`].time;
+        }
+        if (roundToZero) {
+          if (Math.abs(result[`${type}.${asset}`].amount) < roundToZero) {
+            delete result[`${type}.${asset}`];
+          }
+        }
+      }
+    } else {
+      for (const [type, asset] of this.assets()) {
+        result[asset] = this.last(type, asset);
+        if (!addTime) {
+          delete result[asset].time;
+        }
+        if (roundToZero) {
+          if (Math.abs(result[asset].amount) < roundToZero) {
+            delete result[asset];
+          }
+        }
+      }
+    }
+    return result;
+  }
+  toJSON() {
+    const sum = {};
+    for (const [, asset, amount] of this.totals()) {
+      sum[asset] = (sum[asset] || 0) + amount;
+    }
+    return sum;
+  }
+};
+
+// src/language/editor.ts
+function filterView2rule(view) {
+  if (view instanceof Array) {
+    return view.map((v) => filterView2rule(v)).join(" && ");
+  }
+  const { op, field, text, value } = view;
+  const variable = field === void 0 ? "" : /^[a-zA-Z]\w*$/.test(field) ? field : "$(" + JSON.stringify(field) + ")";
+  switch (op) {
+    case "setLiteral":
+      return JSON.stringify(value);
+    case "copyInverseField":
+      return `(-${variable})`;
+    case "copyField":
+      return `${variable}`;
+    case "caseInsensitiveFullMatch":
+      return `(lower(${variable}) === ${JSON.stringify(text?.toLowerCase())})`;
+    case "caseSensitiveFullMatch":
+      return `(${variable} === ${JSON.stringify(text)})`;
+    case "caseInsensitiveMatch":
+      return `contains(lower(${variable}), ${JSON.stringify(text?.toLowerCase())})`;
+    case "caseSensitiveMatch":
+      return `contains(${variable}, ${JSON.stringify(text)})`;
+    case "isLessThan":
+      return `(${variable} < ${JSON.stringify(value)})`;
+    case "isGreaterThan":
+      return `(${variable} > ${JSON.stringify(value)})`;
+    default:
+      throw new Error(`A filterView2rule with operation '${op}' is not implemented.`);
+  }
+}
+function filterView2name(view) {
+  if (view instanceof Array) {
+    return view.map((v) => filterView2name(v)).join(" and ");
+  }
+  const { op, field, text, value } = view;
+  switch (op) {
+    case "setLiteral":
+      return `set ${JSON.stringify(value)}`;
+    case "copyInverseField":
+      return `copy '${field}' negated`;
+    case "copyField":
+      return `copy '${field}'`;
+    case "caseInsensitiveFullMatch":
+      return `${field} in lower case is '${text?.toLowerCase()}'`;
+    case "caseSensitiveFullMatch":
+      return `${field} is '${text}'`;
+    case "caseSensitiveMatch":
+      return `${field} contains '${text}'`;
+    case "caseInsensitiveMatch":
+      return `${field} in lower case contains '${text?.toLowerCase()}'`;
+    case "isLessThan":
+      return `${field} is less than ${value}`;
+    case "isGreaterThan":
+      return `${field} is greater than ${value}`;
+    default:
+      throw new Error(`A filterView2name with operation '${op}' is not implemented.`);
+  }
+}
+
+// src/language/filtering.ts
+function filter2function(rule) {
+  if (rule === null || rule === void 0) {
+    return () => true;
+  }
+  const isValid = (arg) => typeof arg === "object" || arg !== null;
+  const makeRule = (k, v) => {
+    const t = typeof v;
+    if (t === "number" || t === "string") {
+      return (arg) => arg[k] === v;
+    }
+    if (t === "object" && v instanceof Array) {
+      const s = new Set(v);
+      return (arg) => s.has(arg[k]);
+    }
+    throw new Error(`No interpretation of value ${JSON.stringify(v)} in filtering rule ${JSON.stringify(rule)}.`);
+  };
+  if (typeof rule === "object") {
+    const testers = [];
+    Object.entries(rule).map(([k, v]) => {
+      testers.push(makeRule(k, v));
+    });
+    return (arg) => {
+      if (!isValid(arg))
+        return false;
+      for (let i = 0; i < testers.length; i++) {
+        if (!testers[i](arg)) {
+          return false;
+        }
+      }
+      return true;
+    };
+  }
+  throw new Error(`Syntax error in filtering rule ${JSON.stringify(rule)}`);
+}
+
+// src/types/bookkeeper/accounts.ts
+var AccountType = /* @__PURE__ */ ((AccountType2) => {
+  AccountType2["ASSET"] = "ASSET";
+  AccountType2["LIABILITY"] = "LIABILITY";
+  AccountType2["EQUITY"] = "EQUITY";
+  AccountType2["REVENUE"] = "REVENUE";
+  AccountType2["EXPENSE"] = "EXPENSE";
+  AccountType2["PROFIT_PREV"] = "PROFIT_PREV";
+  AccountType2["PROFIT"] = "PROFIT";
+  return AccountType2;
+})(AccountType || {});
+function isAccountNumber(s) {
+  return typeof s === "string" && /^\d+$/.test(s);
+}
+
+// src/types/bookkeeper/importer.ts
+function isAccountAddressConfig(s) {
+  return typeof s === "string" && /^account\./.test(s);
+}
+function isTagConfig(s) {
+  return typeof s === "string" && /^tags\./.test(s);
+}
+
+// src/types/bookkeeper/reports.ts
+function isReportID(s) {
+  return typeof s === "string" && /^[-a-z]+$/.test(s);
+}
+
+// src/types/bookkeeper/tags.ts
+function isTag(s) {
+  return typeof s === "string" && /^[A-Za-z0-9]+$/.test(s);
+}
+function isTagString(s) {
+  if (typeof s !== "string" || !/^\[\]$/.test(s)) {
+    return false;
+  }
+  const tags = s.substr(1, s.length - 2).split("][");
+  return tags.filter((tag) => !isTag(tag)).length > 0;
+}
+function isTagType(s) {
+  return typeof s === "string";
+}
+
+// src/types/bookkeeper/transactions.ts
+function sortTransactions(txs) {
+  for (const tx of txs) {
+    tx.entries = tx.entries.sort((a, b) => a.account === b.account ? 0 : a.account < b.account ? -1 : 1);
+  }
+  return txs.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+}
+
+// src/types/time.ts
+function isShortDate(s) {
+  return typeof s === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s);
+}
+var MINUTES = 60;
+var HOURS = MINUTES * 60;
+var DAYS = HOURS * 24;
+var YEARS = DAYS * 365;
+function month(abbrev) {
+  const months = {
+    jan: "January",
+    feb: "February",
+    mar: "March",
+    apr: "April",
+    may: "May",
+    jun: "June",
+    jul: "July",
+    aug: "August",
+    sep: "September",
+    oct: "October",
+    nov: "November",
+    dec: "December"
+  };
+  return months[abbrev.toLowerCase()] || null;
+}
+
+// src/types/net.ts
+function isUrl(s) {
+  return typeof s === "string" && /^\w+:/.test(s);
+}
+function isLocalUrl(s) {
+  return typeof s === "string" && !/^\w+:/.test(s);
+}
+var TOKEN_EXPIRY_TIME = 30 * MINUTES;
+var REFRESH_TOKEN_EXPIRY_TIME = TOKEN_EXPIRY_TIME + 10 * MINUTES;
+var TOKEN_ISSUER = "Tasenor";
+
+// src/language/lookup.ts
+function conditions(addr, options) {
+  const [reason, type, asset] = addr.split(".");
+  if (reason === "debt") {
+    if (type === "currency") {
+      return { code: "CREDITORS", addChildren: true, currency: asset, plugin: options.plugin };
+    }
+  }
+  if (reason === "deposit") {
+    if (type === "currency") {
+      return { code: "CASH", addChildren: true, currency: asset, plugin: options.plugin, type: "ASSET" /* ASSET */ };
+    }
+    if (type === "external") {
+      return { code: "CASH", addChildren: true, currency: asset, "!plugin": options.plugin, type: "ASSET" /* ASSET */ };
+    }
+  }
+  if (reason === "distribution") {
+    return null;
+  }
+  if (reason === "dividend") {
+    if (type === "currency") {
+      return { code: "DIVIDEND", addChildren: true, currency: asset, plugin: options.plugin };
+    }
+  }
+  if (reason === "expense") {
+    if (type === "currency") {
+      return options.plugin ? { code: "CASH", addChildren: true, currency: asset, plugin: options.plugin, type: "ASSET" /* ASSET */ } : null;
+    }
+    if (type === "statement") {
+      return { type: "EXPENSE" /* EXPENSE */, code: asset };
+    }
+  }
+  if (reason === "fee") {
+    if (type === "currency") {
+      return options.plugin ? { code: "CASH", addChildren: true, currency: asset, plugin: options.plugin, type: "ASSET" /* ASSET */ } : null;
+    }
+  }
+  if (reason === "forex") {
+    if (type === "currency") {
+      return { code: "CASH", currency: asset, plugin: options.plugin };
+    }
+  }
+  if (reason === "income") {
+    if (type === "currency") {
+      return options.plugin ? { code: "CASH", addChildren: true, currency: asset, plugin: options.plugin, type: "ASSET" /* ASSET */ } : null;
+    }
+    if (type === "statement") {
+      return { type: "REVENUE" /* REVENUE */, code: asset };
+    }
+  }
+  if (reason === "investment") {
+    if (type === "currency") {
+      return null;
+    }
+    if (type === "statement") {
+      return { type: "EQUITY" /* EQUITY */, code: asset, plugin: options.plugin };
+    }
+  }
+  if (reason === "tax") {
+    if (type === "currency") {
+      return null;
+    }
+    if (type === "statement") {
+      return { type: ["LIABILITY" /* LIABILITY */, "ASSET" /* ASSET */], code: asset };
+    }
+  }
+  if (reason === "trade") {
+    if (type === "currency") {
+      return { type: "ASSET" /* ASSET */, code: "CASH", addChildren: true, currency: asset, plugin: options.plugin };
+    }
+    if (type === "stock") {
+      return { type: "ASSET" /* ASSET */, code: "CURRENT_PUBLIC_STOCK_SHARES", plugin: options.plugin };
+    }
+    if (type === "crypto") {
+      return { type: "ASSET" /* ASSET */, code: "CURRENT_CRYPTOCURRENCIES", plugin: options.plugin };
+    }
+  }
+  if (reason === "transfer") {
+    if (type === "currency") {
+      return { type: "ASSET" /* ASSET */, code: "CASH", addChildren: true, currency: asset, plugin: options.plugin };
+    }
+    if (type === "external") {
+      if (asset === "NEEDS_MANUAL_INSPECTION") {
+        return { code: asset };
+      }
+      return null;
+    }
+  }
+  if (reason === "withdrawal") {
+    if (type === "currency") {
+      return { code: "CASH", addChildren: true, currency: asset, plugin: options.plugin, type: "ASSET" /* ASSET */ };
+    }
+    if (type === "external") {
+      return { code: "CASH", addChildren: true, currency: asset, "!plugin": options.plugin, type: "ASSET" /* ASSET */ };
+    }
+  }
+  const message = `No SQL conversion known for account address '${addr}'.`;
+  if (options.strict) {
+    throw new Error(message);
+  }
+  warning(message);
+  return null;
+}
+function address2sql(addr, options, knowledge = null) {
+  if (knowledge === null) {
+    knowledge = new Knowledge();
+  }
+  const cond = conditions(addr, options);
+  if (cond === null) {
+    return null;
+  }
+  const addSql = [];
+  if (cond.currency === options.defaultCurrency) {
+    addSql.push(`(data->>'currency' = '${cond.currency}' OR data->>'currency' IS NULL)`);
+    delete cond.currency;
+  }
+  if (cond.type) {
+    if (typeof cond.type === "string") {
+      addSql.push(`(type = '${cond.type}')`);
+    } else {
+      addSql.push("(" + cond.type.map((t) => `type = '${t}'`).join(" OR ") + ")");
+    }
+    delete cond.type;
+  }
+  if (cond.addChildren) {
+    cond.code = [cond.code, ...knowledge.children(cond.code)];
+    delete cond.addChildren;
+  }
+  const key2sql = (key) => {
+    if (key[0] === "!") {
+      return `(data->>'${key.substring(1)}' != '${cond[key]}')`;
+    }
+    let values = cond[key];
+    if (values instanceof Array) {
+      if (values.length > 1) {
+        return `(data->>'${key}' IN (${values.map((k) => "'" + k + "'").join(", ")}))`;
+      }
+      values = values[0];
+    }
+    return `(data->>'${key}' = '${values}')`;
+  };
+  const sql = Object.keys(cond).map((key) => key2sql(key));
+  return [...sql, ...addSql].join(" AND ");
+}
+
+// src/language/query.ts
+function isUIQueryRef(obj) {
+  return typeof obj === "object" && obj !== null && (Object.keys(obj).length === 1 && Object.keys(obj)[0] === "name");
+}
+function isUIQuery(obj) {
+  return typeof obj === "object" && obj !== null && (typeof obj["ask"] === "object" || typeof obj["chooseTag"] === "object" && obj["chooseTag"] instanceof Array);
+}
+
+// src/language/rules.ts
+var import_mathjs = require("mathjs");
+var import_interactive_elements = require("interactive-elements");
+var RuleParsingError = class extends Error {
+  constructor(msg, expression, variables) {
+    super(msg);
+    this.expression = expression;
+    this.variables = (0, import_mathjs.clone)(variables);
+  }
+};
+var RulesEngine = class {
+  constructor(variables, quiet = false) {
+    this.quiet = quiet;
+    this.engine = (0, import_mathjs.create)({
+      ...import_mathjs.all,
+      createEqual: (0, import_mathjs.factory)(
+        "equal",
+        [],
+        () => (0, import_mathjs.typed)("equal", {
+          "string, string": function equal(a, b) {
+            return a === b;
+          }
+        })
+      ),
+      createUnequal: (0, import_mathjs.factory)(
+        "unequal",
+        [],
+        () => (0, import_mathjs.typed)("unequal", {
+          "string, string": function equal(a, b) {
+            return a !== b;
+          }
+        })
+      ),
+      createSmaller: (0, import_mathjs.factory)(
+        "smaller",
+        [],
+        () => (0, import_mathjs.typed)("smaller", {
+          "string, string": function equal(a, b) {
+            return a < b;
+          }
+        })
+      ),
+      createSmallerEq: (0, import_mathjs.factory)(
+        "smallerEq",
+        [],
+        () => (0, import_mathjs.typed)("smallerEq", {
+          "string, string": function equal(a, b) {
+            return a <= b;
+          }
+        })
+      ),
+      createLarger: (0, import_mathjs.factory)(
+        "larger",
+        [],
+        () => (0, import_mathjs.typed)("larger", {
+          "string, string": function equal(a, b) {
+            return a > b;
+          }
+        })
+      ),
+      createLargerEq: (0, import_mathjs.factory)(
+        "largerEq",
+        [],
+        () => (0, import_mathjs.typed)("largerEq", {
+          "string, string": function equal(a, b) {
+            return a >= b;
+          }
+        })
+      ),
+      createCompare: (0, import_mathjs.factory)(
+        "compare",
+        [],
+        () => (0, import_mathjs.typed)("compare", {
+          "string, string": function equal(a, b) {
+            return a > b ? 1 : a < b ? -1 : 0;
+          }
+        })
+      ),
+      createAdd: (0, import_mathjs.factory)(
+        "add",
+        [],
+        () => (0, import_mathjs.typed)("add", {
+          "number, number": function equal(a, b) {
+            return a + b;
+          },
+          "string, string": function equal(a, b) {
+            return `${a}${b}`;
+          }
+        })
+      )
+    }, {});
+    this.scope = {
+      $: (column) => this.$(column),
+      capitalize: (s) => this.capitalize(s),
+      cents: (n) => this.cents(n),
+      chosen: (question) => this.chosen(question),
+      contains: (s, r) => this.contains(s, r),
+      d: (...args) => this.d(...args),
+      isCurrency: (str) => this.isCurrency(str),
+      join: (...args) => this.join(...args),
+      lower: (s) => this.lower(s),
+      num: (column) => this.num(column),
+      par: (...exprs) => this.par(...exprs),
+      rates: (...args) => this.rates(args),
+      regex: (re, compare, flags) => this.regex(re, compare, flags),
+      str: (column) => this.str(column),
+      times: (count, target) => this.times(count, target),
+      ucfirst: (s) => this.ucfirst(s),
+      import: function() {
+        throw new Error("Function import is disabled.");
+      },
+      createUnit: function() {
+        throw new Error("Function createUnit is disabled.");
+      },
+      evaluate: function() {
+        throw new Error("Function evaluate is disabled.");
+      },
+      parse: function() {
+        throw new Error("Function parse is disabled.");
+      },
+      simplify: function() {
+        throw new Error("Function simplify is disabled.");
+      },
+      derivative: function() {
+        throw new Error("Function derivative is disabled.");
+      }
+    };
+    this.variables = variables || {};
+  }
+  eval(expr, variables) {
+    if (variables) {
+      this.variables = (0, import_mathjs.clone)(variables);
+    }
+    if (expr instanceof Object) {
+      if (expr === null) {
+        return null;
+      }
+      if (expr instanceof Array) {
+        return expr.map((e) => this.eval(e));
+      }
+      const result2 = {};
+      Object.keys(expr).forEach((k) => result2[k] = this.eval(expr[k]));
+      return result2;
+    }
+    let result;
+    try {
+      result = this.engine.evaluate(expr, { ...this.scope, ...this.variables });
+      if (result && typeof result === "object" && result._data && result._size) {
+        return result._data;
+      }
+    } catch (err) {
+      throw new RuleParsingError(err.message, expr, variables || {});
+    }
+    return result;
+  }
+  $(column) {
+    return column in this.variables ? this.variables[column] : void 0;
+  }
+  num(str) {
+    if (typeof str === "number") {
+      return str;
+    }
+    const ret = (0, import_interactive_elements.num)(`${str}`);
+    if (!this.quiet && isNaN(ret)) {
+      warning(`Unable to parse number from ${JSON.stringify(str)}.`);
+    }
+    return ret;
+  }
+  isCurrency(str) {
+    return isCurrency(str);
+  }
+  rates(args) {
+    const ret = {};
+    for (let i = 0; i < args.length; i += 2) {
+      ret[`${args[i]}`] = this.num(args[i + 1]);
+    }
+    return ret;
+  }
+  regex(re, compare, flags = void 0) {
+    const regex = flags ? new RegExp(re, flags) : new RegExp(re);
+    const match = regex.exec(compare);
+    if (!match)
+      return false;
+    const groups = [];
+    for (let i = 1; match[i] !== void 0; i++) {
+      groups.push(match[i]);
+    }
+    return groups.length ? groups : true;
+  }
+  par(...exprs) {
+    const nonEmpty = exprs.filter((e) => e !== null && e !== false).map((e) => `${e}`.trim()).filter((e) => e !== "");
+    return nonEmpty.length ? ` (${nonEmpty.join(", ")})` : "";
+  }
+  var(variable) {
+    if (!(variable in this.variables)) {
+      throw new Error(`A variable '${variable}' is not defined.`);
+    }
+    return this.variables[variable];
+  }
+  chosen(questionVar) {
+    const ans = this.var(questionVar);
+    const rule = this.var("rule");
+    const questions = rule.questions;
+    if (!(questionVar in questions)) {
+      throw new Error(`Cannot find variable '${questionVar}' from questions of the rule ${JSON.stringify(rule.questions)}'.`);
+    }
+    const question = questions[questionVar];
+    if ("ask" in question) {
+      const matches = Object.entries(question.ask).filter(([, v]) => v === ans).map(([k]) => k);
+      if (matches.length) {
+        return matches.join(", ");
+      }
+      throw new Error(`Unable to find any matches for answer ${JSON.stringify(ans)} from question ${JSON.stringify(question)}.`);
+    }
+    throw new Error(`Cannot reverse map question ${JSON.stringify(question)}, when looking for chosen '${questionVar}'.`);
+  }
+  contains(s, r) {
+    return s.indexOf(r) >= 0;
+  }
+  ucfirst(s) {
+    return s.substring(0, 1).toUpperCase() + s.substring(1);
+  }
+  lower(s) {
+    return s.toLowerCase();
+  }
+  capitalize(s) {
+    return s.toLowerCase().split(" ").map((s2) => this.ucfirst(s2)).join(" ");
+  }
+  cents(n) {
+    if (typeof n !== "number") {
+      throw new Error(`Invalid argument ${JSON.stringify(n)} for cents().`);
+    }
+    return Math.round(n * 100);
+  }
+  str(x) {
+    return `${x}`;
+  }
+  join(...args) {
+    return args.filter((a) => a !== void 0 && a !== null).map((a) => `${a}`.trim()).filter((a) => a !== "").join(" ");
+  }
+  d(...args) {
+    note(`[DEBUG]`, ...args);
+    return args.length ? args[args.length - 1] : void 0;
+  }
+  times(count, target) {
+    if (count === void 0 || count === null || count === 0) {
+      return "";
+    }
+    const num2 = parseInt(`${count}`);
+    return `${num2} x ${target}`;
+  }
+};
+
+// src/net/crypto.ts
+var import_crypto = __toESM(require("crypto"));
+var import_buffer2 = __toESM(require("buffer"));
+_global.Buffer = _global.Buffer || import_buffer2.default.Buffer;
+var Crypto = class {
+  constructor(encryptionKey) {
+    if (!encryptionKey || encryptionKey.length < 32) {
+      throw new Error("Encryption key is too short or does not exist.");
+    }
+    this.algorithm = "aes-128-cbc";
+    const salt = encryptionKey;
+    const hash = import_crypto.default.createHash("sha1");
+    hash.update(salt);
+    this.key = hash.digest().slice(0, 16);
+  }
+  encrypt(clearText) {
+    const iv = import_crypto.default.randomBytes(16);
+    const cipher = import_crypto.default.createCipheriv(this.algorithm, this.key, iv);
+    const encrypted = cipher.update(clearText, "utf8", "hex");
+    return [
+      encrypted + cipher.final("hex"),
+      import_buffer.Buffer.from(iv).toString("hex")
+    ].join("|");
+  }
+  decrypt(encryptedText) {
+    const [encrypted, iv] = encryptedText.split("|");
+    if (!iv)
+      throw new Error("IV not found when decrypting.");
+    let decipher;
+    try {
+      decipher = import_crypto.default.createDecipheriv(
+        this.algorithm,
+        this.key,
+        import_buffer.Buffer.from(iv, "hex")
+      );
+      return decipher.update(encrypted, "hex", "utf8") + decipher.final("utf8");
+    } catch (err) {
+      error(`Decrypting ${encryptedText} failed.`);
+      return null;
+    }
+  }
+  static hash(len) {
+    return import_crypto.default.randomBytes(len).toString("hex");
+  }
+};
+
+// src/net/net.ts
+var import_jwt_decode = __toESM(require("jwt-decode"));
+var import_axios = __toESM(require("axios"));
+function isHttpSuccessResponse(obj) {
+  if (typeof obj === "object" && obj !== null && obj.hasOwnProperty("success")) {
+    return obj.success;
+  }
+  return false;
+}
+function isHttpFailureResponse(obj) {
+  return !isHttpSuccessResponse(obj);
+}
+var config = {
+  sites: {}
+};
+function configure(conf) {
+  if (conf.baseUrl) {
+    config.baseUrl = conf.baseUrl;
+  }
+  if (conf.sites) {
+    for (const site of Object.keys(conf.sites)) {
+      if (!config.sites) {
+        config.sites = {};
+      }
+      if (!config.sites[site]) {
+        config.sites[site] = {};
+      }
+      Object.assign(config.sites[site], conf.sites[site]);
+    }
+  }
+}
+var getConf = (url, name) => {
+  const origin = new URL(url).origin;
+  if (config.sites && config.sites[origin] && name in config.sites[origin]) {
+    return config.sites[origin][name];
+  }
+  return null;
+};
+var setConf = (url, name, value) => {
+  const origin = new URL(url).origin;
+  if (!config.sites) {
+    config.sites = {};
+  }
+  if (!config.sites[origin]) {
+    config.sites[origin] = {};
+  }
+  config.sites[origin][name] = value;
+};
+var constructUrl = (url) => {
+  if (isLocalUrl(url)) {
+    if (!config.baseUrl) {
+      throw new Error(`Cannot use local URL '${url}' when there is no base URL configured.`);
+    }
+    return config.baseUrl.replace(/\/$/, "") + "/" + url.replace(/^\//, "");
+  }
+  return url;
+};
+async function refreshToken(url) {
+  setConf(url, "token", null);
+  if (getConf(url, "refreshToken") && getConf(url, "refreshUrl")) {
+    const refreshUrl = `${new URL(url).origin}${getConf(url, "refreshUrl")}`;
+    log(`Refreshing token from ${refreshUrl}.`);
+    const headers = {
+      Authorization: `Bearer ${getConf(url, "refreshToken")}`
+    };
+    if (getConf(url, "uuid")) {
+      headers["X-UUID"] = getConf(url, "uuid");
+    }
+    const refreshed = await (0, import_axios.default)({
+      method: "GET",
+      url: refreshUrl,
+      headers
+    }).catch((err) => {
+      const logout2 = getConf(url, "logout");
+      if (logout2) {
+        logout2();
+        return false;
+      }
+      error(`Fetching token for ${url} failed: ${err}`);
+      return err;
+    });
+    if (refreshed.status === 200 && refreshed.data && refreshed.data.token) {
+      setConf(url, "token", refreshed.data.token);
+      if (refreshed.data.refresh) {
+        setConf(url, "refreshToken", refreshed.data.refresh);
+      }
+      log(`Received new token from ${url}.`);
+      return true;
+    }
+    const logout = getConf(url, "logout");
+    if (logout) {
+      logout();
+      return false;
+    }
+    error("Invalid response:", refreshed);
+    return new Error("Unable to understand token response.");
+  }
+  return new Error(`Site ${url} not configured for token refreshing.`);
+}
+function createRequestHandler(method) {
+  return async (url0, data, extraHeaders) => {
+    const url = constructUrl(url0);
+    const origin = new URL(url).origin;
+    if (!config.sites || !config.sites[origin]) {
+      warning(`We don't have any net configuration for site ${origin}.`);
+    }
+    async function doRequest({ method: method2, url: url2, data: data2 }) {
+      const headers = {};
+      Object.assign(headers, extraHeaders);
+      if (config.sites && config.sites[origin] && !headers.Authorization) {
+        if (getConf(url2, "token")) {
+          headers.Authorization = `Bearer ${getConf(url2, "token")}`;
+        }
+        if (getConf(url2, "uuid")) {
+          headers["X-UUID"] = getConf(url2, "uuid");
+        }
+      }
+      const axiosCall = { method: method2, url: url2, data: data2, headers };
+      if (method2 === "GET") {
+        if (data2) {
+          axiosCall.params = data2;
+        }
+      }
+      if (data2 === null || data2 === void 0) {
+        delete axiosCall.data;
+      }
+      const isFormData = data2 && data2 instanceof Object && data2.constructor && data2.constructor.name === "FormData";
+      if (isFormData && data2.getHeaders) {
+        Object.assign(headers, data2.getHeaders());
+      }
+      const resp = await (0, import_axios.default)(axiosCall).catch((err) => {
+        if (err.response) {
+          return err.response;
+        }
+        const message = `Network call failed: ${err}.`;
+        error(message);
+        return {
+          status: -1,
+          success: false,
+          data: {
+            message
+          }
+        };
+      });
+      note("Net:", method2, url2, "HTTP", resp.status);
+      let defaultMessage;
+      switch (resp.status) {
+        case -1:
+          return resp;
+        case 200:
+          return {
+            status: 200,
+            success: true,
+            data: resp.data
+          };
+        case 204:
+          return {
+            status: 204,
+            success: true,
+            data: true
+          };
+        case 400:
+          defaultMessage = "Bad Request";
+        case 401:
+          defaultMessage = defaultMessage || "Unauthorized";
+        case 403:
+          defaultMessage = defaultMessage || "Forbidden";
+        case 404:
+          defaultMessage = defaultMessage || "Not Found";
+        case 500:
+          defaultMessage = defaultMessage || "Internal Server Error";
+          error(`A call ${method2} ${url2} failed with ${resp.status}. Data:`);
+          error(resp.data);
+          return {
+            status: resp.status,
+            success: false,
+            message: resp.data && resp.data.message ? resp.data.message : defaultMessage
+          };
+        default:
+          warning(`Net: No handler for HTTP ${resp.status}.`);
+          throw new Error(`Net library has no handler yet for status ${resp.status}.`);
+      }
+    }
+    async function handleError(err) {
+      let status = 500;
+      if (err.response)
+        switch (err.response.status) {
+          case 401:
+          case 403:
+            status = err.response.status;
+            if (getConf(url, "refreshToken") && getConf(url, "refreshUrl")) {
+              warning(`Request ${method} ${url} gave ${err.response.status} but trying to refresh the token.`);
+              err = await refreshToken(url);
+              if (err === true) {
+                let success = true;
+                const retried = await doRequest({ method, url, data }).catch((newErr) => {
+                  warning(`We got token but retrying ${method} ${url} failed as well. Error was:`);
+                  error(newErr);
+                  err = newErr;
+                  status = 500;
+                  success = false;
+                });
+                if (success) {
+                  log(`Retrying ${method} ${url} successful.`);
+                  return retried;
+                }
+              }
+            }
+            break;
+        }
+      let reason = "";
+      if (err.response && err.response.data) {
+        reason = ` (${err.response.data.message})`;
+      }
+      error(`Request ${method} ${url} failed: ${JSON.stringify(err)}${JSON.stringify(reason)}`);
+      return {
+        status,
+        success: false,
+        message: `Request ${method} ${url} failed.`
+      };
+    }
+    const token = getConf(url, "token");
+    const hasRefreshToken = !!getConf(url, "refreshToken");
+    let needRefresh = hasRefreshToken && !token;
+    if (token) {
+      try {
+        const decoded = (0, import_jwt_decode.default)(token);
+        const expires = decoded.exp * 1e3;
+        const now = new Date().getTime();
+        if (expires - now < 1e3) {
+          log("Token has been expired.");
+          needRefresh = true;
+        }
+      } catch (err) {
+      }
+    }
+    if (needRefresh) {
+      log("Token needs refreshing.");
+      const err = await refreshToken(url);
+      if (err !== true) {
+        error(`Trying to refresh token gave an error: ${err}`);
+      }
+    }
+    const finalResult = await doRequest({ method, url, data }).catch((err) => {
+      return handleError(err);
+    });
+    if (!finalResult.success) {
+      if (finalResult.status === 403 || finalResult.status === 401) {
+        return handleError({ response: finalResult });
+      }
+    }
+    return finalResult;
+  };
+}
+async function refresh(url) {
+  const result = await refreshToken(url);
+  if (result === true) {
+    return {
+      token: getConf(url, "token"),
+      refresh: getConf(url, "refreshToken")
+    };
+  }
+  error(`Token refresh for ${url} failed:`, result);
+  return null;
+}
+var net = {
+  configure,
+  getConf,
+  setConf,
+  refresh,
+  DELETE: createRequestHandler("DELETE"),
+  GET: createRequestHandler("GET"),
+  HEAD: createRequestHandler("HEAD"),
+  PATCH: createRequestHandler("PATCH"),
+  POST: createRequestHandler("POST"),
+  PUT: createRequestHandler("PUT")
+};
+
+// src/net/services.ts
+var CONFIG = {
+  API: {
+    url: ""
+  },
+  ERP_API: {
+    url: ""
+  }
+};
+function makeService(env) {
+  return {
+    call: async (method, url, data, headers = {}) => {
+      if (!CONFIG[env]) {
+        throw new Error(`Service configuration variable ${env} is not set and related service is unusable.`);
+      }
+      if (!CONFIG[env].url) {
+        throw new Error(`Service configuration URL for ${env} is not set and related service is unusable.`);
+      }
+      if ("Authorization" in headers && !headers.Authorization) {
+        throw new Error(`Invalid Authorization header for ${env} call.`);
+      }
+      url = `${CONFIG[env].url}${url}`;
+      return net[method](url, data, headers);
+    }
+  };
+}
+function setServiceUrl(name, url) {
+  if (name in CONFIG) {
+    CONFIG[name].url = url;
+  } else {
+    throw new Error(`A service ${name} does not exist.`);
+  }
+}
+var ERP_API = makeService("ERP_API");
+var API = makeService("API");
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  API,
+  AccountType,
+  BalanceBookkeeping,
+  Bookkeeper,
+  Crypto,
+  DAYS,
+  ERP_API,
+  HOURS,
+  Knowledge,
+  MAX_TARGET_ID_LEN,
+  MAX_UPLOAD_SIZE,
+  MINUTES,
+  REFRESH_TOKEN_EXPIRY_TIME,
+  RuleParsingError,
+  RulesEngine,
+  StockBookkeeping,
+  TOKEN_EXPIRY_TIME,
+  TOKEN_ISSUER,
+  TransactionApplyResults,
+  YEARS,
+  ZERO_CENTS,
+  ZERO_STOCK,
+  address2sql,
+  conditions,
+  currencies,
+  debug,
+  emptyLinkedTree,
+  error,
+  filter2function,
+  filterView2name,
+  filterView2rule,
+  haveCatalog,
+  haveCursor,
+  haveKnowledge,
+  haveSettings,
+  haveStore,
+  isAccountAddress,
+  isAccountAddressConfig,
+  isAccountNumber,
+  isAssetStockType,
+  isAssetTransfer,
+  isAssetTransferReason,
+  isAssetType,
+  isCurrency,
+  isDatabaseName,
+  isHttpFailureResponse,
+  isHttpSuccessResponse,
+  isLanguage,
+  isLocalUrl,
+  isNode,
+  isReportID,
+  isShortDate,
+  isStockChangeData,
+  isStockChangeDelta,
+  isStockChangeFixed,
+  isTag,
+  isTagConfig,
+  isTagString,
+  isTagType,
+  isUIQuery,
+  isUIQueryRef,
+  isUi,
+  isUrl,
+  isVersion,
+  languages,
+  latestVersion,
+  less,
+  log,
+  month,
+  mute,
+  near,
+  net,
+  note,
+  realNegative,
+  realPositive,
+  setGlobalComponents,
+  setServiceUrl,
+  sortTransactions,
+  timestamp,
+  ucfirst,
+  unmute,
+  versionCompare,
+  waitPromise,
+  warning
+});
