@@ -248,12 +248,26 @@ export class StockBookkeeping {
    * @param asset
    * @returns
    */
-  total(type: AssetType | Asset, asset: Asset | undefined = undefined): number {
+   total(type: AssetType | Asset, asset: Asset | undefined = undefined): number {
     if (!asset) {
       asset = type as Asset
       type = this.getType(asset)
     }
     return this.has(type as AssetType, asset) ? this.last(type as AssetType, asset).amount : 0.0
+  }
+
+  /**
+   * Get the latest value of one asset.
+   * @param type
+   * @param asset
+   * @returns
+   */
+   value(type: AssetType | Asset, asset: Asset | undefined = undefined): number {
+    if (!asset) {
+      asset = type as Asset
+      type = this.getType(asset)
+    }
+    return this.has(type as AssetType, asset) ? this.last(type as AssetType, asset).value : 0.0
   }
 
   /**

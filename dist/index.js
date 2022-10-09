@@ -1191,6 +1191,13 @@ var StockBookkeeping = class {
     }
     return this.has(type, asset) ? this.last(type, asset).amount : 0;
   }
+  value(type, asset = void 0) {
+    if (!asset) {
+      asset = type;
+      type = this.getType(asset);
+    }
+    return this.has(type, asset) ? this.last(type, asset).value : 0;
+  }
   summary(roundToZero = null, addType = true, addTime = true) {
     const result = {};
     if (addType) {

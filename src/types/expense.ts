@@ -54,6 +54,7 @@
  * * `SOCIAL_RECEPTIONS` - Social Receptions
  * * `SOFTWARE` - Software
  * * `SPECIAL_EXPENSE_CASES` - Cases That Need Special Handling
+ * * `STOCK_BROKER_INACTIVITY_FEE` - Stock Broker Inactivity Fee
  * * `STOCK_BROKER_SERVICE_FEE` - Stock Broker Service Fee
  * * `TAXI` - Taxi
  * * `TAX_RELATED_TRANSFERS` - Tax Related Transfers
@@ -121,6 +122,7 @@ export type ExpenseSink = 'ACCOMMODATION' |
   'SOCIAL_RECEPTIONS' |
   'SOFTWARE' |
   'SPECIAL_EXPENSE_CASES' |
+  'STOCK_BROKER_INACTIVITY_FEE' |
   'STOCK_BROKER_SERVICE_FEE' |
   'TAXI' |
   'TAX_RELATED_TRANSFERS' |
