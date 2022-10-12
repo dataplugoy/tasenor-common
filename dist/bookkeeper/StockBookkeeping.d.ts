@@ -106,6 +106,12 @@ export declare class StockBookkeeping {
      * @returns
      */
     total(type: AssetType | Asset, asset?: Asset | undefined): number;
+    /**
+     * Get the latest value of one asset.
+     * @param type
+     * @param asset
+     * @returns
+     */
     value(type: AssetType | Asset, asset?: Asset | undefined): number;
     /**
      * Collect full stock summary.
