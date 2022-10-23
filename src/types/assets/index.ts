@@ -58,8 +58,6 @@ export type Asset = Currency | TradeableAsset | IncomeSource | ExpenseSink | Tax
  * - `forex` - Special case of the `trade` where assets exchanged are currencies.
  * - `income` - General income.
  * - `investment` - Money coming to the company via some form of invested capital.
- * - `loss` - An expense caused by trading an asset with lower price than it was bought.
- * - `profit` - An income caused by trading an asset with higher price than it was bought.
  * - `tax` - An expense that is considered as a tax.
  * - `trade` - Some asset has been exchanged to another asset.
  * - `transfer` - Any neutral transfer of an asset from one service provider to another service provider.
@@ -75,8 +73,6 @@ export type AssetTransferReason =
   'forex' |
   'income' |
   'investment' |
-  'loss' |
-  'profit' |
   'tax' |
   'trade' |
   'transfer' |
@@ -92,8 +88,6 @@ export function isAssetTransferReason(s: unknown): s is AssetTransferReason {
     'forex',
     'income',
     'investment',
-    'loss',
-    'profit',
     'tax',
     'trade',
     'transfer',

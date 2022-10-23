@@ -113,8 +113,7 @@ export class BalanceBookkeeping {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   mayTakeLoan(reason: AssetTransferReason, type: AssetType, asset: Asset): boolean {
-    // TODO: Profit might not make sense with currency anyway? Only with statement.
-    return reason !== 'fee' && reason !== 'profit' && type === 'currency'
+    return reason !== 'fee' && type === 'currency'
   }
 
   /**
