@@ -52,14 +52,12 @@ export declare type Asset = Currency | TradeableAsset | IncomeSource | ExpenseSi
  * - `forex` - Special case of the `trade` where assets exchanged are currencies.
  * - `income` - General income.
  * - `investment` - Money coming to the company via some form of invested capital.
- * - `loss` - An expense caused by trading an asset with lower price than it was bought.
- * - `profit` - An income caused by trading an asset with higher price than it was bought.
  * - `tax` - An expense that is considered as a tax.
  * - `trade` - Some asset has been exchanged to another asset.
  * - `transfer` - Any neutral transfer of an asset from one service provider to another service provider.
  * - `withdrawal` - - A transfer of an asset like currency from some particular service provider.
  */
-export declare type AssetTransferReason = 'correction' | 'deposit' | 'distribution' | 'dividend' | 'expense' | 'fee' | 'forex' | 'income' | 'investment' | 'loss' | 'profit' | 'tax' | 'trade' | 'transfer' | 'withdrawal';
+export declare type AssetTransferReason = 'correction' | 'deposit' | 'distribution' | 'dividend' | 'expense' | 'fee' | 'forex' | 'income' | 'investment' | 'tax' | 'trade' | 'transfer' | 'withdrawal';
 export declare function isAssetTransferReason(s: unknown): s is AssetTransferReason;
 /**
  * A place where assets can be traded.

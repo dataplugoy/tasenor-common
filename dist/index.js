@@ -598,7 +598,7 @@ var BalanceBookkeeping = class {
     return summary;
   }
   mayTakeLoan(reason, type, asset) {
-    return reason !== "fee" && reason !== "profit" && type === "currency";
+    return reason !== "fee" && type === "currency";
   }
   debtAddress(addr) {
     const [, type, asset] = addr.split(".");
@@ -669,8 +669,6 @@ function isAssetTransferReason(s) {
     "forex",
     "income",
     "investment",
-    "loss",
-    "profit",
     "tax",
     "trade",
     "transfer",
