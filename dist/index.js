@@ -55,6 +55,7 @@ __export(src_exports, {
   error: () => error,
   filter2function: () => filter2function,
   filterView2name: () => filterView2name,
+  filterView2results: () => filterView2results,
   filterView2rule: () => filterView2rule,
   haveCatalog: () => haveCatalog,
   haveCursor: () => haveCursor,
@@ -76,6 +77,7 @@ __export(src_exports, {
   isLocalUrl: () => isLocalUrl,
   isNode: () => isNode,
   isReportID: () => isReportID,
+  isRuleViewOp: () => isRuleViewOp,
   isShortDate: () => isShortDate,
   isStockChangeData: () => isStockChangeData,
   isStockChangeDelta: () => isStockChangeDelta,
@@ -1235,6 +1237,9 @@ var StockBookkeeping = class {
 };
 
 // src/language/editor.ts
+function isRuleViewOp(obj) {
+  return obj === "caseInsensitiveMatch" || obj === "caseSensitiveMatch" || obj === "caseInsensitiveFullMatch" || obj === "caseSensitiveFullMatch" || obj === "isLessThan" || obj === "isGreaterThan" || obj === "setLiteral" || obj === "copyInverseField" || obj === "copyField";
+}
 function filterView2rule(view) {
   if (view instanceof Array) {
     return view.map((v) => filterView2rule(v)).join(" && ");
@@ -1245,9 +1250,11 @@ function filterView2rule(view) {
     case "setLiteral":
       return JSON.stringify(value);
     case "copyInverseField":
-      return `(-${variable})`;
+      const val = value === void 0 ? "" : /^[a-zA-Z]\w*$/.test(`${value}`) ? `${value}` : "$(" + JSON.stringify(value) + ")";
+      return `(-${val})`;
     case "copyField":
-      return `${variable}`;
+      const val2 = value === void 0 ? "" : /^[a-zA-Z]\w*$/.test(`${value}`) ? `${value}` : "$(" + JSON.stringify(value) + ")";
+      return `${val2}`;
     case "caseInsensitiveFullMatch":
       return `(lower(${variable}) === ${JSON.stringify(text?.toLowerCase())})`;
     case "caseSensitiveFullMatch":
@@ -1291,6 +1298,22 @@ function filterView2name(view) {
     default:
       throw new Error(`A filterView2name with operation '${op}' is not implemented.`);
   }
+}
+function filterView2results(view) {
+  if (view instanceof Array) {
+    return view.map((v) => filterView2results(v));
+  }
+  const ret = {};
+  Object.entries(view).map(([k, v]) => {
+    if (typeof v === "object" && v !== null) {
+      if ("op" in v && isRuleViewOp(v["op"])) {
+        ret[k] = filterView2rule(v);
+      } else {
+        ret[k] = filterView2results(v);
+      }
+    }
+  });
+  return ret;
 }
 
 // src/language/filtering.ts
@@ -2214,6 +2237,7 @@ var API = makeService("API");
   error,
   filter2function,
   filterView2name,
+  filterView2results,
   filterView2rule,
   haveCatalog,
   haveCursor,
@@ -2235,6 +2259,7 @@ var API = makeService("API");
   isLocalUrl,
   isNode,
   isReportID,
+  isRuleViewOp,
   isShortDate,
   isStockChangeData,
   isStockChangeDelta,

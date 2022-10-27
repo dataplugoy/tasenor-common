@@ -9,6 +9,7 @@ export declare type RuleColumnEditMode = null | 'textMatch';
  * Each matching mode defines how the visual presentation is formed for the rule.
  */
 export declare type RuleViewOp = 'caseInsensitiveMatch' | 'caseSensitiveMatch' | 'caseInsensitiveFullMatch' | 'caseSensitiveFullMatch' | 'isLessThan' | 'isGreaterThan' | 'setLiteral' | 'copyInverseField' | 'copyField';
+export declare function isRuleViewOp(obj: any): obj is RuleViewOp;
 /**
  * Description how the filter expression has been constructed for visual presentation.
  */
@@ -67,3 +68,9 @@ export declare function filterView2rule(view: RuleFilterView | RuleFilterView[])
  * @returns
  */
 export declare function filterView2name(view: RuleFilterView | RuleFilterView[]): string;
+/**
+ * Convert result view to actual rule expressions.
+ * @param view
+ * @returns
+ */
+export declare function filterView2results(view: RuleResultView | RuleResultView[]): any;

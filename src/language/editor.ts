@@ -20,6 +20,18 @@ export type RuleViewOp = 'caseInsensitiveMatch' |
   'copyInverseField' |
   'copyField'
 
+export function isRuleViewOp(obj): obj is RuleViewOp {
+  return obj === 'caseInsensitiveMatch' ||
+  obj === 'caseSensitiveMatch' ||
+  obj === 'caseInsensitiveFullMatch' ||
+  obj === 'caseSensitiveFullMatch' ||
+  obj === 'isLessThan' ||
+  obj === 'isGreaterThan' ||
+  obj === 'setLiteral' ||
+  obj === 'copyInverseField' ||
+  obj === 'copyField'
+}
+
 /**
  * Description how the filter expression has been constructed for visual presentation.
  */
@@ -84,9 +96,11 @@ export function filterView2rule(view: RuleFilterView | RuleFilterView[]): Expres
     case 'setLiteral':
       return JSON.stringify(value) as Expression
     case 'copyInverseField':
-      return `(-${variable})` as Expression
+      const val = value === undefined ? '' : (/^[a-zA-Z]\w*$/.test(`${value}`) ? `${value}` : '$(' + JSON.stringify(value) + ')')
+      return `(-${val})` as Expression
     case 'copyField':
-      return `${variable}` as Expression
+      const val2 = value === undefined ? '' : (/^[a-zA-Z]\w*$/.test(`${value}`) ? `${value}` : '$(' + JSON.stringify(value) + ')')
+      return `${val2}` as Expression
     case 'caseInsensitiveFullMatch':
       return `(lower(${variable}) === ${JSON.stringify(text?.toLowerCase())})` as Expression
     case 'caseSensitiveFullMatch':
@@ -137,4 +151,29 @@ export function filterView2rule(view: RuleFilterView | RuleFilterView[]): Expres
     default:
       throw new Error(`A filterView2name with operation '${op}' is not implemented.`)
   }
+}
+
+/**
+ * Convert result view to actual rule expressions.
+ * @param view
+ * @returns
+ */
+export function filterView2results(view: RuleResultView | RuleResultView[]) {
+  if (view instanceof Array) {
+    return view.map(v => filterView2results(v))
+  }
+
+  const ret: object = {}
+
+  Object.entries(view).map(([k, v]) => {
+    if (typeof v === 'object' && v !== null) {
+      if ('op' in v && isRuleViewOp(v['op'])) {
+        ret[k] = filterView2rule(v)
+      } else {
+        ret[k] = filterView2results(v as unknown as RuleResultView)
+      }
+    }
+  })
+
+  return ret
 }
