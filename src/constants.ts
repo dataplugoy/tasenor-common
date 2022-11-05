@@ -12,7 +12,7 @@ export const MAX_TARGET_ID_LEN = 64
 /**
  * Maximum request size for file uploads (1GB).
  */
-export const MAX_UPLOAD_SIZE = 1024 * 1024 * 1024 * 1
+export const MAX_UPLOAD_SIZE = 1 * 1024 * 1024 * 1024
 
 /**
  * A number that is rounded to zero when calculating transaction monetary value.
