@@ -1,4 +1,4 @@
-import { ID } from 'interactive-elements'
+import { ID } from '../../process_types'
 import { ShortDate } from '..'
 
 /**

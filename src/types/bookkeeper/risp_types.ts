@@ -1,8 +1,14 @@
-import { Action, ActiveElement, BooleanElement, ButtonElement, FlatElement, BoxElement, MessageElement, NamedElement, RadioElement, Setup, TextElement, HtmlElement, TextFileLineElement, CaseElement, YesNoElement, NumberElement, TextFileLine, ProcessConfig } from "interactive-elements"
-import { Store, Tag, TagType, TransactionImportOptions } from "."
-import { PluginCode } from ".."
-import { FilterRule } from "../.."
+import { TextFileLine } from '../../import'
+import { FilterRule } from '../../language'
+import { ProcessConfig } from '../../process_types'
+import { Action, ActiveElement, BooleanElement, ButtonElement, FlatElement, BoxElement, MessageElement, NamedElement, RadioElement, Setup, TextElement, HtmlElement, TextFileLineElement, CaseElement, YesNoElement, NumberElement } from '../../risp'
+import { PluginCode } from '../plugins'
 import { AccountNumber } from "./accounts"
+import { TransactionImportOptions } from './importer'
+import { Store } from './store'
+import { Tag, TagType } from './tags'
+
+// TODO: Combine to 'risp' directory.
 
 /**
  * A setup for RISP used in Tasenor project.

@@ -1,5 +1,5 @@
 import { AccountAddress, AccountNumber, Asset, AssetTransferReason, AssetType, TransactionLine } from '../types';
-import { ProcessConfig } from 'interactive-elements';
+import { ProcessConfig } from '../process_types';
 /**
  * An object describing the account and its balance.
  */

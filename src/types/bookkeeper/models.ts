@@ -1,6 +1,6 @@
-import { ID, RealID } from "interactive-elements"
 import { AccountNumber, AccountType, Tag, TagType } from "."
 import { Asset, ShortDate, StockValueData, Url } from ".."
+import { ID, RealID } from "../../process_types"
 import { Currency, Language } from "../common"
 import { PluginCode } from "../plugins"
 

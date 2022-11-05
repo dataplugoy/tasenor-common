@@ -1,4 +1,4 @@
-import { ID } from 'interactive-elements';
+import { ID } from '../../process_types';
 export interface UserDataModel {
     id: ID;
     name: string;

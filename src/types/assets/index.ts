@@ -3,13 +3,13 @@
  *
  * @module tasenor-common/src/types/assets
  */
-import { SegmentId } from 'interactive-elements'
 import Opaque from 'ts-opaque'
 import { Expression } from '../..'
 import { Tag, Transaction } from '../bookkeeper'
 import { Currency } from '../common'
 import { ExpenseSink } from '../expense'
 import { IncomeSource } from '../income'
+import { SegmentId } from '../../import/TextFileLine'
 
 /**
  * An asset denoting some particular crypto currency ticker.

@@ -1,5 +1,6 @@
 import Opaque from 'ts-opaque';
-import { ID, ImportCSVOptions } from 'interactive-elements';
+import { ImportCSVOptions } from '../../import';
+import { ID } from '../../process_types';
 import { Currency, Language } from '..';
 import { ImportRule, UIQuery } from '../..';
 import { AccountNumber, Tag } from '.';

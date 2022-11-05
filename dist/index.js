@@ -37,6 +37,7 @@ __export(src_exports, {
   MAX_TARGET_ID_LEN: () => MAX_TARGET_ID_LEN,
   MAX_UPLOAD_SIZE: () => MAX_UPLOAD_SIZE,
   MINUTES: () => MINUTES,
+  NO_SEGMENT: () => NO_SEGMENT,
   REFRESH_TOKEN_EXPIRY_TIME: () => REFRESH_TOKEN_EXPIRY_TIME,
   RuleParsingError: () => RuleParsingError,
   RulesEngine: () => RulesEngine,
@@ -51,6 +52,7 @@ __export(src_exports, {
   conditions: () => conditions,
   currencies: () => currencies,
   debug: () => debug,
+  elementNames: () => elementNames,
   emptyLinkedTree: () => emptyLinkedTree,
   error: () => error,
   filter2function: () => filter2function,
@@ -65,17 +67,38 @@ __export(src_exports, {
   isAccountAddress: () => isAccountAddress,
   isAccountAddressConfig: () => isAccountAddressConfig,
   isAccountNumber: () => isAccountNumber,
+  isActiveElement: () => isActiveElement,
   isAssetStockType: () => isAssetStockType,
   isAssetTransfer: () => isAssetTransfer,
   isAssetTransferReason: () => isAssetTransferReason,
   isAssetType: () => isAssetType,
+  isBooleanElement: () => isBooleanElement,
+  isBoxElement: () => isBoxElement,
+  isButtonElement: () => isButtonElement,
+  isCaseElement: () => isCaseElement,
+  isContainerElement: () => isContainerElement,
   isCurrency: () => isCurrency,
   isDatabaseName: () => isDatabaseName,
+  isFlatElement: () => isFlatElement,
+  isHtmlElement: () => isHtmlElement,
   isHttpFailureResponse: () => isHttpFailureResponse,
   isHttpSuccessResponse: () => isHttpSuccessResponse,
+  isID: () => isID,
+  isImportAction: () => isImportAction,
+  isImportAnswerAction: () => isImportAnswerAction,
+  isImportConfigureAction: () => isImportConfigureAction,
+  isImportOpAction: () => isImportOpAction,
+  isImportState: () => isImportState,
   isLanguage: () => isLanguage,
   isLocalUrl: () => isLocalUrl,
+  isMessageElement: () => isMessageElement,
+  isNamedElement: () => isNamedElement,
   isNode: () => isNode,
+  isNumberElement: () => isNumberElement,
+  isPatchAction: () => isPatchAction,
+  isPostAction: () => isPostAction,
+  isRadioElement: () => isRadioElement,
+  isRealID: () => isRealID,
   isReportID: () => isReportID,
   isRuleViewOp: () => isRuleViewOp,
   isShortDate: () => isShortDate,
@@ -86,11 +109,14 @@ __export(src_exports, {
   isTagConfig: () => isTagConfig,
   isTagString: () => isTagString,
   isTagType: () => isTagType,
+  isTextElement: () => isTextElement,
+  isTextFileLineElement: () => isTextFileLineElement,
   isUIQuery: () => isUIQuery,
   isUIQueryRef: () => isUIQueryRef,
   isUi: () => isUi,
   isUrl: () => isUrl,
   isVersion: () => isVersion,
+  isYesNoElement: () => isYesNoElement,
   languages: () => languages,
   latestVersion: () => latestVersion,
   less: () => less,
@@ -100,6 +126,7 @@ __export(src_exports, {
   near: () => near,
   net: () => net,
   note: () => note,
+  num: () => num,
   realNegative: () => realNegative,
   realPositive: () => realPositive,
   setGlobalComponents: () => setGlobalComponents,
@@ -416,6 +443,61 @@ var MAX_UPLOAD_SIZE = 1024 * 1024 * 1024 * 1;
 var ZERO_CENTS = 1e-4;
 var ZERO_STOCK = 1e-6;
 
+// src/risp/actions.ts
+function isPatchAction(obj) {
+  return typeof obj === "object" && obj !== null && "url" in obj && obj["type"] === "patch";
+}
+function isPostAction(obj) {
+  return typeof obj === "object" && obj !== null && "url" in obj && obj["type"] === "post";
+}
+
+// src/risp/elements.ts
+function isActiveElement(object) {
+  return typeof object === "object" && object !== null && !!object["actions"];
+}
+function isNamedElement(object) {
+  return typeof object === "object" && object !== null && "name" in object;
+}
+function isBooleanElement(object) {
+  return isActiveElement(object) && object["type"] === "boolean";
+}
+function isYesNoElement(object) {
+  return isActiveElement(object) && object["type"] === "yesno";
+}
+function isNumberElement(object) {
+  return isActiveElement(object) && object["type"] === "number";
+}
+function isTextElement(object) {
+  return isActiveElement(object) && object["type"] === "text";
+}
+function isButtonElement(object) {
+  return isActiveElement(object) && object["type"] === "button";
+}
+function isContainerElement(object) {
+  return typeof object === "object" && object !== null && !!object["elements"];
+}
+function isCaseElement(object) {
+  return typeof object === "object" && object !== null && object["condition"] && object["cases"] && typeof object["cases"] === "object" && object["cases"] !== null;
+}
+function isFlatElement(object) {
+  return isContainerElement(object) && object["type"] === "flat";
+}
+function isBoxElement(object) {
+  return isContainerElement(object) && object["type"] === "box";
+}
+function isHtmlElement(object) {
+  return typeof object === "object" && object !== null && object["type"] === "html" && "html" in object && typeof object["html"] === "string";
+}
+function isMessageElement(object) {
+  return typeof object === "object" && object !== null && object["type"] === "message" && "severity" in object && ["info", "warning", "error", "success"].includes(object["severity"]) && "text" in object && typeof object["text"] === "string";
+}
+function isTextFileLineElement(object) {
+  return typeof object === "object" && object !== null && object["type"] === "textFileLine" && "line" in object && typeof object["line"] === "object" && object["line"] !== null;
+}
+function isRadioElement(object) {
+  return isActiveElement(object) && object["type"] === "radio" && "options" in object && typeof object["options"] === "object";
+}
+
 // src/utils.ts
 function isUi() {
   return typeof window !== "undefined";
@@ -442,6 +524,35 @@ function realNegative(value) {
 }
 function realPositive(value) {
   return less(0, value);
+}
+function elementNames(element) {
+  if (isContainerElement(element)) {
+    const vars = /* @__PURE__ */ new Set();
+    for (const sub of element.elements) {
+      for (const name of elementNames(sub)) {
+        vars.add(name);
+      }
+    }
+    return vars;
+  } else if (isNamedElement(element)) {
+    return /* @__PURE__ */ new Set([element.name]);
+  }
+  return /* @__PURE__ */ new Set();
+}
+function num(str) {
+  str = str.replace(/\s/g, "");
+  try {
+    if (/,\d+\./.test(str)) {
+      str = str.replace(/,/g, "");
+    } else if (/\.\d+,/.test(str)) {
+      str = str.replace(/\./g, "").replace(/,/, ".");
+    } else {
+      str = str.replace(",", ".");
+    }
+    return parseFloat(str);
+  } catch (err) {
+    return NaN;
+  }
 }
 
 // src/logging.ts
@@ -1236,6 +1347,58 @@ var StockBookkeeping = class {
   }
 };
 
+// src/import/ImportAction.ts
+function isImportOpAction(obj) {
+  if (typeof obj === "object" && obj !== null) {
+    if ("op" in obj) {
+      return ["segmentation", "classification", "analysis", "execution"].includes(obj.op);
+    }
+  }
+  return false;
+}
+function isImportConfigureAction(obj) {
+  if (typeof obj === "object" && obj !== null) {
+    if ("configure" in obj) {
+      return typeof obj["configure"] === "object" && obj["configure"] !== null;
+    }
+  }
+  return false;
+}
+function isImportAnswerAction(obj) {
+  if (typeof obj === "object" && obj !== null) {
+    if ("answer" in obj) {
+      return typeof obj["answer"] === "object" && obj["answer"] !== null;
+    }
+  }
+  return false;
+}
+function isImportAction(obj) {
+  return isImportOpAction(obj) || isImportConfigureAction(obj) || isImportAnswerAction(obj);
+}
+
+// src/import/ImportState.ts
+function isImportState(obj) {
+  if (typeof obj !== "object") {
+    return false;
+  }
+  if (obj === null) {
+    return false;
+  }
+  if (!("stage" in obj) || !("files" in obj)) {
+    return false;
+  }
+  if (typeof obj["stage"] !== "string") {
+    return false;
+  }
+  if (!["initial", "segmented", "classified", "analyzed", "executed"].includes(obj["stage"])) {
+    return false;
+  }
+  return true;
+}
+
+// src/import/TextFileLine.ts
+var NO_SEGMENT = Symbol("NO_SEGMENT");
+
 // src/language/editor.ts
 function isRuleViewOp(obj) {
   return obj === "caseInsensitiveMatch" || obj === "caseSensitiveMatch" || obj === "caseInsensitiveFullMatch" || obj === "caseSensitiveFullMatch" || obj === "isLessThan" || obj === "isGreaterThan" || obj === "setLiteral" || obj === "copyInverseField" || obj === "copyField";
@@ -1595,7 +1758,6 @@ function isUIQuery(obj) {
 
 // src/language/rules.ts
 var import_mathjs = require("mathjs");
-var import_interactive_elements = require("interactive-elements");
 var RuleParsingError = class extends Error {
   constructor(msg, expression, variables) {
     super(msg);
@@ -1755,7 +1917,7 @@ var RulesEngine = class {
     if (typeof str === "number") {
       return str;
     }
-    const ret = (0, import_interactive_elements.num)(`${str}`);
+    const ret = num(`${str}`);
     if (!this.quiet && isNaN(ret)) {
       warning(`Unable to parse number from ${JSON.stringify(str)}.`);
     }
@@ -2205,6 +2367,10 @@ function setServiceUrl(name, url) {
 }
 var ERP_API = makeService("ERP_API");
 var API = makeService("API");
+
+// src/process_types.ts
+var isRealID = (id) => typeof id === "number";
+var isID = (id) => isRealID(id) || id === null;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   API,
@@ -2219,6 +2385,7 @@ var API = makeService("API");
   MAX_TARGET_ID_LEN,
   MAX_UPLOAD_SIZE,
   MINUTES,
+  NO_SEGMENT,
   REFRESH_TOKEN_EXPIRY_TIME,
   RuleParsingError,
   RulesEngine,
@@ -2233,6 +2400,7 @@ var API = makeService("API");
   conditions,
   currencies,
   debug,
+  elementNames,
   emptyLinkedTree,
   error,
   filter2function,
@@ -2247,17 +2415,38 @@ var API = makeService("API");
   isAccountAddress,
   isAccountAddressConfig,
   isAccountNumber,
+  isActiveElement,
   isAssetStockType,
   isAssetTransfer,
   isAssetTransferReason,
   isAssetType,
+  isBooleanElement,
+  isBoxElement,
+  isButtonElement,
+  isCaseElement,
+  isContainerElement,
   isCurrency,
   isDatabaseName,
+  isFlatElement,
+  isHtmlElement,
   isHttpFailureResponse,
   isHttpSuccessResponse,
+  isID,
+  isImportAction,
+  isImportAnswerAction,
+  isImportConfigureAction,
+  isImportOpAction,
+  isImportState,
   isLanguage,
   isLocalUrl,
+  isMessageElement,
+  isNamedElement,
   isNode,
+  isNumberElement,
+  isPatchAction,
+  isPostAction,
+  isRadioElement,
+  isRealID,
   isReportID,
   isRuleViewOp,
   isShortDate,
@@ -2268,11 +2457,14 @@ var API = makeService("API");
   isTagConfig,
   isTagString,
   isTagType,
+  isTextElement,
+  isTextFileLineElement,
   isUIQuery,
   isUIQueryRef,
   isUi,
   isUrl,
   isVersion,
+  isYesNoElement,
   languages,
   latestVersion,
   less,
@@ -2282,6 +2474,7 @@ var API = makeService("API");
   near,
   net,
   note,
+  num,
   realNegative,
   realPositive,
   setGlobalComponents,

@@ -1,6 +1,6 @@
 import Opaque from 'ts-opaque';
 import { AssetTransfer } from '..';
-import { TextFileLine } from 'interactive-elements';
+import { TextFileLine } from '../import/TextFileLine';
 import { UIQuery } from './query';
 import { RuleFilterView, RuleResultView } from './editor';
 export declare type Expression = Opaque<string, 'Expression'>;

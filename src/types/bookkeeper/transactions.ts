@@ -1,6 +1,7 @@
-import { ID, SegmentId } from "interactive-elements"
-import { AccountNumber } from "."
-import { AdditionalTransferInfo, Asset, AssetRates, StockValueData } from ".."
+import { SegmentId } from "../../import"
+import { ID } from "../../process_types"
+import { AdditionalTransferInfo, Asset, AssetRates, StockValueData } from "../assets"
+import { AccountNumber } from "./accounts"
 
 /**
  * Additional optional information like stock changes or conversion rates used for a transaction line.

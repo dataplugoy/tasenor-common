@@ -3,6 +3,7 @@
  *
  * @module tasenor-common/src/utils
  */
+import { InteractiveElement } from './risp';
 /**
  * Check if the current environment is a browser.
  * @returns Boolean.
@@ -52,3 +53,16 @@ export declare function realNegative(value: number): boolean;
  * @returns
  */
 export declare function realPositive(value: number): boolean;
+/**
+  * Collect all names defined in the element structure.
+  * @returns
+  * All {@link ContainerElement | container elements} are scanned recursively and names of the {@link NamedElement | named elements}
+  * are collected.
+  */
+export declare function elementNames<ElementType = InteractiveElement>(element: ElementType): Set<string>;
+/**
+ * Utility to heuristically convert a messy string to number.
+ * @returns
+ * The string is stripped off extra spaces and all but last punctuation.
+ */
+export declare function num(str: string): number | typeof NaN;
