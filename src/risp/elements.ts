@@ -1,7 +1,10 @@
-import { TextFileLine } from '..'
-import { Setup } from './setup'
-import { Action, Actions } from './actions'
+import { Setup, TasenorSetup } from './setup'
+import { Action, Actions, TasenorAction } from './actions'
 import { TriggerHandler, TriggerValue } from './triggers'
+import { TextFileLine } from '../import'
+import { FilterRule } from '../language'
+import { ProcessConfig } from '../process_types'
+import { AccountNumber, TagType, Tag, TransactionImportOptions } from '../types'
 
 /**
  * Generic interface for all elements that can define action handlers.
@@ -202,4 +205,72 @@ export function isRadioElement(object: unknown): object is RadioElement {
   )
 }
 
+/**
+ * An element that allows one to select one of the accounts from dropdown.
+ */
+ export type AccountElement = ActiveElement<TasenorSetup, AccountElement> & NamedElement & {
+  readonly type: 'account'
+  filter?: FilterRule
+  preferred?: AccountNumber[]
+}
+
+/**
+ * An element that allows one to select one of the accounts from dropdown.
+ */
+export type TagsElement = ActiveElement<TasenorSetup, TagsElement> & NamedElement & {
+  readonly type: 'tags'
+  label?: string
+  single?: boolean
+  types: TagType[]
+} | ActiveElement<TasenorSetup, TagsElement> & NamedElement & {
+  readonly type: 'tags'
+  label?: string
+  single?: boolean
+  options: Tag[]
+  add?: Tag[]
+} | ActiveElement<TasenorSetup, TagsElement> & NamedElement & {
+  readonly type: 'tags'
+  label?: string
+  single?: boolean
+  all: true
+}
+
+/**
+ * An element that allows one to select a currency.
+ */
+export type CurrencyElement = ActiveElement<TasenorSetup, CurrencyElement> & NamedElement & {
+  readonly type: 'currency'
+}
+
+/**
+ * Editor for import rules.
+ */
+export type RuleEditorElement = ActiveElement<TasenorSetup, RuleEditorElement> & NamedElement & {
+  readonly type: 'ruleEditor'
+  lines: TextFileLine[]
+  cashAccount: AccountNumber | null
+  config: ProcessConfig
+  options: TransactionImportOptions
+}
+
 export type InteractiveElement = BooleanElement | TextElement | HtmlElement | ButtonElement | FlatElement | BoxElement | MessageElement | TextFileLineElement | RadioElement | CaseElement | YesNoElement | NumberElement
+
+/**
+ * A type for all Tasenor and RISP elements used.
+ */
+export type TasenorElement = AccountElement |
+  TagsElement |
+  CurrencyElement |
+  BooleanElement<TasenorSetup, TasenorElement, TasenorAction> |
+  BoxElement<TasenorElement> |
+  ButtonElement<TasenorSetup, TasenorElement, TasenorAction> |
+  CaseElement<TasenorElement> |
+  FlatElement<TasenorElement> |
+  HtmlElement |
+  MessageElement |
+  RadioElement<TasenorSetup, TasenorElement, TasenorAction> |
+  TextElement<TasenorSetup, TasenorElement, TasenorAction> |
+  NumberElement<TasenorSetup, TasenorElement, TasenorAction> |
+  TextFileLineElement |
+  YesNoElement<TasenorSetup, TasenorElement, TasenorAction> |
+  RuleEditorElement
