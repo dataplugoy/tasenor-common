@@ -3,7 +3,7 @@
  *
  * @module tasenor-common/src/utils
  */
-import { InteractiveElement } from './risp';
+import { TasenorElement } from './risp';
 /**
  * Check if the current environment is a browser.
  * @returns Boolean.
@@ -59,7 +59,7 @@ export declare function realPositive(value: number): boolean;
   * All {@link ContainerElement | container elements} are scanned recursively and names of the {@link NamedElement | named elements}
   * are collected.
   */
-export declare function elementNames<ElementType = InteractiveElement>(element: ElementType): Set<string>;
+export declare function elementNames(element: TasenorElement): Set<string>;
 /**
  * Utility to heuristically convert a messy string to number.
  * @returns

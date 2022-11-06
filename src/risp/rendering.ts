@@ -1,5 +1,5 @@
-import { InteractiveElement } from './elements'
-import { Setup } from './setup'
+import { TasenorElement } from './elements'
+import { TasenorSetup } from './setup'
 import { TriggerValues } from './triggers'
 
 /**
@@ -9,8 +9,8 @@ import { TriggerValues } from './triggers'
  * @property values A set of values to edit associated with the rendering process.
  * @property setup Global configuration for the rendering system.
  */
-export type RenderingProps<SetupType = Setup, ElementType = InteractiveElement> = {
+ export type RenderingProps<ElementType = TasenorElement> = {
   element: ElementType,
   values: TriggerValues,
-  setup: SetupType
+  setup: TasenorSetup
 }

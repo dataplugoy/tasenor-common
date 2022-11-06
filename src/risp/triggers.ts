@@ -1,7 +1,5 @@
-import { RenderingProps } from './rendering'
 import { ActionResult } from './actions'
-import { InteractiveElement } from './elements'
-import { Setup } from './setup'
+import { RenderingProps } from './rendering'
 
 /**
  * A single payload that the trigger can have, i.e. tigger data.
@@ -46,6 +44,6 @@ export interface OnClickTrigger {
 /**
  * The handler function is a function converting the trigger data to the action result.
  */
- export interface TriggerHandler<SetupType = Setup, ElementType = InteractiveElement> {
-  (trigger: Trigger, props: RenderingProps<SetupType, ElementType>): Promise<ActionResult>
+ export interface TriggerHandler {
+  (trigger: Trigger, props: RenderingProps): Promise<ActionResult>
 }
