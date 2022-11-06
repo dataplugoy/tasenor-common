@@ -1,4 +1,3 @@
-import { Setup, TasenorSetup } from './setup';
 import { Actions } from './actions';
 import { TriggerHandler, TriggerValue } from './triggers';
 import { TextFileLine } from '../import';
@@ -8,9 +7,9 @@ import { AccountNumber, TagType, Tag, TransactionImportOptions } from '../types'
 /**
  * Generic interface for all elements that can define action handlers.
  */
-export interface ActiveElement<SetupType = Setup, ElementType = InteractiveElement> {
+export interface ActiveElement {
     readonly type: string;
-    triggerHandler?: TriggerHandler<SetupType, ElementType>;
+    triggerHandler?: TriggerHandler;
     actions: Actions;
 }
 export declare function isActiveElement(object: unknown): object is ActiveElement;
@@ -27,21 +26,21 @@ export declare function isNamedElement(object: unknown): object is NamedElement;
 /**
  * A boolean toggle element.
  */
-export interface BooleanElement<SetupType = Setup, ElementType = InteractiveElement> extends ActiveElement<SetupType, ElementType>, NamedElement {
+export interface BooleanElement extends ActiveElement, NamedElement {
     readonly type: 'boolean';
 }
 export declare function isBooleanElement(object: unknown): object is BooleanElement;
 /**
  * A boolean element using radio buttons for Yes and No.
  */
-export interface YesNoElement<SetupType = Setup, ElementType = InteractiveElement> extends ActiveElement<SetupType, ElementType>, NamedElement {
+export interface YesNoElement extends ActiveElement, NamedElement {
     readonly type: 'yesno';
 }
 export declare function isYesNoElement(object: unknown): object is YesNoElement;
 /**
  * A text editing element.
  */
-export interface NumberElement<SetupType = Setup, ElementType = InteractiveElement> extends ActiveElement<SetupType, ElementType>, NamedElement {
+export interface NumberElement extends ActiveElement, NamedElement {
     readonly type: 'number';
     unit?: string;
 }
@@ -49,14 +48,14 @@ export declare function isNumberElement(object: unknown): object is NumberElemen
 /**
  * A text editing element.
  */
-export interface TextElement<SetupType = Setup, ElementType = InteractiveElement> extends ActiveElement<SetupType, ElementType>, NamedElement {
+export interface TextElement extends ActiveElement, NamedElement {
     readonly type: 'text';
 }
 export declare function isTextElement(object: unknown): object is TextElement;
 /**
  * An element activating an action when clicked.
  */
-export interface ButtonElement<SetupType = Setup, ElementType = InteractiveElement> extends ActiveElement<SetupType, ElementType> {
+export interface ButtonElement extends ActiveElement {
     readonly type: 'button';
     label: string;
     requires?: string | string[];
@@ -65,31 +64,31 @@ export declare function isButtonElement(object: unknown): object is ButtonElemen
 /**
  * An elment that contains other elements.
  */
-export interface ContainerElement<ElementType = InteractiveElement> {
-    elements: ElementType[];
+export interface ContainerElement {
+    elements: TasenorElement[];
 }
 export declare function isContainerElement(object: unknown): object is ContainerElement;
 /**
  * A structural element choosing what to show from the value of some other element.
  */
-export interface CaseElement<ElementType = InteractiveElement> {
+export interface CaseElement {
     readonly type: 'case';
     condition: string;
-    cases: Record<string, ElementType>;
+    cases: Record<string, TasenorElement>;
     defaultValue?: string;
 }
 export declare function isCaseElement(object: unknown): object is CaseElement;
 /**
  * A simple element container rendering each contained element one by one as they are.
  */
-export interface FlatElement<ElementType = InteractiveElement> extends ContainerElement<ElementType> {
+export interface FlatElement extends ContainerElement {
     readonly type: 'flat';
 }
 export declare function isFlatElement(object: unknown): object is FlatElement;
 /**
  * A container with visible frame around it.
  */
-export interface BoxElement<ElementType = InteractiveElement> extends ContainerElement<ElementType> {
+export interface BoxElement extends ContainerElement {
     readonly type: 'box';
     title?: string;
 }
@@ -128,7 +127,7 @@ export declare function isTextFileLineElement(object: unknown): object is TextFi
 /**
  * A collection of radio buttons.
  */
-export interface RadioElement<SetupType = Setup, ElementType = InteractiveElement> extends ActiveElement<SetupType, ElementType>, NamedElement {
+export interface RadioElement extends ActiveElement, NamedElement {
     readonly type: 'radio';
     options: Record<string, string>;
 }
@@ -136,7 +135,7 @@ export declare function isRadioElement(object: unknown): object is RadioElement;
 /**
  * An element that allows one to select one of the accounts from dropdown.
  */
-export declare type AccountElement = ActiveElement<TasenorSetup, AccountElement> & NamedElement & {
+export declare type AccountElement = ActiveElement & NamedElement & {
     readonly type: 'account';
     filter?: FilterRule;
     preferred?: AccountNumber[];
@@ -144,18 +143,18 @@ export declare type AccountElement = ActiveElement<TasenorSetup, AccountElement>
 /**
  * An element that allows one to select one of the accounts from dropdown.
  */
-export declare type TagsElement = ActiveElement<TasenorSetup, TagsElement> & NamedElement & {
+export declare type TagsElement = ActiveElement & NamedElement & {
     readonly type: 'tags';
     label?: string;
     single?: boolean;
     types: TagType[];
-} | ActiveElement<TasenorSetup, TagsElement> & NamedElement & {
+} | ActiveElement & NamedElement & {
     readonly type: 'tags';
     label?: string;
     single?: boolean;
     options: Tag[];
     add?: Tag[];
-} | ActiveElement<TasenorSetup, TagsElement> & NamedElement & {
+} | ActiveElement & NamedElement & {
     readonly type: 'tags';
     label?: string;
     single?: boolean;
@@ -164,21 +163,20 @@ export declare type TagsElement = ActiveElement<TasenorSetup, TagsElement> & Nam
 /**
  * An element that allows one to select a currency.
  */
-export declare type CurrencyElement = ActiveElement<TasenorSetup, CurrencyElement> & NamedElement & {
+export declare type CurrencyElement = ActiveElement & NamedElement & {
     readonly type: 'currency';
 };
 /**
  * Editor for import rules.
  */
-export declare type RuleEditorElement = ActiveElement<TasenorSetup, RuleEditorElement> & NamedElement & {
+export declare type RuleEditorElement = ActiveElement & NamedElement & {
     readonly type: 'ruleEditor';
     lines: TextFileLine[];
     cashAccount: AccountNumber | null;
     config: ProcessConfig;
     options: TransactionImportOptions;
 };
-export declare type InteractiveElement = BooleanElement | TextElement | HtmlElement | ButtonElement | FlatElement | BoxElement | MessageElement | TextFileLineElement | RadioElement | CaseElement | YesNoElement | NumberElement;
 /**
  * A type for all Tasenor and RISP elements used.
  */
-export declare type TasenorElement = AccountElement | TagsElement | CurrencyElement | BooleanElement<TasenorSetup, TasenorElement> | BoxElement<TasenorElement> | ButtonElement<TasenorSetup, TasenorElement> | CaseElement<TasenorElement> | FlatElement<TasenorElement> | HtmlElement | MessageElement | RadioElement<TasenorSetup, TasenorElement> | TextElement<TasenorSetup, TasenorElement> | NumberElement<TasenorSetup, TasenorElement> | TextFileLineElement | YesNoElement<TasenorSetup, TasenorElement> | RuleEditorElement;
+export declare type TasenorElement = AccountElement | TagsElement | CurrencyElement | BooleanElement | BoxElement | ButtonElement | CaseElement | FlatElement | HtmlElement | MessageElement | RadioElement | TextElement | NumberElement | TextFileLineElement | YesNoElement | RuleEditorElement;

@@ -5,7 +5,7 @@
  */
 
 import { ZERO_CENTS } from "./constants"
-import { InteractiveElement, isContainerElement, isNamedElement } from './risp'
+import { isContainerElement, isNamedElement, TasenorElement } from './risp'
 
 /**
  * Check if the current environment is a browser.
@@ -88,7 +88,7 @@ export function realPositive(value: number): boolean {
   * All {@link ContainerElement | container elements} are scanned recursively and names of the {@link NamedElement | named elements}
   * are collected.
   */
-export function elementNames<ElementType = InteractiveElement>(element: ElementType): Set<string> {
+export function elementNames(element: TasenorElement): Set<string> {
   if (isContainerElement(element)) {
     const vars = new Set<string>()
     for (const sub of element.elements) {

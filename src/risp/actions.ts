@@ -1,7 +1,5 @@
 import { PluginCode } from '../types'
-import { InteractiveElement } from './elements'
 import { RenderingProps } from './rendering'
-import { Setup } from './setup'
 
 /**
  * Readability helper to specify that a string is being used as a trigger name.
@@ -88,7 +86,6 @@ export interface FailedActionResult {
 /**
  * A function processing an action.
  */
-export interface ActionHandler<SetupType = Setup, ElementType = InteractiveElement> {
-  // TODO: De-parameterize.
-  (action: TasenorAction, props: RenderingProps<SetupType, ElementType>): Promise<ActionResult>
+export interface ActionHandler {
+  (action: TasenorAction, props: RenderingProps): Promise<ActionResult>
 }
