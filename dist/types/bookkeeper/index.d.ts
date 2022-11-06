@@ -10,7 +10,6 @@ export * from './cursor';
 export * from './importer';
 export * from './models';
 export * from './reports';
-export * from './risp_types';
 export * from './settings';
 export * from './store';
 export * from './tags';

@@ -1,3 +1,4 @@
+import { Store } from "../types";
 /**
  * Default version of the configuration for the RISP setup.
  *
@@ -9,3 +10,13 @@ export interface Setup {
     errorMessage?: (message: string) => void;
     successMessage?: (message: string) => void;
 }
+/**
+ * A setup for RISP used in Tasenor project.
+ */
+export declare type TasenorSetup = Setup & {
+    baseUrl: string;
+    store: Store;
+    token: string;
+    errorMessage: (msg: string) => void;
+    successMessage: (msg: string) => void;
+};

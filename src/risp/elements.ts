@@ -1,5 +1,5 @@
 import { Setup, TasenorSetup } from './setup'
-import { Action, Actions, TasenorAction } from './actions'
+import { Actions } from './actions'
 import { TriggerHandler, TriggerValue } from './triggers'
 import { TextFileLine } from '../import'
 import { FilterRule } from '../language'
@@ -9,10 +9,10 @@ import { AccountNumber, TagType, Tag, TransactionImportOptions } from '../types'
 /**
  * Generic interface for all elements that can define action handlers.
  */
- export interface ActiveElement<SetupType = Setup, ElementType = InteractiveElement, ActionType = Action> {
+ export interface ActiveElement<SetupType = Setup, ElementType = InteractiveElement> {
   readonly type: string
   triggerHandler?: TriggerHandler<SetupType, ElementType>
-  actions: Actions<ActionType>
+  actions: Actions
 }
 
 export function isActiveElement(object: unknown): object is ActiveElement {
@@ -36,7 +36,7 @@ export function isNamedElement(object: unknown): object is NamedElement {
 /**
  * A boolean toggle element.
  */
-export interface BooleanElement<SetupType = Setup, ElementType = InteractiveElement, ActionType = Action> extends ActiveElement<SetupType, ElementType, ActionType>, NamedElement {
+export interface BooleanElement<SetupType = Setup, ElementType = InteractiveElement> extends ActiveElement<SetupType, ElementType>, NamedElement {
   readonly type: 'boolean'
 }
 
@@ -47,7 +47,7 @@ export function isBooleanElement(object: unknown): object is BooleanElement {
 /**
  * A boolean element using radio buttons for Yes and No.
  */
-export interface YesNoElement<SetupType = Setup, ElementType = InteractiveElement, ActionType = Action> extends ActiveElement<SetupType, ElementType, ActionType>, NamedElement {
+export interface YesNoElement<SetupType = Setup, ElementType = InteractiveElement> extends ActiveElement<SetupType, ElementType>, NamedElement {
   readonly type: 'yesno'
 }
 
@@ -58,7 +58,7 @@ export function isYesNoElement(object: unknown): object is YesNoElement {
 /**
  * A text editing element.
  */
-export interface NumberElement<SetupType = Setup, ElementType = InteractiveElement, ActionType = Action> extends ActiveElement<SetupType, ElementType, ActionType>, NamedElement {
+export interface NumberElement<SetupType = Setup, ElementType = InteractiveElement> extends ActiveElement<SetupType, ElementType>, NamedElement {
   readonly type: 'number'
   unit?: string
 }
@@ -70,7 +70,7 @@ export function isNumberElement(object: unknown): object is NumberElement {
 /**
  * A text editing element.
  */
- export interface TextElement<SetupType = Setup, ElementType = InteractiveElement, ActionType = Action> extends ActiveElement<SetupType, ElementType, ActionType>, NamedElement {
+ export interface TextElement<SetupType = Setup, ElementType = InteractiveElement> extends ActiveElement<SetupType, ElementType>, NamedElement {
   readonly type: 'text'
 }
 
@@ -81,7 +81,7 @@ export function isTextElement(object: unknown): object is TextElement {
 /**
  * An element activating an action when clicked.
  */
-export interface ButtonElement<SetupType = Setup, ElementType = InteractiveElement, ActionType = Action> extends ActiveElement<SetupType, ElementType, ActionType> {
+export interface ButtonElement<SetupType = Setup, ElementType = InteractiveElement> extends ActiveElement<SetupType, ElementType> {
   readonly type: 'button'
   label: string
   requires?: string | string[]
@@ -194,7 +194,7 @@ export function isTextFileLineElement(object: unknown): object is TextFileLineEl
 /**
  * A collection of radio buttons.
  */
-export interface RadioElement<SetupType = Setup, ElementType = InteractiveElement, ActionType = Action> extends ActiveElement<SetupType, ElementType, ActionType>, NamedElement {
+export interface RadioElement<SetupType = Setup, ElementType = InteractiveElement> extends ActiveElement<SetupType, ElementType>, NamedElement {
   readonly type: 'radio'
   options: Record<string, string>
 }
@@ -261,16 +261,16 @@ export type InteractiveElement = BooleanElement | TextElement | HtmlElement | Bu
 export type TasenorElement = AccountElement |
   TagsElement |
   CurrencyElement |
-  BooleanElement<TasenorSetup, TasenorElement, TasenorAction> |
+  BooleanElement<TasenorSetup, TasenorElement> |
   BoxElement<TasenorElement> |
-  ButtonElement<TasenorSetup, TasenorElement, TasenorAction> |
+  ButtonElement<TasenorSetup, TasenorElement> |
   CaseElement<TasenorElement> |
   FlatElement<TasenorElement> |
   HtmlElement |
   MessageElement |
-  RadioElement<TasenorSetup, TasenorElement, TasenorAction> |
-  TextElement<TasenorSetup, TasenorElement, TasenorAction> |
-  NumberElement<TasenorSetup, TasenorElement, TasenorAction> |
+  RadioElement<TasenorSetup, TasenorElement> |
+  TextElement<TasenorSetup, TasenorElement> |
+  NumberElement<TasenorSetup, TasenorElement> |
   TextFileLineElement |
-  YesNoElement<TasenorSetup, TasenorElement, TasenorAction> |
+  YesNoElement<TasenorSetup, TasenorElement> |
   RuleEditorElement

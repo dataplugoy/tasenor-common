@@ -44,15 +44,24 @@ export function isPostAction(obj: unknown): obj is PostAction {
 }
 
 /**
- * Payload for the action execution.
+* An action for storing a plugin or general settings.
+*/
+export interface SaveSettingsAction {
+  readonly type: 'saveSettings'
+  backend?: boolean
+  plugin: PluginCode
+}
+
+/**
+ * An action definition containing all Tasenor and RISP actions.
  */
-export type Action = DebugAction | PatchAction | PostAction
+ export type TasenorAction = DebugAction | PatchAction | PostAction | SaveSettingsAction
 
 /**
  * An action definition collection.
  */
-export interface Actions<ActionType = Action> {
-  [key: string]: ActionType | ActionType[]
+export interface Actions {
+  [key: string]: TasenorAction | TasenorAction[]
 }
 
 /**
@@ -79,20 +88,7 @@ export interface FailedActionResult {
 /**
  * A function processing an action.
  */
-export interface ActionHandler<SetupType = Setup, ElementType = InteractiveElement, ActionType = Action> {
-  (action: ActionType, props: RenderingProps<SetupType, ElementType>): Promise<ActionResult>
+export interface ActionHandler<SetupType = Setup, ElementType = InteractiveElement> {
+  // TODO: De-parameterize.
+  (action: TasenorAction, props: RenderingProps<SetupType, ElementType>): Promise<ActionResult>
 }
-
-/**
-* An action for storing a plugin or general settings.
-*/
-export interface SaveSettingsAction {
-  readonly type: 'saveSettings'
-  backend?: boolean
-  plugin: PluginCode
-}
-
-/**
- * An action definition containing all Tasenor and RISP actions.
- */
-export type TasenorAction = Action | SaveSettingsAction

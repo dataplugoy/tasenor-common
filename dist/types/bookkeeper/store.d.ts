@@ -1,6 +1,6 @@
 import { AccountModel, AccountNumber, BalanceModel, DatabaseModel, EntryModel, ImporterModel, PeriodModel } from ".";
+import { TasenorSetup } from "../../risp";
 import { Catalog } from "./catalog";
-import { TasenorSetup } from "./risp_types";
 /**
  * A Mobx store for keeping all currently loaded data in memory.
  */

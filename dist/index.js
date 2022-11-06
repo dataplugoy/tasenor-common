@@ -439,7 +439,7 @@ var import_utc = __toESM(require("dayjs/plugin/utc"));
 
 // src/constants.ts
 var MAX_TARGET_ID_LEN = 64;
-var MAX_UPLOAD_SIZE = 1024 * 1024 * 1024 * 1;
+var MAX_UPLOAD_SIZE = 1 * 1024 * 1024 * 1024;
 var ZERO_CENTS = 1e-4;
 var ZERO_STOCK = 1e-6;
 
