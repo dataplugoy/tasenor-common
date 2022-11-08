@@ -7,7 +7,27 @@ import Opaque from 'ts-opaque'
 
 // Primitive values
 // ----------------
-export type Value = string | number | boolean | null | Value[] | { [key: string]: Value }
+export type Value = string | number | boolean | null | Value[] | Values
+export type Values = {
+  [key: string]: Value
+}
+
+export function isValue(obj: unknown): obj is Value {
+  return typeof(obj) !== 'function'
+}
+export function isValues(obj: unknown): obj is Values {
+  if (typeof(obj) !== 'object' || obj === null) {
+    return false
+  }
+  for (const k of Object.keys(obj)) {
+    if (!isValue(obj[k])) {
+      return false
+    }
+  }
+  return true
+}
+
+// TODO: Predicates for testing.
 
 // Common file and format related types
 // ------------------------------------

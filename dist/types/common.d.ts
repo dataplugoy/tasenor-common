@@ -4,9 +4,12 @@
  * @module tasenor-common/src/types/common
  */
 import Opaque from 'ts-opaque';
-export declare type Value = string | number | boolean | null | Value[] | {
+export declare type Value = string | number | boolean | null | Value[] | Values;
+export declare type Values = {
     [key: string]: Value;
 };
+export declare function isValue(obj: unknown): obj is Value;
+export declare function isValues(obj: unknown): obj is Values;
 export declare type DirectoryPath = Opaque<string, 'DirectoryPath'>;
 export declare type FilePath = Opaque<string, 'FilePath'>;
 export declare type TsvFilePath = FilePath;

@@ -1,6 +1,6 @@
+import { Values } from '../types';
 import { TasenorElement } from './elements';
 import { TasenorSetup } from './setup';
-import { TriggerValues } from './triggers';
 /**
  * A parameter collection used when rendering element.
  *
@@ -10,6 +10,6 @@ import { TriggerValues } from './triggers';
  */
 export declare type RenderingProps<ElementType = TasenorElement> = {
     element: ElementType;
-    values: TriggerValues;
+    values: Values;
     setup: TasenorSetup;
 };

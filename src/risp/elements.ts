@@ -1,9 +1,9 @@
 import { Actions } from './actions'
-import { TriggerHandler, TriggerValue } from './triggers'
+import { TriggerHandler } from './triggers'
 import { TextFileLine } from '../import'
 import { FilterRule } from '../language'
 import { ProcessConfig } from '../process_types'
-import { AccountNumber, TagType, Tag, TransactionImportOptions } from '../types'
+import { AccountNumber, TagType, Tag, TransactionImportOptions, Value } from '../types'
 
 /**
  * Generic interface for all elements that can define action handlers.
@@ -24,7 +24,7 @@ export function isActiveElement(object: unknown): object is ActiveElement {
 export interface NamedElement {
   readonly type: string
   name: string
-  defaultValue?: TriggerValue
+  defaultValue?: Value
   label?: string
 }
 

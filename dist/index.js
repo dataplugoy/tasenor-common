@@ -115,6 +115,8 @@ __export(src_exports, {
   isUIQueryRef: () => isUIQueryRef,
   isUi: () => isUi,
   isUrl: () => isUrl,
+  isValue: () => isValue,
+  isValues: () => isValues,
   isVersion: () => isVersion,
   isYesNoElement: () => isYesNoElement,
   languages: () => languages,
@@ -811,6 +813,20 @@ function isAccountAddress(obj) {
 }
 
 // src/types/common.ts
+function isValue(obj) {
+  return typeof obj !== "function";
+}
+function isValues(obj) {
+  if (typeof obj !== "object" || obj === null) {
+    return false;
+  }
+  for (const k of Object.keys(obj)) {
+    if (!isValue(obj[k])) {
+      return false;
+    }
+  }
+  return true;
+}
 var languages = /* @__PURE__ */ new Set([
   "aa",
   "ab",
@@ -2463,6 +2479,8 @@ var isID = (id) => isRealID(id) || id === null;
   isUIQueryRef,
   isUi,
   isUrl,
+  isValue,
+  isValues,
   isVersion,
   isYesNoElement,
   languages,

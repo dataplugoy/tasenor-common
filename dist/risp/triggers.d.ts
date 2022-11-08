@@ -1,15 +1,6 @@
+import { Value } from '../types';
 import { ActionResult } from './actions';
 import { RenderingProps } from './rendering';
-/**
- * A single payload that the trigger can have, i.e. tigger data.
- */
-export declare type TriggerValue = string | number | boolean | null | TriggerValue[] | TriggerValues;
-/**
- * A map of names to trigger values.
- */
-export interface TriggerValues {
-    [key: string]: TriggerValue;
-}
 /**
  * Readability helper to specify that a string is being used as a trigger name.
  */
@@ -28,7 +19,7 @@ export declare type Trigger = OnChangeTrigger | OnClickTrigger | {
 export interface OnChangeTrigger {
     readonly type: 'onChange';
     name: string;
-    value: TriggerValue;
+    value: Value;
 }
 /**
  * This trigger is activated by clicking on some target.
