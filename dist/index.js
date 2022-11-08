@@ -31,6 +31,7 @@ __export(src_exports, {
   Bookkeeper: () => Bookkeeper,
   Crypto: () => Crypto,
   DAYS: () => DAYS,
+  Directions: () => Directions,
   ERP_API: () => ERP_API,
   HOURS: () => HOURS,
   Knowledge: () => Knowledge,
@@ -452,6 +453,33 @@ function isPatchAction(obj) {
 function isPostAction(obj) {
   return typeof obj === "object" && obj !== null && "url" in obj && obj["type"] === "post";
 }
+
+// src/risp/directions.ts
+var Directions = class {
+  constructor(obj) {
+    this.type = obj.type;
+    this.element = obj.element;
+    this.action = obj.action;
+  }
+  toJSON() {
+    const ret = {
+      type: this.type
+    };
+    if (this.element) {
+      ret.element = this.element;
+    }
+    if (this.action) {
+      ret.action = this.action;
+    }
+    return ret;
+  }
+  isImmediate() {
+    return this.type === "action";
+  }
+  isComplete() {
+    return this.type === "complete";
+  }
+};
 
 // src/risp/elements.ts
 function isActiveElement(object) {
@@ -2395,6 +2423,7 @@ var isID = (id) => isRealID(id) || id === null;
   Bookkeeper,
   Crypto,
   DAYS,
+  Directions,
   ERP_API,
   HOURS,
   Knowledge,
