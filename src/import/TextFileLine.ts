@@ -23,7 +23,7 @@ export const NO_SEGMENT = Symbol('NO_SEGMENT')
   *
   * Contains line numbering starting from 0 and the text content of the line.
   */
-export interface TextFileLine {
+export type TextFileLine = {
   line: LineNumber,
   text: string,
   columns: Record<string, string>

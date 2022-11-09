@@ -7,7 +7,7 @@ import Opaque from 'ts-opaque'
 
 // Primitive values
 // ----------------
-export type Value = string | number | boolean | null | Value[] | Values
+export type Value = string | number | boolean | null | Value[] | Values | Values[]
 export type Values = {
   [key: string]: Value
 }

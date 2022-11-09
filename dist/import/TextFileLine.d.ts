@@ -19,12 +19,12 @@ export declare const NO_SEGMENT: unique symbol;
  *
  * Contains line numbering starting from 0 and the text content of the line.
  */
-export interface TextFileLine {
+export declare type TextFileLine = {
     line: LineNumber;
     text: string;
     columns: Record<string, string>;
     segmentId?: SegmentId;
-}
+};
 /**
  * A segmentation information.
  */
