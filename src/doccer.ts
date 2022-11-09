@@ -31,6 +31,4 @@
  * @module tasenor-common
  */
 
-/** @hidden Dummy definition to force inclusion of this file to documentation */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const __tasenorCommon = null
+export * from './index'
