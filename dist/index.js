@@ -67,6 +67,7 @@ __export(src_exports, {
   haveStore: () => haveStore,
   isAccountAddress: () => isAccountAddress,
   isAccountAddressConfig: () => isAccountAddressConfig,
+  isAccountElement: () => isAccountElement,
   isAccountNumber: () => isAccountNumber,
   isActiveElement: () => isActiveElement,
   isAssetStockType: () => isAssetStockType,
@@ -79,6 +80,7 @@ __export(src_exports, {
   isCaseElement: () => isCaseElement,
   isContainerElement: () => isContainerElement,
   isCurrency: () => isCurrency,
+  isCurrencyElement: () => isCurrencyElement,
   isDatabaseName: () => isDatabaseName,
   isFlatElement: () => isFlatElement,
   isHtmlElement: () => isHtmlElement,
@@ -101,6 +103,7 @@ __export(src_exports, {
   isRadioElement: () => isRadioElement,
   isRealID: () => isRealID,
   isReportID: () => isReportID,
+  isRuleEditorElement: () => isRuleEditorElement,
   isRuleViewOp: () => isRuleViewOp,
   isShortDate: () => isShortDate,
   isStockChangeData: () => isStockChangeData,
@@ -110,6 +113,8 @@ __export(src_exports, {
   isTagConfig: () => isTagConfig,
   isTagString: () => isTagString,
   isTagType: () => isTagType,
+  isTagsElement: () => isTagsElement,
+  isTasenorElement: () => isTasenorElement,
   isTextElement: () => isTextElement,
   isTextFileLineElement: () => isTextFileLineElement,
   isUIQuery: () => isUIQuery,
@@ -526,6 +531,21 @@ function isTextFileLineElement(object) {
 }
 function isRadioElement(object) {
   return isActiveElement(object) && object["type"] === "radio" && "options" in object && typeof object["options"] === "object";
+}
+function isAccountElement(object) {
+  return isActiveElement(object) && isNamedElement(object) && object["type"] === "account";
+}
+function isTagsElement(object) {
+  return isActiveElement(object) && isNamedElement(object) && object["type"] === "tags";
+}
+function isCurrencyElement(object) {
+  return isActiveElement(object) && isNamedElement(object) && object["type"] === "currency";
+}
+function isRuleEditorElement(object) {
+  return isActiveElement(object) && isNamedElement(object) && object["type"] === "ruleEditor" && "config" in object && typeof object["config"] === "object" && "options" in object && typeof object["options"] === "object" && "lines" in object && typeof object["lines"] === "object" && "casgAccount" in object;
+}
+function isTasenorElement(object) {
+  return typeof object === "object" && (isAccountElement(object) || isTagsElement(object) || isCurrencyElement(object) || isBooleanElement(object) || isBoxElement(object) || isButtonElement(object) || isCaseElement(object) || isFlatElement(object) || isHtmlElement(object) || isMessageElement(object) || isRadioElement(object) || isTextElement(object) || isNumberElement(object) || isTextFileLineElement(object) || isYesNoElement(object) || isRuleEditorElement(object));
 }
 
 // src/utils.ts
@@ -2459,6 +2479,7 @@ var isID = (id) => isRealID(id) || id === null;
   haveStore,
   isAccountAddress,
   isAccountAddressConfig,
+  isAccountElement,
   isAccountNumber,
   isActiveElement,
   isAssetStockType,
@@ -2471,6 +2492,7 @@ var isID = (id) => isRealID(id) || id === null;
   isCaseElement,
   isContainerElement,
   isCurrency,
+  isCurrencyElement,
   isDatabaseName,
   isFlatElement,
   isHtmlElement,
@@ -2493,6 +2515,7 @@ var isID = (id) => isRealID(id) || id === null;
   isRadioElement,
   isRealID,
   isReportID,
+  isRuleEditorElement,
   isRuleViewOp,
   isShortDate,
   isStockChangeData,
@@ -2502,6 +2525,8 @@ var isID = (id) => isRealID(id) || id === null;
   isTagConfig,
   isTagString,
   isTagType,
+  isTagsElement,
+  isTasenorElement,
   isTextElement,
   isTextFileLineElement,
   isUIQuery,

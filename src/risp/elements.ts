@@ -213,6 +213,10 @@ export function isRadioElement(object: unknown): object is RadioElement {
   preferred?: AccountNumber[]
 }
 
+export function isAccountElement(object: unknown): object is AccountElement {
+  return (isActiveElement(object) && isNamedElement(object) && object['type'] === 'account')
+}
+
 /**
  * An element that allows one to select one of the accounts from dropdown.
  */
@@ -234,11 +238,19 @@ export type TagsElement = ActiveElement & NamedElement & {
   all: true
 }
 
+export function isTagsElement(object: unknown): object is TagsElement {
+  return (isActiveElement(object) && isNamedElement(object) && object['type'] === 'tags')
+}
+
 /**
  * An element that allows one to select a currency.
  */
 export type CurrencyElement = ActiveElement & NamedElement & {
   readonly type: 'currency'
+}
+
+export function isCurrencyElement(object: unknown): object is CurrencyElement {
+  return (isActiveElement(object) && isNamedElement(object) && object['type'] === 'currency')
 }
 
 /**
@@ -250,6 +262,15 @@ export type RuleEditorElement = ActiveElement & NamedElement & {
   cashAccount: AccountNumber | null
   config: ProcessConfig
   options: TransactionImportOptions
+}
+
+export function isRuleEditorElement(object: unknown): object is RuleEditorElement {
+  return (isActiveElement(object) && isNamedElement(object) && object['type'] === 'ruleEditor'
+    && 'config' in object && typeof object['config'] === 'object'
+    && 'options' in object && typeof object['options'] === 'object'
+    && 'lines' in object && typeof object['lines'] === 'object'
+    && 'casgAccount' in object
+  )
 }
 
 /**
@@ -271,3 +292,24 @@ export type TasenorElement = AccountElement |
   TextFileLineElement |
   YesNoElement |
   RuleEditorElement
+
+export function isTasenorElement(object: unknown): object is TasenorElement {
+  return typeof object === "object" && (
+    isAccountElement(object) ||
+    isTagsElement(object) ||
+    isCurrencyElement(object) ||
+    isBooleanElement(object) ||
+    isBoxElement(object) ||
+    isButtonElement(object) ||
+    isCaseElement(object) ||
+    isFlatElement(object) ||
+    isHtmlElement(object) ||
+    isMessageElement(object) ||
+    isRadioElement(object) ||
+    isTextElement(object) ||
+    isNumberElement(object) ||
+    isTextFileLineElement(object) ||
+    isYesNoElement(object) ||
+    isRuleEditorElement(object)
+  )
+}

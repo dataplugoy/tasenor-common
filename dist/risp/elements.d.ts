@@ -140,6 +140,7 @@ export declare type AccountElement = ActiveElement & NamedElement & {
     filter?: FilterRule;
     preferred?: AccountNumber[];
 };
+export declare function isAccountElement(object: unknown): object is AccountElement;
 /**
  * An element that allows one to select one of the accounts from dropdown.
  */
@@ -160,12 +161,14 @@ export declare type TagsElement = ActiveElement & NamedElement & {
     single?: boolean;
     all: true;
 };
+export declare function isTagsElement(object: unknown): object is TagsElement;
 /**
  * An element that allows one to select a currency.
  */
 export declare type CurrencyElement = ActiveElement & NamedElement & {
     readonly type: 'currency';
 };
+export declare function isCurrencyElement(object: unknown): object is CurrencyElement;
 /**
  * Editor for import rules.
  */
@@ -176,7 +179,9 @@ export declare type RuleEditorElement = ActiveElement & NamedElement & {
     config: ProcessConfig;
     options: TransactionImportOptions;
 };
+export declare function isRuleEditorElement(object: unknown): object is RuleEditorElement;
 /**
  * A type for all Tasenor and RISP elements used.
  */
 export declare type TasenorElement = AccountElement | TagsElement | CurrencyElement | BooleanElement | BoxElement | ButtonElement | CaseElement | FlatElement | HtmlElement | MessageElement | RadioElement | TextElement | NumberElement | TextFileLineElement | YesNoElement | RuleEditorElement;
+export declare function isTasenorElement(object: unknown): object is TasenorElement;
