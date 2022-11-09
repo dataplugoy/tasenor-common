@@ -14,7 +14,7 @@ export declare type ImportRule = {
         filter: RuleFilterView[];
         result: RuleResultView[];
     };
-    questions?: Record<string, UIQuery>;
+    questions?: Record<string, UIQuery<string>>;
     result: ImportRuleResult | ImportRuleResult[];
     examples?: TextFileLine[];
 };
