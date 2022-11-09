@@ -56,6 +56,10 @@ export declare type RuleResultView = {
         };
     };
 };
+export declare type RuleView = {
+    filter: RuleFilterView[];
+    result: RuleResultView[];
+};
 /**
  * Convert a `RuleFilterView` description to the rule expression.
  * @param view

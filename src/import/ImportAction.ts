@@ -1,15 +1,15 @@
-import { SegmentId } from "."
+import { SegmentId } from './TextFileLine'
 
 /**
  * Action for updating process configuration.
  */
- export interface ImportOpAction {
+export interface ImportOpAction {
   op: 'segmentation' | 'classification' | 'analysis' | 'execution'
 }
 export function isImportOpAction(obj: unknown): obj is ImportOpAction {
   if (typeof obj === 'object' && obj !== null) {
     if ('op' in obj) {
-      return ['segmentation', 'classification', 'analysis', 'execution'].includes((obj as { op: string}).op)
+      return ['segmentation', 'classification', 'analysis', 'execution'].includes((obj as { op: string }).op)
     }
   }
   return false
@@ -18,7 +18,7 @@ export function isImportOpAction(obj: unknown): obj is ImportOpAction {
 /**
  * Actions for changing the import phases.
  */
- export interface ImportConfigureAction {
+export interface ImportConfigureAction {
   configure: Record<string, unknown>
 }
 export function isImportConfigureAction(obj: unknown): obj is ImportConfigureAction {

@@ -80,6 +80,11 @@ export type RuleResultView = {
   }
 }
 
+export type RuleView = {
+  filter: RuleFilterView[]
+  result: RuleResultView[]
+}
+
 /**
  * Convert a `RuleFilterView` description to the rule expression.
  * @param view

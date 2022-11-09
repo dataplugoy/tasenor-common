@@ -1,4 +1,4 @@
-import { SegmentId } from ".";
+import { SegmentId } from './TextFileLine';
 /**
  * Action for updating process configuration.
  */
