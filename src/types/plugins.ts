@@ -49,6 +49,7 @@ export interface TasenorPlugin {
     releaseDate: Date
     use: PluginUse
     type: PluginType
+    availableVersion?: Version
     installedVersion?: Version
     path: string
 }
