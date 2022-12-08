@@ -30,14 +30,6 @@ export declare type PluginTypeBoth = 'report';
  */
 export declare type PluginType = PluginTypeUI | PluginTypeBackend | PluginTypeBoth;
 /**
- * A version definition for plugin list.
- */
-export interface PluginVersion {
-    version: Version;
-    releaseDate: Date | string;
-    enabled: boolean;
-}
-/**
  * Description of a plugin.
  */
 export interface TasenorPlugin {
@@ -47,26 +39,12 @@ export interface TasenorPlugin {
     description: string;
     icon: string;
     version: Version;
-    versions?: PluginVersion[];
     releaseDate: Date;
     use: PluginUse;
     type: PluginType;
+    availableVersion?: Version;
     installedVersion?: Version;
     path: string;
-}
-/**
- * Description of a plugin for the packaging purposes.
- */
-export interface TasenorPluginPackaged {
-    code: PluginCode;
-    title: string;
-    description: string;
-    icon: string;
-    versions: PluginVersion[];
-    releaseDate: Date;
-    use: PluginUse;
-    type: PluginType;
-    package: string;
 }
 /**
  * Partial plugin information used during the building etc.

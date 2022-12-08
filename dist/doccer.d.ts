@@ -30,5 +30,4 @@
  *
  * @module tasenor-common
  */
-/** @hidden Dummy definition to force inclusion of this file to documentation */
-declare const __tasenorCommon: null;
+export * from './index';
