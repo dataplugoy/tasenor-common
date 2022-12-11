@@ -363,6 +363,7 @@ var Knowledge = class {
     });
     const handle = (id) => {
       if (!tree[id]) {
+        console.log(tree);
         throw new Error(`Reference to undefined VAT ID: '${id}''.`);
       }
       if (tree[id].handled) {
