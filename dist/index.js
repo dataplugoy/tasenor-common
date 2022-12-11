@@ -190,11 +190,6 @@ var Bookkeeper = {
 };
 
 // src/bookkeeper/globals.ts
-var _store;
-var _catalog;
-var _cursor;
-var _settings;
-var _knowledge;
 function setGlobalComponents(store, catalog, cursor, settings, knowledge) {
   _store = store;
   _catalog = catalog;

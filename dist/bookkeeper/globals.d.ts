@@ -7,6 +7,13 @@ import { Catalog } from "../types/bookkeeper/catalog";
 import { Store } from "../types/bookkeeper/store";
 import { Settings } from "../types/bookkeeper/settings";
 import { Knowledge } from "./Knowledge";
+declare global {
+    var _store: Store;
+    var _catalog: Catalog;
+    var _cursor: Cursor;
+    var _settings: Settings;
+    var _knowledge: Knowledge;
+}
 /**
  * Store instance references for the application.
  * @param store

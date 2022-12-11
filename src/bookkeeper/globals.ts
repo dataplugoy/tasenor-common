@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 /**
  * Accessors for Bookkeeper store components.
  * @module
@@ -8,11 +9,13 @@ import { Store } from "../types/bookkeeper/store"
 import { Settings } from "../types/bookkeeper/settings"
 import { Knowledge } from "./Knowledge"
 
-let _store: Store
-let _catalog: Catalog
-let _cursor: Cursor
-let _settings: Settings
-let _knowledge: Knowledge
+declare global {
+  var _store: Store
+  var _catalog: Catalog
+  var _cursor: Cursor
+  var _settings: Settings
+  var _knowledge: Knowledge
+}
 
 /**
  * Store instance references for the application.
