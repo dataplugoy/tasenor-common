@@ -174,7 +174,7 @@ export class Knowledge {
     // Function to scan a branch all the way to the root unless handled node found first.
     const handle = (id) => {
       if (!tree[id]) {
-        console.log(tree) // TODO: Remove debug.
+        console.log(this.data) // TODO: Remove debug.
         throw new Error(`Reference to undefined VAT ID: '${id}''.`)
       }
       if (tree[id].handled) {
