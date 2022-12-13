@@ -131,7 +131,7 @@ export type StockChangeDelta = {
   }
 }
 export function isStockChangeDelta(o: unknown): o is StockChangeDelta {
-  return typeof o === 'object' && o !== null && ('stock' in o) && ('change' in o['stock'])
+  return typeof o === 'object' && o !== null && ('stock' in o) && (typeof o['stock'] === 'object') && o['stock'] !== null && ('change' in o['stock'])
 }
 
 /**
@@ -143,7 +143,7 @@ export type StockChangeFixed = {
   }
 }
 export function isStockChangeFixed(o: unknown): o is StockChangeFixed {
-  return typeof o === 'object' && o !== null && ('stock' in o) && ('set' in o['stock'])
+  return typeof o === 'object' && o !== null && ('stock' in o) && (typeof o['stock'] === 'object') && o['stock'] !== null && ('set' in o['stock'])
 }
 
 /**
@@ -230,7 +230,7 @@ export type AssetTransfer = {
 }
 export function isAssetTransfer(s: unknown): s is AssetTransfer {
   return (typeof s === 'object' && s !== null && 'reason' in s && 'type' in s && 'asset' in s
-    && s['reason'] && s['type'] && s['asset'])
+    && !!s['reason'] && !!s['type'] && !!s['asset'])
 }
 
 /**

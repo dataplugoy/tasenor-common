@@ -171,7 +171,8 @@ export interface MessageElement {
 
 export function isMessageElement(object: unknown): object is MessageElement {
   return (typeof object === "object" && object !== null && object['type'] === 'message'
-    && 'severity' in object && ['info', 'warning', 'error', 'success'].includes(object['severity'])
+    && 'severity' in object && typeof object['severity'] === 'string'
+    && ['info', 'warning', 'error', 'success'].includes(object['severity'])
     && 'text' in object && typeof object['text'] === 'string'
   )
 }
