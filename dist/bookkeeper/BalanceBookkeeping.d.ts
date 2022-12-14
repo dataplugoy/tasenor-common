@@ -3,7 +3,7 @@ import { ProcessConfig } from '../process_types';
 /**
  * An object describing the account and its balance.
  */
-export declare type BalanceSummaryEntry = {
+export type BalanceSummaryEntry = {
     account: AccountNumber;
     address: AccountAddress;
     debtAddress: AccountAddress;

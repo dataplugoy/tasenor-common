@@ -25,14 +25,12 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var src_exports = {};
 __export(src_exports, {
-  API: () => API,
   AccountType: () => AccountType,
   BalanceBookkeeping: () => BalanceBookkeeping,
   Bookkeeper: () => Bookkeeper,
   Crypto: () => Crypto,
   DAYS: () => DAYS,
   Directions: () => Directions,
-  ERP_API: () => ERP_API,
   HOURS: () => HOURS,
   Knowledge: () => Knowledge,
   MAX_TARGET_ID_LEN: () => MAX_TARGET_ID_LEN,
@@ -138,7 +136,6 @@ __export(src_exports, {
   realNegative: () => realNegative,
   realPositive: () => realPositive,
   setGlobalComponents: () => setGlobalComponents,
-  setServiceUrl: () => setServiceUrl,
   sortTransactions: () => sortTransactions,
   timestamp: () => timestamp,
   ucfirst: () => ucfirst,
@@ -2391,55 +2388,17 @@ var net = {
   PUT: createRequestHandler("PUT")
 };
 
-// src/net/services.ts
-CONFIG = {
-  API: {
-    url: ""
-  },
-  ERP_API: {
-    url: ""
-  }
-};
-function makeService(env) {
-  return {
-    call: async (method, url, data, headers = {}) => {
-      if (!CONFIG[env]) {
-        throw new Error(`Service configuration variable ${env} is not set and related service is unusable.`);
-      }
-      if (!CONFIG[env].url) {
-        throw new Error(`Service configuration URL for ${env} is not set and related service is unusable.`);
-      }
-      if ("Authorization" in headers && !headers.Authorization) {
-        throw new Error(`Invalid Authorization header for ${env} call.`);
-      }
-      url = `${CONFIG[env].url}${url}`;
-      return net[method](url, data, headers);
-    }
-  };
-}
-function setServiceUrl(name, url) {
-  if (name in CONFIG) {
-    CONFIG[name].url = url;
-  } else {
-    throw new Error(`A service ${name} does not exist.`);
-  }
-}
-var ERP_API = makeService("ERP_API");
-var API = makeService("API");
-
 // src/process_types.ts
 var isRealID = (id) => typeof id === "number";
 var isID = (id) => isRealID(id) || id === null;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  API,
   AccountType,
   BalanceBookkeeping,
   Bookkeeper,
   Crypto,
   DAYS,
   Directions,
-  ERP_API,
   HOURS,
   Knowledge,
   MAX_TARGET_ID_LEN,
@@ -2545,7 +2504,6 @@ var isID = (id) => isRealID(id) || id === null;
   realNegative,
   realPositive,
   setGlobalComponents,
-  setServiceUrl,
   sortTransactions,
   timestamp,
   ucfirst,

@@ -11,12 +11,12 @@ export interface AssetRecord {
 /**
  * Valid types for asset bookkeeping.
  */
-export declare type AssetStockType = 'crypto' | 'stock' | 'currency' | 'other';
+export type AssetStockType = 'crypto' | 'stock' | 'currency' | 'other';
 export declare function isAssetStockType(obj: unknown): obj is AssetStockType;
 /**
  * Collection of assets in timeline.
  */
-export declare type AssetStock = Record<AssetStockType, Partial<Record<Asset, AssetRecord[]>>>;
+export type AssetStock = Record<AssetStockType, Partial<Record<Asset, AssetRecord[]>>>;
 /**
  * A class for storing and lookup for current stock and value of different assets in timeline.
  */

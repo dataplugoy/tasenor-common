@@ -8,27 +8,27 @@ import { Version } from './common';
 /**
  * Unique string determining the plugin itself.
  */
-export declare type PluginCode = Opaque<string, 'PluginCode'>;
+export type PluginCode = Opaque<string, 'PluginCode'>;
 /**
  * Usage of the plugin either in the backend, ui or both.
  */
-export declare type PluginUse = 'ui' | 'backend' | 'both';
+export type PluginUse = 'ui' | 'backend' | 'both';
 /**
  * Types for plugins usabable in UI.
  */
-export declare type PluginTypeUI = 'language' | 'tool' | 'currency';
+export type PluginTypeUI = 'language' | 'tool' | 'currency';
 /**
  * Types for plugins usabable in backend.
  */
-export declare type PluginTypeBackend = 'import' | 'report' | 'service' | 'scheme' | 'data';
+export type PluginTypeBackend = 'import' | 'report' | 'service' | 'scheme' | 'data';
 /**
  * Types for plugins usabable in both UI and backend.
  */
-export declare type PluginTypeBoth = 'report';
+export type PluginTypeBoth = 'report';
 /**
  * All plugin types.
  */
-export declare type PluginType = PluginTypeUI | PluginTypeBackend | PluginTypeBoth;
+export type PluginType = PluginTypeUI | PluginTypeBackend | PluginTypeBoth;
 /**
  * Description of a plugin.
  */
@@ -63,17 +63,17 @@ export interface IncompleteTasenorPlugin {
 /**
  * A list of plugins.
  */
-export declare type PluginCatalog = TasenorPlugin[];
+export type PluginCatalog = TasenorPlugin[];
 /**
  * A version keyed map of change documentation.
  */
-export declare type PluginChangeLog = {
+export type PluginChangeLog = {
     [Key: string]: string;
 };
 /**
  * A translation tables for different languages in the plugin.
  */
-export declare type PluginLanguages = {
+export type PluginLanguages = {
     [Key: string]: {
         [Key: string]: string;
     };
@@ -81,11 +81,11 @@ export declare type PluginLanguages = {
 /**
  * A service name provided by service plugins.
  */
-export declare type PluginService = 'historical-currency-rate' | 'historical-crypto-rate';
+export type PluginService = 'historical-currency-rate' | 'historical-crypto-rate';
 /**
  * A response message content from the service.
  */
-export declare type PluginServiceResponse = {
+export type PluginServiceResponse = {
     status: number;
     data: unknown;
 } | {

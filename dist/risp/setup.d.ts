@@ -2,7 +2,7 @@ import { Store } from "../types";
 /**
  * A setup for RISP used in Tasenor project.
  */
-export declare type TasenorSetup = {
+export type TasenorSetup = {
     baseUrl: string;
     store: Store;
     token: string;

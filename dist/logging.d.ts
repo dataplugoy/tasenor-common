@@ -11,7 +11,7 @@
  *
  * These can be set with by setting environment `DEBUG_<name>` to `yes`.
  */
-export declare type DebugChannel = 'STOCK' | 'BALANCE' | 'RULES' | 'SEGMENTATION' | 'CLASSIFICATION' | 'ANALYSIS' | 'EXECUTION';
+export type DebugChannel = 'STOCK' | 'BALANCE' | 'RULES' | 'SEGMENTATION' | 'CLASSIFICATION' | 'ANALYSIS' | 'EXECUTION';
 /**
  * Construct UTC timestamp to display for logs.
  * @param stamp

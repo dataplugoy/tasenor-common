@@ -14,7 +14,7 @@ declare class Decimal {
  * * `MONTHLY` - Paid monthly fee.
  * * `SINGLE` - Once off payment for use.
  */
-export declare type PricingModel = "COMPULSORY" | "RECOMMENDED" | "FREE" | "MONTHLY" | "SINGLE";
+export type PricingModel = "COMPULSORY" | "RECOMMENDED" | "FREE" | "MONTHLY" | "SINGLE";
 /**
  * A data structure send to the UI of the logged in user.
  */

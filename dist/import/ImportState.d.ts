@@ -2,7 +2,7 @@ import { ImportSegment, SegmentId, TextFileLine } from "./TextFileLine";
 /**
  * Initial state of the text file import.
  */
-export declare type ImportStateText<StageType> = {
+export type ImportStateText<StageType> = {
     stage: StageType;
     files: {
         [text: string]: {
@@ -16,5 +16,5 @@ export declare type ImportStateText<StageType> = {
 /**
  * Union of all import states.
  */
-export declare type ImportState = ImportStateText<'initial'> | ImportStateText<'segmented'> | ImportStateText<'classified'> | ImportStateText<'analyzed'> | ImportStateText<'executed'>;
+export type ImportState = ImportStateText<'initial'> | ImportStateText<'segmented'> | ImportStateText<'classified'> | ImportStateText<'analyzed'> | ImportStateText<'executed'>;
 export declare function isImportState(obj: unknown): obj is ImportState;

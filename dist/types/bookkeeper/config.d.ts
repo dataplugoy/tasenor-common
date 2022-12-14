@@ -3,7 +3,7 @@ import { Currency, Language, Version } from "../common";
 /**
  * Configuration definition for the bookkeeper.
  */
-export declare type BookkeeperConfig = {
+export type BookkeeperConfig = {
     scheme: string | null;
     schemeVersion: Version | null;
     companyCode: string | null;

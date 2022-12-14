@@ -3,7 +3,7 @@ import { RenderingProps } from './rendering';
 /**
  * Readability helper to specify that a string is being used as a trigger name.
  */
-export declare type ActionName = string;
+export type ActionName = string;
 /**
 * Payload of `debug` action.
 */
@@ -43,7 +43,7 @@ export interface SaveSettingsAction {
 /**
  * An action definition containing all Tasenor and RISP actions.
  */
-export declare type TasenorAction = DebugAction | PatchAction | PostAction | SaveSettingsAction;
+export type TasenorAction = DebugAction | PatchAction | PostAction | SaveSettingsAction;
 /**
  * An action definition collection.
  */
@@ -53,7 +53,7 @@ export interface Actions {
 /**
  * A result retuned by the action handler.
  */
-export declare type ActionResult = SuccessfulActionResult | FailedActionResult;
+export type ActionResult = SuccessfulActionResult | FailedActionResult;
 /**
  * A successful result retuned by the action handler.
  */

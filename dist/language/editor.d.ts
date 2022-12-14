@@ -2,18 +2,18 @@ import { Expression } from "./rules";
 /**
  * The mode for rule editor is using currently for editing components.
  */
-export declare type RuleColumnEditMode = null | 'textMatch';
+export type RuleColumnEditMode = null | 'textMatch';
 /**
  * Matching mode to display in rule filter rule visualization.
  *
  * Each matching mode defines how the visual presentation is formed for the rule.
  */
-export declare type RuleViewOp = 'caseInsensitiveMatch' | 'caseSensitiveMatch' | 'caseInsensitiveFullMatch' | 'caseSensitiveFullMatch' | 'isLessThan' | 'isGreaterThan' | 'setLiteral' | 'copyInverseField' | 'copyField';
+export type RuleViewOp = 'caseInsensitiveMatch' | 'caseSensitiveMatch' | 'caseInsensitiveFullMatch' | 'caseSensitiveFullMatch' | 'isLessThan' | 'isGreaterThan' | 'setLiteral' | 'copyInverseField' | 'copyField';
 export declare function isRuleViewOp(obj: any): obj is RuleViewOp;
 /**
  * Description how the filter expression has been constructed for visual presentation.
  */
-export declare type RuleFilterView = {
+export type RuleFilterView = {
     op: RuleViewOp;
     field?: string;
     text?: string;
@@ -22,7 +22,7 @@ export declare type RuleFilterView = {
 /**
  * Descriptiion how the result expression has been constructed for visual presentation.
  */
-export declare type RuleResultView = {
+export type RuleResultView = {
     reason: {
         op: RuleViewOp;
         field?: string;
@@ -56,7 +56,7 @@ export declare type RuleResultView = {
         };
     };
 };
-export declare type RuleView = {
+export type RuleView = {
     filter: RuleFilterView[];
     result: RuleResultView[];
 };

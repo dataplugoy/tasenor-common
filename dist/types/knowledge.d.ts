@@ -11,11 +11,11 @@ import { ShortDate } from './time';
 /**
  * Types that can have some value for VAT percentage.
  */
-export declare type VATTarget = ExpenseSink | IncomeSource;
+export type VATTarget = ExpenseSink | IncomeSource;
 /**
  * Known knowledge linked tree node value types.
  */
-export declare type KnowledgeNodeType = string | number | symbol | Asset;
+export type KnowledgeNodeType = string | number | symbol | Asset;
 /**
  * A tree structure for fast lookup.
  */
@@ -40,7 +40,7 @@ export interface VATRange {
 /**
  * VAT information table organized so that each parent lists their children under them.
  */
-export declare type VATTable = {
+export type VATTable = {
     id: VATTarget;
     name: string;
     level: number;
@@ -49,11 +49,11 @@ export declare type VATTable = {
 /**
  * Types of knowledge collections.
  */
-export declare type KnowledgeType = 'income' | 'expense' | 'assets' | 'vat';
+export type KnowledgeType = 'income' | 'expense' | 'assets' | 'vat';
 /**
  * A type for complete knowledge base filled by various plugins.
  */
-export declare type KnowledgeBase = {
+export type KnowledgeBase = {
     income: LinkedTree<IncomeSource>;
     expense: LinkedTree<ExpenseSink>;
     assetCodes: LinkedTree<AssetCode>;

@@ -11,15 +11,15 @@
 /**
  * Configuration data for a process.
  */
-export declare type ProcessConfig = Record<string, unknown>;
+export type ProcessConfig = Record<string, unknown>;
 /**
  * The name of the process.
  */
-export declare type ProcessName = string;
+export type ProcessName = string;
 /**
   * How the process input data is encoded.
   */
-export declare type FileEncoding = 'utf-8' | 'base64' | 'json';
+export type FileEncoding = 'utf-8' | 'base64' | 'json';
 /**
  * Overall status of the process.
  *
@@ -31,18 +31,18 @@ export declare type FileEncoding = 'utf-8' | 'base64' | 'json';
  *
  * @enum
  */
-export declare type ProcessStatus = 'INCOMPLETE' | 'WAITING' | 'SUCCEEDED' | 'FAILED' | 'CRASHED';
+export type ProcessStatus = 'INCOMPLETE' | 'WAITING' | 'SUCCEEDED' | 'FAILED' | 'CRASHED';
 /**
  * An ID for database entries.
  */
-export declare type RealID = number;
-export declare type ID = RealID | null;
+export type RealID = number;
+export type ID = RealID | null;
 export declare const isRealID: (id: unknown) => id is number;
 export declare const isID: (id: unknown) => id is ID;
 /**
  * Response for single process step fetch.ProcessStepModelData
  */
-export declare type ProcessStepModelData = {
+export type ProcessStepModelData = {
     id: ID;
     processId?: ID;
     number: number;
@@ -56,7 +56,7 @@ export declare type ProcessStepModelData = {
 /**
  * Response for process listing.
  */
-export declare type ProcessModelData = {
+export type ProcessModelData = {
     id: ID;
     ownerId: ID;
     name: ProcessName;
@@ -71,7 +71,7 @@ export declare type ProcessModelData = {
 /**
  * Response for single process fetch.
  */
-export declare type ProcessModelDetailedData = {
+export type ProcessModelDetailedData = {
     id: ID;
     ownerId: ID;
     name: ProcessName;

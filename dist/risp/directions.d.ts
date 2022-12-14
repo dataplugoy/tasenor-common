@@ -3,7 +3,7 @@ import { TasenorElement } from "./elements";
 /**
  * Definition of the how the direction plays out in interactive process.
  */
-export declare type DirectionsType = 'action' | 'ui' | 'complete';
+export type DirectionsType = 'action' | 'ui' | 'complete';
 /**
  * Definition of direction data.
  */

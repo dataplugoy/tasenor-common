@@ -3,13 +3,13 @@ import { LocalUrl, Token, TokenPair, Url, UUID, Value } from '../types';
 /**
  * HTTP methods in use on the system.
  */
-export declare type HttpMethod = 'GET' | 'PUT' | 'POST' | 'DELETE' | 'PATCH' | 'HEAD';
+export type HttpMethod = 'GET' | 'PUT' | 'POST' | 'DELETE' | 'PATCH' | 'HEAD';
 /**
  * Status codes used in the system.
  */
-export declare type SupportedSuccessStatus = 200 | 204;
-export declare type SupportedFailStatus = 400 | 401 | 403 | 404 | 500;
-export declare type SupportedStatus = SupportedSuccessStatus | SupportedFailStatus;
+export type SupportedSuccessStatus = 200 | 204;
+export type SupportedFailStatus = 400 | 401 | 403 | 404 | 500;
+export type SupportedStatus = SupportedSuccessStatus | SupportedFailStatus;
 /**
  * A response content format for successfull REST call.
  */
@@ -31,7 +31,7 @@ export declare function isHttpFailureResponse(obj: unknown): obj is HttpFailureR
 /**
  * A HTTP response content format for REST call.
  */
-export declare type HttpResponse = HttpSuccessResponse | HttpFailureResponse;
+export type HttpResponse = HttpSuccessResponse | HttpFailureResponse;
 /**
  * Internal configuration interface for keeping token and refresh information per sites.
  */
@@ -63,7 +63,7 @@ export interface HttpExtraHeaders {
 /**
  * A type of a function that performs a REST call.
  */
-export declare type HttpRequestFunction = (url: LocalUrl | Url, data?: Value | FormData, extraHeaders?: HttpExtraHeaders) => Promise<HttpResponse>;
+export type HttpRequestFunction = (url: LocalUrl | Url, data?: Value | FormData, extraHeaders?: HttpExtraHeaders) => Promise<HttpResponse>;
 /**
  * Refresh the token for the given site.
  * @param url

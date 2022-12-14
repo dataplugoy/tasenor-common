@@ -13,20 +13,20 @@ import { SegmentId } from '../../import/TextFileLine';
 /**
  * An asset denoting some particular crypto currency ticker.
  */
-export declare type CryptoCurrency = Opaque<string, 'CryptoCurrency'>;
+export type CryptoCurrency = Opaque<string, 'CryptoCurrency'>;
 /**
  * A string describing a type of tax handled in transfer.
  */
-export declare type VATTaxType = 'VAT_RECEIVABLE' | 'VAT_PAYABLE' | 'VAT_FROM_PURCHASES' | 'VAT_FROM_SALES';
-export declare type TaxType = VATTaxType | 'CORPORATE_TAX' | 'PENALTY_OF_DELAY' | 'WITHHOLDING_TAX';
+export type VATTaxType = 'VAT_RECEIVABLE' | 'VAT_PAYABLE' | 'VAT_FROM_PURCHASES' | 'VAT_FROM_SALES';
+export type TaxType = VATTaxType | 'CORPORATE_TAX' | 'PENALTY_OF_DELAY' | 'WITHHOLDING_TAX';
 /**
  * A string describing a stock asset.
  */
-export declare type StockTicker = Opaque<string, 'StockTicker'>;
+export type StockTicker = Opaque<string, 'StockTicker'>;
 /**
  * A symbol denoting some tradable asset like a stock ticker.
  */
-export declare type TradeableAsset = CryptoCurrency | StockTicker;
+export type TradeableAsset = CryptoCurrency | StockTicker;
 /**
  * A symbol denoting any asset.
  *
@@ -39,7 +39,7 @@ export declare type TradeableAsset = CryptoCurrency | StockTicker;
  * * For *expense* it is a code of the expense sink. See {@link ExpenseSink}.
  * * For *tax* it is a code of the tax. See {@link TaxType}.
  */
-export declare type Asset = Currency | TradeableAsset | IncomeSource | ExpenseSink | TaxType;
+export type Asset = Currency | TradeableAsset | IncomeSource | ExpenseSink | TaxType;
 /**
  * A fundamental reason describing one atomic piece of an asset transfer.
  *
@@ -57,12 +57,12 @@ export declare type Asset = Currency | TradeableAsset | IncomeSource | ExpenseSi
  * - `transfer` - Any neutral transfer of an asset from one service provider to another service provider.
  * - `withdrawal` - - A transfer of an asset like currency from some particular service provider.
  */
-export declare type AssetTransferReason = 'correction' | 'deposit' | 'distribution' | 'dividend' | 'expense' | 'fee' | 'forex' | 'income' | 'investment' | 'tax' | 'trade' | 'transfer' | 'withdrawal';
+export type AssetTransferReason = 'correction' | 'deposit' | 'distribution' | 'dividend' | 'expense' | 'fee' | 'forex' | 'income' | 'investment' | 'tax' | 'trade' | 'transfer' | 'withdrawal';
 export declare function isAssetTransferReason(s: unknown): s is AssetTransferReason;
 /**
  * A place where assets can be traded.
  */
-export declare type AssetExchange = Opaque<string, 'AssetExchange'>;
+export type AssetExchange = Opaque<string, 'AssetExchange'>;
 /**
  * Primary classification of the asset itself or describing counterpart of the transfer.
  * * `account` - Direct reference to the account number.
@@ -75,19 +75,19 @@ export declare type AssetExchange = Opaque<string, 'AssetExchange'>;
  * * `statement` - Entry for income and expense statement purposes.
  * * `stock` - An instrument tradeable in the stock exchange.
  */
-export declare type AssetType = 'account' | 'stock' | 'short' | 'currency' | 'debt' | 'crypto' | 'external' | 'statement' | 'other';
+export type AssetType = 'account' | 'stock' | 'short' | 'currency' | 'debt' | 'crypto' | 'external' | 'statement' | 'other';
 export declare function isAssetType(s: unknown): s is AssetType;
 /**
  * A pair of asset amount and its value. Can be used both delta or actual value.
  */
-export declare type StockValueData = {
+export type StockValueData = {
     amount: number;
     value: number;
 };
 /**
  * A description how asset values and amounts has changed.
  */
-export declare type StockChangeDelta = {
+export type StockChangeDelta = {
     stock: {
         change: Partial<Record<Asset, StockValueData>>;
     };
@@ -96,7 +96,7 @@ export declare function isStockChangeDelta(o: unknown): o is StockChangeDelta;
 /**
  * A fixed description of the assets in stock.
  */
-export declare type StockChangeFixed = {
+export type StockChangeFixed = {
     stock: {
         set: Partial<Record<Asset, StockValueData>>;
     };
@@ -105,16 +105,16 @@ export declare function isStockChangeFixed(o: unknown): o is StockChangeFixed;
 /**
  * A description of asset situation either as fixed number or change since the previous.
  */
-export declare type StockChangeData = StockChangeDelta | StockChangeFixed;
+export type StockChangeData = StockChangeDelta | StockChangeFixed;
 export declare function isStockChangeData(o: unknown): o is StockChangeData;
 /**
  * A map of valuation rates for assets.
  */
-export declare type AssetRates = Partial<Record<Asset, number>>;
+export type AssetRates = Partial<Record<Asset, number>>;
 /**
  * Collection of asset valuation rates.
  */
-export declare type AssetRatesData = {
+export type AssetRatesData = {
     rates: AssetRates;
 };
 /**
@@ -134,7 +134,7 @@ export declare type AssetRatesData = {
  * * `vat` - Different VAT percentage to be applied.
  * * `vatValue` - Different VAT to be applied as actual amount of VAT.
  */
-export declare type AdditionalTransferInfo = {
+export type AdditionalTransferInfo = {
     asset?: Asset;
     perAsset?: number;
     count?: number;
@@ -157,7 +157,7 @@ export declare type AdditionalTransferInfo = {
  *
  * Can be also undefined and null. Those as well as empty strings are removed automatically.
  */
-export declare type TransferNote = string | null | undefined;
+export type TransferNote = string | null | undefined;
 /**
  * An asset transfer decription used when analysing import data.
  *
@@ -165,7 +165,7 @@ export declare type TransferNote = string | null | undefined;
  * A conditional expression can be used in rules to specify if this is excluded under
  * certain condition, i.e. `if` expression is given and evaluates to false.
  */
-export declare type AssetTransfer = {
+export type AssetTransfer = {
     segmentId?: SegmentId;
     reason: AssetTransferReason;
     amount?: number;
@@ -181,7 +181,7 @@ export declare function isAssetTransfer(s: unknown): s is AssetTransfer;
 /**
  * A description what happens in the imported data.
  */
-export declare type TransactionDescription = {
+export type TransactionDescription = {
     type: 'transfers';
     transfers: AssetTransfer[];
     transactions?: Transaction[];
@@ -189,13 +189,13 @@ export declare type TransactionDescription = {
 /**
  * Basic classification of different financial transactions.
  */
-export declare type TransactionKind = 'correction' | 'buy' | 'dividend' | 'distribution' | 'expense' | 'forex' | 'investment' | 'sell' | 'trade' | 'short-sell' | 'short-buy' | 'withdrawal' | 'deposit' | 'transfer' | 'income' | 'interest' | 'loan' | 'pay' | 'stockdividend' | 'split' | 'tax' | 'error';
+export type TransactionKind = 'correction' | 'buy' | 'dividend' | 'distribution' | 'expense' | 'forex' | 'investment' | 'sell' | 'trade' | 'short-sell' | 'short-buy' | 'withdrawal' | 'deposit' | 'transfer' | 'income' | 'interest' | 'loan' | 'pay' | 'stockdividend' | 'split' | 'tax' | 'error';
 /**
  * A generic description of the account describing a purpose of the account.
  *
  * The address is a string `<reason>.<type>.<asset>` separated with dots. A `reason` is am AssetTransferReason,
  * a `type` is an AssetType and `asset` either asset name or '*' to denote any asset.
  */
-export declare type AccountAddress = Opaque<string, 'AccountAddress'>;
+export type AccountAddress = Opaque<string, 'AccountAddress'>;
 export declare function isAccountAddress(obj: unknown): obj is AccountAddress;
 export * from './TransactionApplyResults';

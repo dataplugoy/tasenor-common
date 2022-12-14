@@ -23,5 +23,5 @@ export declare function isImportAnswerAction(obj: unknown): obj is ImportAnswerA
 /**
  * Import step as an action.
  */
-export declare type ImportAction = ImportOpAction | ImportConfigureAction | ImportAnswerAction;
+export type ImportAction = ImportOpAction | ImportConfigureAction | ImportAnswerAction;
 export declare function isImportAction(obj: unknown): obj is ImportAction;

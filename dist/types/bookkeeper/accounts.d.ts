@@ -14,5 +14,5 @@ export declare enum AccountType {
 /**
  * A string presenting account number.
  */
-export declare type AccountNumber = Opaque<string, 'AccountNumber'>;
+export type AccountNumber = Opaque<string, 'AccountNumber'>;
 export declare function isAccountNumber(s: unknown): s is AccountNumber;

@@ -5,7 +5,7 @@ import { AccountNumber } from "./accounts";
 /**
  * Additional optional information like stock changes or conversion rates used for a transaction line.
  */
-export declare type TransactionLineData = {
+export type TransactionLineData = {
     stock?: {
         change: Record<Asset, StockValueData>;
     };
@@ -14,7 +14,7 @@ export declare type TransactionLineData = {
 /**
  * A single line of transaction.
  */
-export declare type TransactionLine = {
+export type TransactionLine = {
     id?: ID;
     account: AccountNumber;
     amount: number;
@@ -24,11 +24,11 @@ export declare type TransactionLine = {
 /**
  * If transaction is a result of an import, then this type describes if it has been created.
  */
-export declare type ImportExecutionResult = 'not done' | 'created' | 'duplicate' | 'ignored';
+export type ImportExecutionResult = 'not done' | 'created' | 'duplicate' | 'ignored';
 /**
  * A transaction data.
  */
-export declare type Transaction = {
+export type Transaction = {
     id?: ID;
     date: Date;
     segmentId?: SegmentId;

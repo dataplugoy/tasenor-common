@@ -3,11 +3,11 @@ import { AssetTransfer } from '..';
 import { TextFileLine } from '../import/TextFileLine';
 import { UIQuery } from './query';
 import { RuleFilterView, RuleResultView } from './editor';
-export declare type Expression = Opaque<string, 'Expression'>;
-export declare type RuleValue = number | string | null | false | true | object | Array<RuleValue>;
-export declare type RuleVariables = Record<string, RuleValue>;
-export declare type ImportRuleResult = Record<Partial<keyof AssetTransfer>, Expression>;
-export declare type ImportRule = {
+export type Expression = Opaque<string, 'Expression'>;
+export type RuleValue = number | string | null | false | true | object | Array<RuleValue>;
+export type RuleVariables = Record<string, RuleValue>;
+export type ImportRuleResult = Record<Partial<keyof AssetTransfer>, Expression>;
+export type ImportRule = {
     name: string;
     filter: Expression;
     view?: {

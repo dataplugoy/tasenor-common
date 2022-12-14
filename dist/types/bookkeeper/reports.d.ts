@@ -20,7 +20,7 @@ export interface ReportQueryParams {
 /**
  * Rendering hints for alliwing selection of report options in UI.
  */
-export declare type ReportWidgetType = 'boolean' | 'boolean:true' | 'radio:1' | 'radio:1' | 'radio:1' | 'radio:1:default';
+export type ReportWidgetType = 'boolean' | 'boolean:true' | 'radio:1' | 'radio:1' | 'radio:1' | 'radio:1:default';
 /**
  * Various options to adjust report display.
  *
@@ -44,16 +44,16 @@ export interface ReportOptions {
 /**
  * String identifier for the report type.
  */
-export declare type ReportID = Opaque<string, 'ReportID'>;
+export type ReportID = Opaque<string, 'ReportID'>;
 export declare function isReportID(s: unknown): s is ReportID;
 /**
  * TSV text data desription of the report format.
  */
-export declare type ReportFormat = Opaque<string, 'ReportFormat'>;
+export type ReportFormat = Opaque<string, 'ReportFormat'>;
 /**
  * Names of the flags usable as an option in a report line.
  */
-export declare type ReportFlagName = 'NEW_PAGE' | 'BREAK' | 'BOLD' | 'ITALIC' | 'DETAILS' | 'HIDE_TOTAL' | 'REQUIRED';
+export type ReportFlagName = 'NEW_PAGE' | 'BREAK' | 'BOLD' | 'ITALIC' | 'DETAILS' | 'HIDE_TOTAL' | 'REQUIRED';
 /**
  * Formatting instructions for one content line of the report.
  *
@@ -105,23 +105,23 @@ export interface ReportColumnDefinition {
 /**
  * An item denoting a page break in a printed report and wider vertical space on screen.
  */
-export declare type ReportLinePageBreak = {
+export type ReportLinePageBreak = {
     pageBreak: true;
 };
 /**
  * An item denoting a paragraph break in a report.
  */
-export declare type ReportLineParagrapBreak = {
+export type ReportLineParagrapBreak = {
     paragraphBreak: true;
 };
 /**
  * A single line of the report description.
  */
-export declare type ReportLine = ReportItem | ReportLinePageBreak | ReportLineParagrapBreak | Record<string, never>;
+export type ReportLine = ReportItem | ReportLinePageBreak | ReportLineParagrapBreak | Record<string, never>;
 /**
  * A complete report data.
  */
-export declare type Report = {
+export type Report = {
     format: ReportID;
     columns: ReportColumnDefinition[];
     meta: Record<string, string>;

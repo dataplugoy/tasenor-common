@@ -135,7 +135,7 @@ export declare function isRadioElement(object: unknown): object is RadioElement;
 /**
  * An element that allows one to select one of the accounts from dropdown.
  */
-export declare type AccountElement = ActiveElement & NamedElement & {
+export type AccountElement = ActiveElement & NamedElement & {
     readonly type: 'account';
     filter?: FilterRule;
     preferred?: AccountNumber[];
@@ -144,7 +144,7 @@ export declare function isAccountElement(object: unknown): object is AccountElem
 /**
  * An element that allows one to select one of the accounts from dropdown.
  */
-export declare type TagsElement = ActiveElement & NamedElement & {
+export type TagsElement = ActiveElement & NamedElement & {
     readonly type: 'tags';
     label?: string;
     single?: boolean;
@@ -165,14 +165,14 @@ export declare function isTagsElement(object: unknown): object is TagsElement;
 /**
  * An element that allows one to select a currency.
  */
-export declare type CurrencyElement = ActiveElement & NamedElement & {
+export type CurrencyElement = ActiveElement & NamedElement & {
     readonly type: 'currency';
 };
 export declare function isCurrencyElement(object: unknown): object is CurrencyElement;
 /**
  * Editor for import rules.
  */
-export declare type RuleEditorElement = ActiveElement & NamedElement & {
+export type RuleEditorElement = ActiveElement & NamedElement & {
     readonly type: 'ruleEditor';
     lines: TextFileLine[];
     cashAccount: AccountNumber | null;
@@ -183,5 +183,5 @@ export declare function isRuleEditorElement(object: unknown): object is RuleEdit
 /**
  * A type for all Tasenor and RISP elements used.
  */
-export declare type TasenorElement = AccountElement | TagsElement | CurrencyElement | BooleanElement | BoxElement | ButtonElement | CaseElement | FlatElement | HtmlElement | MessageElement | RadioElement | TextElement | NumberElement | TextFileLineElement | YesNoElement | RuleEditorElement;
+export type TasenorElement = AccountElement | TagsElement | CurrencyElement | BooleanElement | BoxElement | ButtonElement | CaseElement | FlatElement | HtmlElement | MessageElement | RadioElement | TextElement | NumberElement | TextFileLineElement | YesNoElement | RuleEditorElement;
 export declare function isTasenorElement(object: unknown): object is TasenorElement;
