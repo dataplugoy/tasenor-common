@@ -363,7 +363,6 @@ var Knowledge = class {
     });
     const handle = (id) => {
       if (!tree[id]) {
-        console.log(tree);
         throw new Error(`Reference to undefined VAT ID: '${id}''.`);
       }
       if (tree[id].handled) {
@@ -520,7 +519,7 @@ function isHtmlElement(object) {
   return typeof object === "object" && object !== null && object["type"] === "html" && "html" in object && typeof object["html"] === "string";
 }
 function isMessageElement(object) {
-  return typeof object === "object" && object !== null && object["type"] === "message" && "severity" in object && ["info", "warning", "error", "success"].includes(object["severity"]) && "text" in object && typeof object["text"] === "string";
+  return typeof object === "object" && object !== null && object["type"] === "message" && "severity" in object && typeof object["severity"] === "string" && ["info", "warning", "error", "success"].includes(object["severity"]) && "text" in object && typeof object["text"] === "string";
 }
 function isTextFileLineElement(object) {
   return typeof object === "object" && object !== null && object["type"] === "textFileLine" && "line" in object && typeof object["line"] === "object" && object["line"] !== null;
@@ -838,16 +837,16 @@ function isAssetType(s) {
   return typeof s === "string" && ["account", "stock", "short", "currency", "debt", "crypto", "external", "statement", "other"].includes(s);
 }
 function isStockChangeDelta(o) {
-  return typeof o === "object" && o !== null && "stock" in o && "change" in o["stock"];
+  return typeof o === "object" && o !== null && "stock" in o && typeof o["stock"] === "object" && o["stock"] !== null && "change" in o["stock"];
 }
 function isStockChangeFixed(o) {
-  return typeof o === "object" && o !== null && "stock" in o && "set" in o["stock"];
+  return typeof o === "object" && o !== null && "stock" in o && typeof o["stock"] === "object" && o["stock"] !== null && "set" in o["stock"];
 }
 function isStockChangeData(o) {
   return isStockChangeDelta(o) || isStockChangeFixed(o);
 }
 function isAssetTransfer(s) {
-  return typeof s === "object" && s !== null && "reason" in s && "type" in s && "asset" in s && s["reason"] && s["type"] && s["asset"];
+  return typeof s === "object" && s !== null && "reason" in s && "type" in s && "asset" in s && !!s["reason"] && !!s["type"] && !!s["asset"];
 }
 function isAccountAddress(obj) {
   if (typeof obj !== "string" || !/^[a-z]+\.[a-z]+\.[*a-z]+$/.test(obj))
@@ -2393,7 +2392,7 @@ var net = {
 };
 
 // src/net/services.ts
-var CONFIG = {
+CONFIG = {
   API: {
     url: ""
   },

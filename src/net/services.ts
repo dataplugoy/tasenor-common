@@ -39,7 +39,11 @@ export interface ServiceConfig {
 /**
  * Configurable service addresses.
  */
-const CONFIG: {[key: string]: ServiceConfig} = {
+declare global {
+  let CONFIG
+}
+
+CONFIG = {
   API: {
     url: ''
   },

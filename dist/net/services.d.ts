@@ -28,6 +28,12 @@ export interface ServiceConfig {
     url: string;
 }
 /**
+ * Configurable service addresses.
+ */
+declare global {
+    let CONFIG: any;
+}
+/**
  * Configure the URL for the service.
  * @param name
  * @param url
