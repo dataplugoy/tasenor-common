@@ -1,6 +1,6 @@
 {
   "name": "@dataplug/tasenor-common",
-  "version": "1.8.19",
+  "version": "1.8.20",
   "description": "Common parts of Tasenor project",
   "main": "dist/index.js",
   "repository": "git@github.com:dataplugoy/tasenor-common.git",
@@ -50,8 +50,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "6.0.1",
     "eslint-plugin-tsdoc": "0.2.16",
-    "typescript": "4.7.4",
     "jest": "28.1.1",
-    "ts-jest": "28.0.5"
+    "ts-jest": "28.0.5",
+    "typescript": "4.7.4"
   }
 }
