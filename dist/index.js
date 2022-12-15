@@ -58,6 +58,7 @@ __export(src_exports, {
   filterView2name: () => filterView2name,
   filterView2results: () => filterView2results,
   filterView2rule: () => filterView2rule,
+  getServerRoot: () => getServerRoot,
   haveCatalog: () => haveCatalog,
   haveCursor: () => haveCursor,
   haveKnowledge: () => haveKnowledge,
@@ -136,6 +137,7 @@ __export(src_exports, {
   realNegative: () => realNegative,
   realPositive: () => realPositive,
   setGlobalComponents: () => setGlobalComponents,
+  setServerRoot: () => setServerRoot,
   sortTransactions: () => sortTransactions,
   timestamp: () => timestamp,
   ucfirst: () => ucfirst,
@@ -223,6 +225,15 @@ function haveKnowledge() {
     throw new Error("Call to haveKnowledge() before global components set with setGlobalComponents().");
   }
   return _knowledge;
+}
+function setServerRoot(path) {
+  _serverRoot = path;
+}
+function getServerRoot() {
+  if (!_serverRoot) {
+    throw new Error("Server root is not set.");
+  }
+  return _serverRoot;
 }
 
 // src/bookkeeper/Knowledge.ts
@@ -2426,6 +2437,7 @@ var isID = (id) => isRealID(id) || id === null;
   filterView2name,
   filterView2results,
   filterView2rule,
+  getServerRoot,
   haveCatalog,
   haveCursor,
   haveKnowledge,
@@ -2504,6 +2516,7 @@ var isID = (id) => isRealID(id) || id === null;
   realNegative,
   realPositive,
   setGlobalComponents,
+  setServerRoot,
   sortTransactions,
   timestamp,
   ucfirst,
