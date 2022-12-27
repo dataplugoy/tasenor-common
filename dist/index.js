@@ -545,7 +545,7 @@ function isCurrencyElement(object) {
   return isActiveElement(object) && isNamedElement(object) && object["type"] === "currency";
 }
 function isRuleEditorElement(object) {
-  return isActiveElement(object) && isNamedElement(object) && object["type"] === "ruleEditor" && "config" in object && typeof object["config"] === "object" && "options" in object && typeof object["options"] === "object" && "lines" in object && typeof object["lines"] === "object" && "casgAccount" in object;
+  return isActiveElement(object) && isNamedElement(object) && object["type"] === "ruleEditor" && "config" in object && typeof object["config"] === "object" && "options" in object && typeof object["options"] === "object" && "lines" in object && typeof object["lines"] === "object" && "cashAccount" in object;
 }
 function isTasenorElement(object) {
   return typeof object === "object" && (isAccountElement(object) || isTagsElement(object) || isCurrencyElement(object) || isBooleanElement(object) || isBoxElement(object) || isButtonElement(object) || isCaseElement(object) || isFlatElement(object) || isHtmlElement(object) || isMessageElement(object) || isRadioElement(object) || isTextElement(object) || isNumberElement(object) || isTextFileLineElement(object) || isYesNoElement(object) || isRuleEditorElement(object));

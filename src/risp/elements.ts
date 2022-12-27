@@ -270,7 +270,7 @@ export function isRuleEditorElement(object: unknown): object is RuleEditorElemen
     && 'config' in object && typeof object['config'] === 'object'
     && 'options' in object && typeof object['options'] === 'object'
     && 'lines' in object && typeof object['lines'] === 'object'
-    && 'casgAccount' in object
+    && 'cashAccount' in object
   )
 }
 
