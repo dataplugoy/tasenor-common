@@ -46,10 +46,20 @@ export function isImportAnswerAction(obj: unknown): obj is ImportAnswerAction {
 }
 
 /**
+ * Retry processing (after some code changes).
+ */
+export type ImportRetryAction = {
+  retry: true
+}
+export function isImportRetryAction(obj: unknown): obj is ImportRetryAction {
+  return (typeof obj === 'object' && obj !== null && obj['retry'] === true)
+}
+
+/**
  * Import step as an action.
  */
-export type ImportAction = ImportOpAction | ImportConfigureAction | ImportAnswerAction
+export type ImportAction = ImportOpAction | ImportConfigureAction | ImportAnswerAction | ImportRetryAction
 
 export function isImportAction(obj: unknown): obj is ImportAction {
-  return isImportOpAction(obj) || isImportConfigureAction(obj) || isImportAnswerAction(obj)
+  return isImportOpAction(obj) || isImportConfigureAction(obj) || isImportAnswerAction(obj) || isImportRetryAction(obj)
 }

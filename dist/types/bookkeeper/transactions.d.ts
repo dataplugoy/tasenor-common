@@ -28,7 +28,7 @@ export type TransactionLine = {
  * * `not done` - Execution is not yet performed.
  * * `created` - Entries has been created.
  * * `duplicate` - Entries has been found as duplicate.
- * * `ignored` - Entries has been found as duplicate.
+ * * `ignored` - Entries has been ignored by some rule.
  * * `skipped` - This transaction has been explicitly skipped by user instruction.
  */
 export type ImportExecutionResult = 'not done' | 'created' | 'duplicate' | 'ignored' | 'skipped';

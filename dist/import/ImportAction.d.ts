@@ -21,7 +21,14 @@ export interface ImportAnswerAction {
 }
 export declare function isImportAnswerAction(obj: unknown): obj is ImportAnswerAction;
 /**
+ * Retry processing (after some code changes).
+ */
+export type ImportRetryAction = {
+    retry: true;
+};
+export declare function isImportRetryAction(obj: unknown): obj is ImportRetryAction;
+/**
  * Import step as an action.
  */
-export type ImportAction = ImportOpAction | ImportConfigureAction | ImportAnswerAction;
+export type ImportAction = ImportOpAction | ImportConfigureAction | ImportAnswerAction | ImportRetryAction;
 export declare function isImportAction(obj: unknown): obj is ImportAction;

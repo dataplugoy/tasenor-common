@@ -90,6 +90,7 @@ __export(src_exports, {
   isImportAnswerAction: () => isImportAnswerAction,
   isImportConfigureAction: () => isImportConfigureAction,
   isImportOpAction: () => isImportOpAction,
+  isImportRetryAction: () => isImportRetryAction,
   isImportState: () => isImportState,
   isLanguage: () => isLanguage,
   isLocalUrl: () => isLocalUrl,
@@ -1441,8 +1442,11 @@ function isImportAnswerAction(obj) {
   }
   return false;
 }
+function isImportRetryAction(obj) {
+  return typeof obj === "object" && obj !== null && obj["retry"] === true;
+}
 function isImportAction(obj) {
-  return isImportOpAction(obj) || isImportConfigureAction(obj) || isImportAnswerAction(obj);
+  return isImportOpAction(obj) || isImportConfigureAction(obj) || isImportAnswerAction(obj) || isImportRetryAction(obj);
 }
 
 // src/import/ImportState.ts
@@ -2471,6 +2475,7 @@ var isID = (id) => isRealID(id) || id === null;
   isImportAnswerAction,
   isImportConfigureAction,
   isImportOpAction,
+  isImportRetryAction,
   isImportState,
   isLanguage,
   isLocalUrl,
