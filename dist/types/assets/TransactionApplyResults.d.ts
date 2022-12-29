@@ -6,6 +6,7 @@ export declare class TransactionApplyResults {
     created: number;
     duplicates: number;
     ignored: number;
+    skipped: number;
     accounts: Record<AccountNumber, number>;
     constructor();
     /**

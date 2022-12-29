@@ -7,12 +7,14 @@ export class TransactionApplyResults {
   created: number
   duplicates: number
   ignored: number
+  skipped: number
   accounts: Record<AccountNumber, number>
 
   constructor() {
     this.created = 0
     this.duplicates = 0
     this.ignored = 0
+    this.skipped = 0
     this.accounts = {}
   }
 
@@ -85,6 +87,7 @@ export class TransactionApplyResults {
       created: this.created,
       ignored: this.ignored,
       duplicates: this.duplicates,
+      skipped: this.skipped,
       accounts: this.accounts
     }
   }

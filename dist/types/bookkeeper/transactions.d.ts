@@ -23,8 +23,15 @@ export type TransactionLine = {
 };
 /**
  * If transaction is a result of an import, then this type describes if it has been created.
+ *
+ * Values are:
+ * * `not done` - Execution is not yet performed.
+ * * `created` - Entries has been created.
+ * * `duplicate` - Entries has been found as duplicate.
+ * * `ignored` - Entries has been found as duplicate.
+ * * `skipped` - This transaction has been explicitly skipped by user instruction.
  */
-export type ImportExecutionResult = 'not done' | 'created' | 'duplicate' | 'ignored';
+export type ImportExecutionResult = 'not done' | 'created' | 'duplicate' | 'ignored' | 'skipped';
 /**
  * A transaction data.
  */
