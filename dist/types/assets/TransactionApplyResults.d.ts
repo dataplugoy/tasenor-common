@@ -25,6 +25,11 @@ export declare class TransactionApplyResults {
      */
     duplicate(tx: Transaction): void;
     /**
+     * Add transaction as skipped.
+     * @param tx
+     */
+    skip(tx: Transaction): void;
+    /**
      * Record changes from the transaction.
      * @param tx
      */

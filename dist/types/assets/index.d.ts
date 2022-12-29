@@ -189,7 +189,7 @@ export type TransactionDescription = {
 /**
  * Basic classification of different financial transactions.
  */
-export type TransactionKind = 'correction' | 'buy' | 'dividend' | 'distribution' | 'expense' | 'forex' | 'investment' | 'sell' | 'trade' | 'short-sell' | 'short-buy' | 'withdrawal' | 'deposit' | 'transfer' | 'income' | 'interest' | 'loan' | 'pay' | 'stockdividend' | 'split' | 'tax' | 'error';
+export type TransactionKind = 'buy' | 'correction' | 'deposit' | 'distribution' | 'dividend' | 'error' | 'expense' | 'forex' | 'income' | 'interest' | 'investment' | 'loan' | 'none' | 'pay' | 'sell' | 'short-buy' | 'short-sell' | 'split' | 'stockdividend' | 'tax' | 'trade' | 'transfer' | 'withdrawal';
 /**
  * A generic description of the account describing a purpose of the account.
  *

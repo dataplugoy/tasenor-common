@@ -246,28 +246,29 @@ export type TransactionDescription = {
  * Basic classification of different financial transactions.
  */
 export type TransactionKind =
-  'correction' |
   'buy' |
-  'dividend' |
+  'correction' |
+  'deposit' |
   'distribution' |
+  'dividend' |
+  'error' |
   'expense' |
   'forex' |
-  'investment' |
-  'sell' |
-  'trade' |
-  'short-sell' |
-  'short-buy' |
-  'withdrawal' |
-  'deposit' |
-  'transfer' |
   'income' |
   'interest' |
+  'investment' |
   'loan' |
+  'none' |
   'pay' |
-  'stockdividend' |
+  'sell' |
+  'short-buy' |
+  'short-sell' |
   'split' |
+  'stockdividend' |
   'tax' |
-  'error'
+  'trade' |
+  'transfer' |
+  'withdrawal'
 
 /**
  * A generic description of the account describing a purpose of the account.

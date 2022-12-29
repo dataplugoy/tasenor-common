@@ -46,6 +46,15 @@ export class TransactionApplyResults {
   }
 
   /**
+   * Add transaction as skipped.
+   * @param tx
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  skip(tx: Transaction) {
+    this.skipped++
+  }
+
+  /**
    * Record changes from the transaction.
    * @param tx
    */

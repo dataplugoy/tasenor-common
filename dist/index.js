@@ -792,6 +792,9 @@ var TransactionApplyResults = class {
   duplicate(tx) {
     this.duplicates++;
   }
+  skip(tx) {
+    this.skipped++;
+  }
   record(tx) {
     for (const entry of tx.entries) {
       const { account, amount } = entry;
