@@ -28,6 +28,7 @@
  *
  * @module tasenor-common/src/import
  */
+export * from './ImportConfig'
 export * from './ImportAction'
 export * from './ImportCSVOptions'
 export * from './ImportState'

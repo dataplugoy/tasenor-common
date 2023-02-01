@@ -80,16 +80,17 @@ export declare class RulesEngine {
     eval(expr: Expression | string | object, variables?: RuleVariables): RuleValue;
     /**
      * Access function for columns having spaces or other special characters in their name.
+     * Also safe way to get variable that does not necessarily exist, when default value is provided.
      *
      * **Example**
      *
      * ```typescript
-     * $('Column Name')
+     * $('Column Name', null)
      * ```
      * @param column
      * @returns
      */
-    $(column: string): RuleValue | undefined;
+    $(column: string, defaultValue?: RuleValue): RuleValue | undefined;
     /**
      * Use heuristic approach to convert string with spaces and possibly delimters to number.
      *
