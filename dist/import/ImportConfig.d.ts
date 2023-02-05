@@ -1,3 +1,4 @@
+import { ImportRule } from '../language';
 import { AssetTransfer, AccountAddress, AccountNumber, Tag, Language, Currency, ShortDate, AssetType, Asset } from '../types';
 import { SegmentId } from './TextFileLine';
 /**
@@ -24,7 +25,7 @@ export type GlobalAnswers = Partial<{
 /**
  * All answers combined.
  */
-export type ImportAnswers = Record<SegmentId, Answers> & Record<'', GlobalAnswers>;
+export type ImportAnswers = Partial<Record<SegmentId, Answers> & Record<'', GlobalAnswers>>;
 /**
  * Import process configuration.
  */
@@ -37,4 +38,5 @@ export type ImportConfig = Partial<{
     recordDeposits: boolean;
     recordWithdrawals: boolean;
     answers: ImportAnswers;
+    rules: ImportRule[];
 } & Record<AccountAddress, AccountNumber>>;
