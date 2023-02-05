@@ -148,7 +148,7 @@ export class RulesEngine {
     })
 
     this.scope = {
-      $: (column: string, defaultValue: RuleValue = null) => this.$(column, defaultValue),
+      $: (column: string, defaultValue: RuleValue | undefined = undefined) => this.$(column, defaultValue),
       capitalize: (s: string) => this.capitalize(s),
       cents: (n: number) => this.cents(n),
       chosen: (question: string) => this.chosen(question),
@@ -211,6 +211,7 @@ export class RulesEngine {
     return result
   }
 
+
   /**
    * Access function for columns having spaces or other special characters in their name.
    * Also safe way to get variable that does not necessarily exist, when default value is provided.
@@ -223,7 +224,7 @@ export class RulesEngine {
    * @param column
    * @returns
    */
-  $(column: string, defaultValue: RuleValue = null): RuleValue | undefined {
+  $(column: string, defaultValue: RuleValue | undefined = undefined): RuleValue | undefined {
     return column in this.variables ? this.variables[column] : defaultValue
   }
 

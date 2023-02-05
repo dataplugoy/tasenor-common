@@ -1923,7 +1923,7 @@ var RulesEngine = class {
       )
     }, {});
     this.scope = {
-      $: (column, defaultValue = null) => this.$(column, defaultValue),
+      $: (column, defaultValue = void 0) => this.$(column, defaultValue),
       capitalize: (s) => this.capitalize(s),
       cents: (n) => this.cents(n),
       chosen: (question) => this.chosen(question),
@@ -1986,7 +1986,7 @@ var RulesEngine = class {
     }
     return result;
   }
-  $(column, defaultValue = null) {
+  $(column, defaultValue = void 0) {
     return column in this.variables ? this.variables[column] : defaultValue;
   }
   num(str) {

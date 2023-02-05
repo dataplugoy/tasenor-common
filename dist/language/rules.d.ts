@@ -90,7 +90,7 @@ export declare class RulesEngine {
      * @param column
      * @returns
      */
-    $(column: string, defaultValue?: RuleValue): RuleValue | undefined;
+    $(column: string, defaultValue?: RuleValue | undefined): RuleValue | undefined;
     /**
      * Use heuristic approach to convert string with spaces and possibly delimters to number.
      *
