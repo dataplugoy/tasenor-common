@@ -66,3 +66,7 @@ export declare function elementNames(element: TasenorElement): Set<string>;
  * The string is stripped off extra spaces and all but last punctuation.
  */
 export declare function num(str: string): number | typeof NaN;
+/**
+ * Check if the name is related to some secret in need of removal from logs etc.
+ */
+export declare function needHiding(s: string): boolean;

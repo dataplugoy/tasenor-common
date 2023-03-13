@@ -132,6 +132,7 @@ __export(src_exports, {
   month: () => month,
   mute: () => mute,
   near: () => near,
+  needHiding: () => needHiding,
   net: () => net,
   note: () => note,
   num: () => num,
@@ -607,6 +608,9 @@ function num(str) {
   } catch (err) {
     return NaN;
   }
+}
+function needHiding(s) {
+  return /(password|api[-_]*key|secret)/i.test(s);
 }
 
 // src/logging.ts
@@ -2520,6 +2524,7 @@ var isID = (id) => isRealID(id) || id === null;
   month,
   mute,
   near,
+  needHiding,
   net,
   note,
   num,

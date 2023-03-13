@@ -123,3 +123,10 @@ export function num(str: string): number | typeof NaN {
     return NaN
   }
 }
+
+/**
+ * Check if the name is related to some secret in need of removal from logs etc.
+ */
+export function needHiding(s: string): boolean {
+  return /(password|api[-_]*key|secret)/i.test(s)
+}
