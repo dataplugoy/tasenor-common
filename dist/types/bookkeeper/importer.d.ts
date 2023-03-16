@@ -38,7 +38,7 @@ export interface Importer {
  * Options for import handler.
  */
 export interface TransactionImportOptions {
-    parser: 'csv' | 'custom';
+    parser: 'csv' | 'fixed-length' | 'custom';
     numericFields: string[];
     requiredFields: string[];
     insignificantFields?: string[];
