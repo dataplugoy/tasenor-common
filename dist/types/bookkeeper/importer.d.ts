@@ -35,6 +35,14 @@ export interface Importer {
     config: ImporterConfig;
 }
 /**
+ * Options for fixed length records parser.
+ */
+export interface ImportFixedLengthOptions {
+    recordLength: number;
+    columnLengths: number[];
+    columnNames: string[];
+}
+/**
  * Options for import handler.
  */
 export interface TransactionImportOptions {
@@ -45,4 +53,5 @@ export interface TransactionImportOptions {
     totalAmountField: string | null;
     textField: string | null;
     csv?: ImportCSVOptions;
+    fixedLength?: ImportFixedLengthOptions;
 }
