@@ -45,12 +45,10 @@ export interface Importer {
 }
 
 /**
- * Options for fixed length records parser.
+ * Options for custom parser.
  */
-export interface ImportFixedLengthOptions {
-  recordLength: number
-  columnLengths: number[]
-  columnNames: string[]
+export interface ImportCustomOptions {
+  splitToLines: (string) => string[]
 }
 
 /**
@@ -64,5 +62,5 @@ export interface TransactionImportOptions {
   totalAmountField: string | null
   textField: string | null
   csv?: ImportCSVOptions
-  fixedLength?: ImportFixedLengthOptions
+  custom?: ImportCustomOptions
 }
