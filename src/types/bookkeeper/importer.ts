@@ -49,6 +49,7 @@ export interface Importer {
  */
 export interface ImportCustomOptions {
   splitToLines: (string) => string[]
+  splitToColumns: (string) => Record<string, string>
 }
 
 /**
