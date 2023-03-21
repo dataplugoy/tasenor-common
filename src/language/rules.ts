@@ -70,6 +70,7 @@ export class RuleParsingError extends Error {
  * * `cents` - {@link RulesEngine.cents}
  * * `chosen` - {@link RulesEngine.chosen}
  * * `contains` - {@link RulesEngine.contains}
+ * * `concat` - {@link RulesEngine.concat}
  * * `d` - {@link RulesEngine.d}
  * * `isCurrency` - {@link RulesEngine.isCurrency}
  * * `join` - {@link RulesEngine.join}
@@ -79,6 +80,7 @@ export class RuleParsingError extends Error {
  * * `str` - {@link RulesEngine.str}
  * * `rates` - {@link RulesEngine.rates}
  * * `regex` - {@link RulesEngine.regex}
+ * * `sum` - {@link RulesEngine.sum}
  * * `times` - {@link RulesEngine.times}
  * * `ucfirst` - {@link RulesEngine.ucfirst}
  *
@@ -170,6 +172,7 @@ export class RulesEngine {
       times: (count: unknown, target: unknown) => this.times(count, target),
       ucfirst: (s: string) => this.ucfirst(s),
       sum: (vector: unknown[], field: string | undefined) => this.sum(vector, field),
+      concat: (vector: unknown[], field: string | undefined, sep: string | undefined) => this.concat(vector, field, sep),
 
       // Disable dangerous functions.
       import: function () { throw new Error('Function import is disabled.') },
@@ -506,7 +509,7 @@ export class RulesEngine {
 
     let total = 0
 
-    if (field === undefined) {
+    if (!field) {
       vector.forEach(function (value) {
         if (value) {
           try {
@@ -518,8 +521,8 @@ export class RulesEngine {
         }
       })
     } else {
-      vector.forEach(function (value) {
-        if (value) {
+      vector.forEach(function (value: Record<string, unknown>) {
+        if (value[field]) {
           try {
             const add = parseInt(value[field] as string)
             if (!isNaN(add)) {
@@ -533,4 +536,36 @@ export class RulesEngine {
     return total
   }
 
+  /**
+   * Concatenate non-empty strings in the vector or member fields of vector of objects.
+   * @param vector
+   * @param field
+   * @param sep
+   *
+   * Only entries with proper values are used. Empty strings, nulls etc are ignored.
+   * If separator is not given, new line is used by default.
+   */
+  concat(vector: unknown[], field: string | undefined, sep: string | undefined) {
+    if (typeof vector !== 'object') {
+      throw new Error(`Invalid argument ${JSON.stringify(vector)} for concat().`)
+    }
+
+    const parts: string[] = []
+
+    if (!field) {
+      vector.forEach(function (value) {
+        if (value) {
+          parts.push(`${value}`)
+        }
+      })
+    } else {
+      vector.forEach(function (value: Record<string, unknown>) {
+        if (value[field]) {
+          parts.push(`${value[field]}`)
+        }
+      })
+    }
+
+    return parts.join(sep || '\n')
+  }
 }

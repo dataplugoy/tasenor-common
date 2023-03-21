@@ -57,6 +57,7 @@ export declare class RuleParsingError extends Error {
  * * `cents` - {@link RulesEngine.cents}
  * * `chosen` - {@link RulesEngine.chosen}
  * * `contains` - {@link RulesEngine.contains}
+ * * `concat` - {@link RulesEngine.concat}
  * * `d` - {@link RulesEngine.d}
  * * `isCurrency` - {@link RulesEngine.isCurrency}
  * * `join` - {@link RulesEngine.join}
@@ -66,6 +67,7 @@ export declare class RuleParsingError extends Error {
  * * `str` - {@link RulesEngine.str}
  * * `rates` - {@link RulesEngine.rates}
  * * `regex` - {@link RulesEngine.regex}
+ * * `sum` - {@link RulesEngine.sum}
  * * `times` - {@link RulesEngine.times}
  * * `ucfirst` - {@link RulesEngine.ucfirst}
  *
@@ -267,4 +269,14 @@ export declare class RulesEngine {
      * This function is resilient with non-numeric values and they are silently ignored.
      */
     sum(vector: unknown[], field: string | undefined): number;
+    /**
+     * Concatenate non-empty strings in the vector or member fields of vector of objects.
+     * @param vector
+     * @param field
+     * @param sep
+     *
+     * Only entries with proper values are used. Empty strings, nulls etc are ignored.
+     * If separator is not given, new line is used by default.
+     */
+    concat(vector: unknown[], field: string | undefined, sep: string | undefined): string;
 }

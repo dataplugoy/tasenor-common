@@ -235,3 +235,12 @@ test('Rules: sum()', () => {
   expect(e.eval("sum([{a: 3}, {b: -4}, {a: 1, b: 5}], 'c')")).toBe(0)
   expect(e.eval("sum([], 'c')")).toBe(0)
 })
+
+test('Rules: concat()', () => {
+  const e = new RulesEngine({}, true)
+  expect(e.eval("concat([])")).toBe('')
+  expect(e.eval("concat(['a', null, 'b', undefined, ''])")).toBe('a\nb')
+  expect(e.eval("concat(['a', null, 'b', undefined, ''], null, '+')")).toBe('a+b')
+  expect(e.eval("concat([{a: 3}, {b: -4}, {a: 1, b: 5}], 'a')")).toBe('3\n1')
+  expect(e.eval("concat([{a: 3}, {b: -4}, {a: 1, b: 5}], 'x')")).toBe('')
+})

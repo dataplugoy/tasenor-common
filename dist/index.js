@@ -1944,6 +1944,7 @@ var RulesEngine = class {
       times: (count, target) => this.times(count, target),
       ucfirst: (s) => this.ucfirst(s),
       sum: (vector, field) => this.sum(vector, field),
+      concat: (vector, field, sep) => this.concat(vector, field, sep),
       import: function() {
         throw new Error("Function import is disabled.");
       },
@@ -2092,7 +2093,7 @@ var RulesEngine = class {
       throw new Error(`Invalid argument ${JSON.stringify(vector)} for sum().`);
     }
     let total = 0;
-    if (field === void 0) {
+    if (!field) {
       vector.forEach(function(value) {
         if (value) {
           try {
@@ -2106,7 +2107,7 @@ var RulesEngine = class {
       });
     } else {
       vector.forEach(function(value) {
-        if (value) {
+        if (value[field]) {
           try {
             const add = parseInt(value[field]);
             if (!isNaN(add)) {
@@ -2118,6 +2119,26 @@ var RulesEngine = class {
       });
     }
     return total;
+  }
+  concat(vector, field, sep) {
+    if (typeof vector !== "object") {
+      throw new Error(`Invalid argument ${JSON.stringify(vector)} for concat().`);
+    }
+    const parts = [];
+    if (!field) {
+      vector.forEach(function(value) {
+        if (value) {
+          parts.push(`${value}`);
+        }
+      });
+    } else {
+      vector.forEach(function(value) {
+        if (value[field]) {
+          parts.push(`${value[field]}`);
+        }
+      });
+    }
+    return parts.join(sep || "\n");
   }
 };
 
