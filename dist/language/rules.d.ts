@@ -7,9 +7,13 @@ export type Expression = Opaque<string, 'Expression'>;
 export type RuleValue = number | string | null | false | true | object | Array<RuleValue>;
 export type RuleVariables = Record<string, RuleValue>;
 export type ImportRuleResult = Record<Partial<keyof AssetTransfer>, Expression>;
+export type ImportRuleOptions = Partial<{
+    singleMatch: boolean;
+}>;
 export type ImportRule = {
     name: string;
     filter: Expression;
+    options?: ImportRuleOptions;
     view?: {
         filter: RuleFilterView[];
         result: RuleResultView[];
