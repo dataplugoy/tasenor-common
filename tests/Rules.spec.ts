@@ -224,3 +224,14 @@ test('Rules: join()', () => {
   expect(e.eval("join(undefined, 1, null, 'x')")).toBe("1 x")
   expect(e.eval("join(' a ', ' b ')")).toBe("a b")
 })
+
+test('Rules: sum()', () => {
+  const e = new RulesEngine({}, true)
+  expect(e.eval("sum([])")).toBe(0)
+  expect(e.eval("sum([1,2,3])")).toBe(6)
+  expect(e.eval("sum([1,null,'',3, 'xx'])")).toBe(4)
+  expect(e.eval("sum([{a: 3}, {b: -4}, {a: 1, b: 5}], 'a')")).toBe(4)
+  expect(e.eval("sum([{a: 3}, {b: -4}, {a: 1, b: 5}], 'b')")).toBe(1)
+  expect(e.eval("sum([{a: 3}, {b: -4}, {a: 1, b: 5}], 'c')")).toBe(0)
+  expect(e.eval("sum([], 'c')")).toBe(0)
+})

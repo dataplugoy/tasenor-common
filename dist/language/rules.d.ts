@@ -255,4 +255,11 @@ export declare class RulesEngine {
      * Otherwise if it is greater than zero the strint `<count> x <targer>` is returned.
      */
     times(count: unknown, target: unknown): string;
+    /**
+     * Calculate sum of the vector of numbers or member fields of vector of objects.
+     * @param vector
+     * @param field
+     * This function is resilient with non-numeric values and they are silently ignored.
+     */
+    sum(vector: unknown[], field: string | undefined): number;
 }

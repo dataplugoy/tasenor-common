@@ -1943,6 +1943,7 @@ var RulesEngine = class {
       str: (column) => this.str(column),
       times: (count, target) => this.times(count, target),
       ucfirst: (s) => this.ucfirst(s),
+      sum: (vector, field) => this.sum(vector, field),
       import: function() {
         throw new Error("Function import is disabled.");
       },
@@ -2085,6 +2086,38 @@ var RulesEngine = class {
     }
     const num2 = parseInt(`${count}`);
     return `${num2} x ${target}`;
+  }
+  sum(vector, field) {
+    if (typeof vector !== "object") {
+      throw new Error(`Invalid argument ${JSON.stringify(vector)} for sum().`);
+    }
+    let total = 0;
+    if (field === void 0) {
+      vector.forEach(function(value) {
+        if (value) {
+          try {
+            const add = parseInt(value);
+            if (!isNaN(add)) {
+              total += add;
+            }
+          } catch (err) {
+          }
+        }
+      });
+    } else {
+      vector.forEach(function(value) {
+        if (value) {
+          try {
+            const add = parseInt(value[field]);
+            if (!isNaN(add)) {
+              total += add;
+            }
+          } catch (err) {
+          }
+        }
+      });
+    }
+    return total;
   }
 };
 

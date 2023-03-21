@@ -1,5 +1,5 @@
 import Opaque from 'ts-opaque'
-import { create, all, factory, MathJsStatic, clone, typed } from 'mathjs'
+import math, { create, all, factory, MathJsStatic, clone, typed, MathArray } from 'mathjs'
 import { AssetTransfer, isCurrency, warning } from '..'
 import { num } from '../utils'
 import { TextFileLine } from '../import/TextFileLine'
@@ -164,6 +164,7 @@ export class RulesEngine {
       str: (column: unknown) => this.str(column),
       times: (count: unknown, target: unknown) => this.times(count, target),
       ucfirst: (s: string) => this.ucfirst(s),
+      sum: (vector: unknown[], field: string | undefined) => this.sum(vector, field),
 
       // Disable dangerous functions.
       import: function () { throw new Error('Function import is disabled.') },
@@ -486,4 +487,45 @@ export class RulesEngine {
     const num = parseInt(`${count}`)
     return `${num} x ${target}`
   }
+
+  /**
+   * Calculate sum of the vector of numbers or member fields of vector of objects.
+   * @param vector
+   * @param field
+   * This function is resilient with non-numeric values and they are silently ignored.
+   */
+  sum(vector: unknown[], field: string | undefined): number {
+    if (typeof vector !== 'object') {
+      throw new Error(`Invalid argument ${JSON.stringify(vector)} for sum().`)
+    }
+
+    let total = 0
+
+    if (field === undefined) {
+      vector.forEach(function (value) {
+        if (value) {
+          try {
+            const add = parseInt(value as string)
+            if (!isNaN(add)) {
+              total += add
+            }
+          } catch(err) {}
+        }
+      })
+    } else {
+      vector.forEach(function (value) {
+        if (value) {
+          try {
+            const add = parseInt(value[field] as string)
+            if (!isNaN(add)) {
+              total += add
+            }
+          } catch(err) {}
+        }
+      })
+    }
+
+    return total
+  }
+
 }
