@@ -18,6 +18,7 @@ export type ImportRuleOptions = Partial<{
 export type ImportRule = {
   name: string
   filter: Expression
+  comment?: string
   options?: ImportRuleOptions
   view?: {
     filter: RuleFilterView[]
