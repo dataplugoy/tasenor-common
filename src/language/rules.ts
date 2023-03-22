@@ -69,6 +69,7 @@ export class RuleParsingError extends Error {
  * * `capitalize` - {@link RulesEngine.capitalize}
  * * `cents` - {@link RulesEngine.cents}
  * * `chosen` - {@link RulesEngine.chosen}
+ * * `clean` - {@link RulesEngine.clean}
  * * `contains` - {@link RulesEngine.contains}
  * * `concat` - {@link RulesEngine.concat}
  * * `d` - {@link RulesEngine.d}
@@ -159,6 +160,8 @@ export class RulesEngine {
       capitalize: (s: string) => this.capitalize(s),
       cents: (n: number) => this.cents(n),
       chosen: (question: string) => this.chosen(question),
+      clean: (s: string) => this.clean(s),
+      concat: (vector: unknown[], field: string | undefined, sep: string | undefined) => this.concat(vector, field, sep),
       contains: (s: string, r: string) => this.contains(s, r),
       d: (...args: unknown[]) => this.d(...args),
       isCurrency: (str: string) => this.isCurrency(str),
@@ -169,10 +172,9 @@ export class RulesEngine {
       rates: (...args) => this.rates(args),
       regex: (re: string, compare: string, flags: string | undefined) => this.regex(re, compare, flags),
       str: (column: unknown) => this.str(column),
+      sum: (vector: unknown[], field: string | undefined) => this.sum(vector, field),
       times: (count: unknown, target: unknown) => this.times(count, target),
       ucfirst: (s: string) => this.ucfirst(s),
-      sum: (vector: unknown[], field: string | undefined) => this.sum(vector, field),
-      concat: (vector: unknown[], field: string | undefined, sep: string | undefined) => this.concat(vector, field, sep),
 
       // Disable dangerous functions.
       import: function () { throw new Error('Function import is disabled.') },
@@ -567,5 +569,23 @@ export class RulesEngine {
     }
 
     return parts.join(sep || '\n')
+  }
+
+  /**
+   * General purpose cleaning. Trim spaces from the beginning and end of each line. Reduce multiple spaces to one.
+   * Keep newlines as they are except empty lines are dropped.
+   *
+   * **Example**
+   *
+   * ```typescript
+   * clean("   A    \n       B    C") // => "A\nB C"
+   * ```
+   * @param s
+   */
+  clean(s: string): string {
+    return s.split('\n')
+      .map(s => s.replace(/\s+/g, ' ').replace(/^\s+/, '').replace(/\s+$/, ''))
+      .filter(s => s !== '')
+      .join('\n')
   }
 }

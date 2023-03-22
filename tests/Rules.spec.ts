@@ -100,7 +100,7 @@ test('Rules: exceptions', () => {
   expect(() => e.eval("notDefined")).toThrow(RuleParsingError)
 })
 
-xtest('Rules: num()', () => {
+test('Rules: num()', () => {
   const e = new RulesEngine({}, true)
   expect(e.eval("num('1 000')")).toBe(1000)
   expect(e.eval("num('1 000 000.00')")).toBe(1000000)
@@ -243,4 +243,12 @@ test('Rules: concat()', () => {
   expect(e.eval("concat(['a', null, 'b', undefined, ''], null, '+')")).toBe('a+b')
   expect(e.eval("concat([{a: 3}, {b: -4}, {a: 1, b: 5}], 'a')")).toBe('3\n1')
   expect(e.eval("concat([{a: 3}, {b: -4}, {a: 1, b: 5}], 'x')")).toBe('')
+})
+
+test('Rules: clean()', () => {
+  const e = new RulesEngine({}, true)
+  expect(e.eval("clean('   A    V')")).toBe('A V')
+  expect(e.eval("clean('')")).toBe('')
+  expect(e.eval("clean('     ')")).toBe('')
+  expect(e.eval("clean('   A    V')")).toBe('A V')
 })
