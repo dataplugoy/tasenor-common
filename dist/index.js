@@ -1931,6 +1931,8 @@ var RulesEngine = class {
       capitalize: (s) => this.capitalize(s),
       cents: (n) => this.cents(n),
       chosen: (question) => this.chosen(question),
+      clean: (s) => this.clean(s),
+      concat: (vector, field, sep) => this.concat(vector, field, sep),
       contains: (s, r) => this.contains(s, r),
       d: (...args) => this.d(...args),
       isCurrency: (str) => this.isCurrency(str),
@@ -1941,10 +1943,9 @@ var RulesEngine = class {
       rates: (...args) => this.rates(args),
       regex: (re, compare, flags) => this.regex(re, compare, flags),
       str: (column) => this.str(column),
+      sum: (vector, field) => this.sum(vector, field),
       times: (count, target) => this.times(count, target),
       ucfirst: (s) => this.ucfirst(s),
-      sum: (vector, field) => this.sum(vector, field),
-      concat: (vector, field, sep) => this.concat(vector, field, sep),
       import: function() {
         throw new Error("Function import is disabled.");
       },
@@ -2139,6 +2140,9 @@ var RulesEngine = class {
       });
     }
     return parts.join(sep || "\n");
+  }
+  clean(s) {
+    return s.split("\n").map((s2) => s2.replace(/\s+/g, " ").replace(/^\s+/, "").replace(/\s+$/, "")).filter((s2) => s2 !== "").join("\n");
   }
 };
 
