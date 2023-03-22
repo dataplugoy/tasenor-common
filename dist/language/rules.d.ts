@@ -56,6 +56,7 @@ export declare class RuleParsingError extends Error {
  * * `capitalize` - {@link RulesEngine.capitalize}
  * * `cents` - {@link RulesEngine.cents}
  * * `chosen` - {@link RulesEngine.chosen}
+ * * `clean` - {@link RulesEngine.clean}
  * * `contains` - {@link RulesEngine.contains}
  * * `concat` - {@link RulesEngine.concat}
  * * `d` - {@link RulesEngine.d}
@@ -279,4 +280,16 @@ export declare class RulesEngine {
      * If separator is not given, new line is used by default.
      */
     concat(vector: unknown[], field: string | undefined, sep: string | undefined): string;
+    /**
+     * General purpose cleaning. Trim spaces from the beginning and end of each line. Reduce multiple spaces to one.
+     * Keep newlines as they are except empty lines are dropped.
+     *
+     * **Example**
+     *
+     * ```typescript
+     * clean("   A    \n       B    C") // => "A\nB C"
+     * ```
+     * @param s
+     */
+    clean(s: string): string;
 }
