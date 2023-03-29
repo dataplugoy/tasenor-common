@@ -31,7 +31,7 @@ export type FileEncoding = 'utf-8' | 'base64' | 'json';
  *
  * @enum
  */
-export type ProcessStatus = 'INCOMPLETE' | 'WAITING' | 'SUCCEEDED' | 'FAILED' | 'CRASHED';
+export type ProcessStatus = 'INCOMPLETE' | 'WAITING' | 'SUCCEEDED' | 'FAILED' | 'CRASHED' | 'ROLLEDBACK';
 /**
  * An ID for database entries.
  */
