@@ -56,9 +56,19 @@ export function isImportRetryAction(obj: unknown): obj is ImportRetryAction {
 }
 
 /**
+ * Rollback process.
+ */
+export type ImportRollbackAction = {
+  rollback: true
+}
+export function isImportRollbackAction(obj: unknown): obj is ImportRollbackAction {
+  return (typeof obj === 'object' && obj !== null && obj['rollback'] === true)
+}
+
+/**
  * Import step as an action.
  */
-export type ImportAction = ImportOpAction | ImportConfigureAction | ImportAnswerAction | ImportRetryAction
+export type ImportAction = ImportOpAction | ImportConfigureAction | ImportAnswerAction | ImportRetryAction | ImportRollbackAction
 
 export function isImportAction(obj: unknown): obj is ImportAction {
   return isImportOpAction(obj) || isImportConfigureAction(obj) || isImportAnswerAction(obj) || isImportRetryAction(obj)

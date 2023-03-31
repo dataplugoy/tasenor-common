@@ -91,6 +91,7 @@ __export(src_exports, {
   isImportConfigureAction: () => isImportConfigureAction,
   isImportOpAction: () => isImportOpAction,
   isImportRetryAction: () => isImportRetryAction,
+  isImportRollbackAction: () => isImportRollbackAction,
   isImportState: () => isImportState,
   isLanguage: () => isLanguage,
   isLocalUrl: () => isLocalUrl,
@@ -1452,6 +1453,9 @@ function isImportAnswerAction(obj) {
 function isImportRetryAction(obj) {
   return typeof obj === "object" && obj !== null && obj["retry"] === true;
 }
+function isImportRollbackAction(obj) {
+  return typeof obj === "object" && obj !== null && obj["rollback"] === true;
+}
 function isImportAction(obj) {
   return isImportOpAction(obj) || isImportConfigureAction(obj) || isImportAnswerAction(obj) || isImportRetryAction(obj);
 }
@@ -2541,6 +2545,7 @@ var isID = (id) => isRealID(id) || id === null;
   isImportConfigureAction,
   isImportOpAction,
   isImportRetryAction,
+  isImportRollbackAction,
   isImportState,
   isLanguage,
   isLocalUrl,

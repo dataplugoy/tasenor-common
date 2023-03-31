@@ -33,8 +33,9 @@ export type TransactionLine = {
  * * `duplicate` - Entries has been found as duplicate.
  * * `ignored` - Entries has been ignored by some rule.
  * * `skipped` - This transaction has been explicitly skipped by user instruction.
+ * * `reverted` - This transaction has been rolled back later after creation.
  */
-export type ImportExecutionResult = 'not done' | 'created' | 'duplicate' | 'ignored' | 'skipped'
+export type ImportExecutionResult = 'not done' | 'created' | 'duplicate' | 'ignored' | 'skipped' | 'reverted'
 
 /**
  * A transaction data.

@@ -18,7 +18,7 @@ export type ImportStateText<StageType> = {
 /**
  * Union of all import states.
  */
-export type ImportState = ImportStateText<'initial'> | ImportStateText<'segmented'> | ImportStateText<'classified'> | ImportStateText<'analyzed'> | ImportStateText<'executed'>
+export type ImportState = ImportStateText<'initial'> | ImportStateText<'segmented'> | ImportStateText<'classified'> | ImportStateText<'analyzed'> | ImportStateText<'executed'> | ImportStateText<'rolledback'>
 
 export function isImportState(obj: unknown): obj is ImportState {
   if (typeof obj !== 'object') {

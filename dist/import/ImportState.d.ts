@@ -16,5 +16,5 @@ export type ImportStateText<StageType> = {
 /**
  * Union of all import states.
  */
-export type ImportState = ImportStateText<'initial'> | ImportStateText<'segmented'> | ImportStateText<'classified'> | ImportStateText<'analyzed'> | ImportStateText<'executed'>;
+export type ImportState = ImportStateText<'initial'> | ImportStateText<'segmented'> | ImportStateText<'classified'> | ImportStateText<'analyzed'> | ImportStateText<'executed'> | ImportStateText<'rolledback'>;
 export declare function isImportState(obj: unknown): obj is ImportState;

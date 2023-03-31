@@ -28,7 +28,14 @@ export type ImportRetryAction = {
 };
 export declare function isImportRetryAction(obj: unknown): obj is ImportRetryAction;
 /**
+ * Rollback process.
+ */
+export type ImportRollbackAction = {
+    rollback: true;
+};
+export declare function isImportRollbackAction(obj: unknown): obj is ImportRollbackAction;
+/**
  * Import step as an action.
  */
-export type ImportAction = ImportOpAction | ImportConfigureAction | ImportAnswerAction | ImportRetryAction;
+export type ImportAction = ImportOpAction | ImportConfigureAction | ImportAnswerAction | ImportRetryAction | ImportRollbackAction;
 export declare function isImportAction(obj: unknown): obj is ImportAction;
