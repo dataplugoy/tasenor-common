@@ -252,3 +252,9 @@ test('Rules: clean()', () => {
   expect(e.eval("clean('     ')")).toBe('')
   expect(e.eval("clean('   A    V')")).toBe('A V')
 })
+
+test('Rules: ? :', () => {
+  const e = new RulesEngine({}, true)
+  expect(e.eval("1 ? 200 : 300")).toBe(200)
+  expect(e.eval("0 ? 200 : 300")).toBe(300)
+})
