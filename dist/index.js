@@ -816,6 +816,9 @@ var TransactionApplyResults = class {
     if ("ignored" in result) {
       this.ignored += parseInt(result.ignored || "0");
     }
+    if ("skipped" in result) {
+      this.skipped += parseInt(result.skipped || "0");
+    }
     if ("accounts" in result) {
       const accounts = result.accounts;
       Object.keys(accounts).forEach((account) => {

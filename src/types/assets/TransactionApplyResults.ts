@@ -79,6 +79,9 @@ export class TransactionApplyResults {
     if ('ignored' in result) {
       this.ignored += parseInt(result.ignored as string || '0')
     }
+    if ('skipped' in result) {
+      this.skipped += parseInt(result.skipped as string || '0')
+    }
     if ('accounts' in result) {
       const accounts: Record<string, number> = result.accounts as Record<string, number>
       Object.keys(accounts).forEach(account => {
