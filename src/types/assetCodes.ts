@@ -22,6 +22,9 @@
  * * `CURRENT_PRIVATE_STOCK_SHARES` - Unlisted shares
  * * `CURRENT_PUBLIC_STOCK_SHARES` - Publicly listed shares
  * * `CURRENT_STOCKS` - Stocks
+ * * `EURO_AREA_SALES_RECEIVABLES` - Sales receivables from Euro Zone
+ * * `EU_SALES_RECEIVABLES` - Sales receivables from EU
+ * * `FINLAND_SALES_RECEIVABLES` - Sales receivables from Finland
  * * `GROUP_UNDERTAKINGS_HOLDINGS` - Holdings in group undertakings
  * * `INTANGLIBLE_ASSETS` - Intanglible assets
  * * `INVESTMENTS` - Investments
@@ -64,6 +67,9 @@ export type AssetCode = 'ACCRUED_INCOME' |
   'CURRENT_PRIVATE_STOCK_SHARES' |
   'CURRENT_PUBLIC_STOCK_SHARES' |
   'CURRENT_STOCKS' |
+  'EURO_AREA_SALES_RECEIVABLES' |
+  'EU_SALES_RECEIVABLES' |
+  'FINLAND_SALES_RECEIVABLES' |
   'GROUP_UNDERTAKINGS_HOLDINGS' |
   'INTANGLIBLE_ASSETS' |
   'INVESTMENTS' |
