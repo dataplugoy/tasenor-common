@@ -79,6 +79,15 @@ export class BalanceBookkeeping {
   }
 
   /**
+   * Revert transaction resulting from transfer.
+   * @param txEntry
+   * @returns
+   */
+  revert(txEntry: TransactionLine): number {
+    return this.change(txEntry.account, -txEntry.amount)
+  }
+
+  /**
    * Find the balance for the given account.
    */
   get(account: AccountAddress): number {

@@ -752,6 +752,9 @@ var BalanceBookkeeping = class {
   apply(txEntry) {
     return this.change(txEntry.account, txEntry.amount);
   }
+  revert(txEntry) {
+    return this.change(txEntry.account, -txEntry.amount);
+  }
   get(account) {
     return this.balance[this.number[account]] || 0;
   }

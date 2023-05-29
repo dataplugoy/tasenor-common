@@ -42,6 +42,12 @@ export declare class BalanceBookkeeping {
      */
     apply(txEntry: TransactionLine): number;
     /**
+     * Revert transaction resulting from transfer.
+     * @param txEntry
+     * @returns
+     */
+    revert(txEntry: TransactionLine): number;
+    /**
      * Find the balance for the given account.
      */
     get(account: AccountAddress): number;
