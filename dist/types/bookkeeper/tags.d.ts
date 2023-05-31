@@ -14,3 +14,11 @@ export declare function isTagString(s: unknown): s is Tag;
  */
 export type TagType = Opaque<string, 'TagType'>;
 export declare function isTagType(s: unknown): s is TagType;
+/**
+ * Collect tags from the beginning of the string.
+ */
+export declare function extractTags(desc: string): [Tag[], string];
+/**
+ * Merge tags to the string possibly having tags.
+ */
+export declare function mergeTags(desc: string, tags: string | Tag[]): string;

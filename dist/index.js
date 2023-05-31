@@ -54,6 +54,7 @@ __export(src_exports, {
   elementNames: () => elementNames,
   emptyLinkedTree: () => emptyLinkedTree,
   error: () => error,
+  extractTags: () => extractTags,
   filter2function: () => filter2function,
   filterView2name: () => filterView2name,
   filterView2results: () => filterView2results,
@@ -130,6 +131,7 @@ __export(src_exports, {
   latestVersion: () => latestVersion,
   less: () => less,
   log: () => log,
+  mergeTags: () => mergeTags,
   month: () => month,
   mute: () => mute,
   near: () => near,
@@ -1647,6 +1649,31 @@ function isTagString(s) {
 function isTagType(s) {
   return typeof s === "string";
 }
+function extractTags(desc) {
+  const tags = [];
+  while (true) {
+    const match = /^\[([A-Za-z0-9]+)\]/.exec(desc);
+    if (match) {
+      tags.push(match[1]);
+      desc = desc.substring(match[0].length);
+    } else {
+      break;
+    }
+  }
+  return [tags, desc.trim()];
+}
+function mergeTags(desc, tags) {
+  const [oldTags, oldDesc] = extractTags(desc);
+  if (typeof tags === "string") {
+    const [tags2] = extractTags(tags);
+    tags = tags2;
+  }
+  const newTags = [...new Set(tags.concat(oldTags))].sort();
+  if (newTags.length) {
+    return `[${newTags.join("][")}] ${oldDesc}`.trim();
+  }
+  return oldDesc;
+}
 
 // src/types/bookkeeper/transactions.ts
 function sortTransactions(txs) {
@@ -2514,6 +2541,7 @@ var isID = (id) => isRealID(id) || id === null;
   elementNames,
   emptyLinkedTree,
   error,
+  extractTags,
   filter2function,
   filterView2name,
   filterView2results,
@@ -2590,6 +2618,7 @@ var isID = (id) => isRealID(id) || id === null;
   latestVersion,
   less,
   log,
+  mergeTags,
   month,
   mute,
   near,
