@@ -70,3 +70,7 @@ export declare function num(str: string): number | typeof NaN;
  * Check if the name is related to some secret in need of removal from logs etc.
  */
 export declare function needHiding(s: string): boolean;
+/**
+ * Get intersection of two sets.
+ */
+export declare function setIntersect<T>(s1: Set<T>, s2: Set<T>): Set<T>;

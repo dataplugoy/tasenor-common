@@ -142,6 +142,7 @@ __export(src_exports, {
   realNegative: () => realNegative,
   realPositive: () => realPositive,
   setGlobalComponents: () => setGlobalComponents,
+  setIntersect: () => setIntersect,
   setServerRoot: () => setServerRoot,
   sortTransactions: () => sortTransactions,
   timestamp: () => timestamp,
@@ -614,6 +615,10 @@ function num(str) {
 }
 function needHiding(s) {
   return /(password|api[-_]*key|secret)/i.test(s);
+}
+function setIntersect(s1, s2) {
+  const tmp = [...s1].filter((x) => s2.has(x));
+  return new Set(tmp);
 }
 
 // src/logging.ts
@@ -2629,6 +2634,7 @@ var isID = (id) => isRealID(id) || id === null;
   realNegative,
   realPositive,
   setGlobalComponents,
+  setIntersect,
   setServerRoot,
   sortTransactions,
   timestamp,

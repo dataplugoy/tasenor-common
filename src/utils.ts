@@ -130,3 +130,11 @@ export function num(str: string): number | typeof NaN {
 export function needHiding(s: string): boolean {
   return /(password|api[-_]*key|secret)/i.test(s)
 }
+
+/**
+ * Get intersection of two sets.
+ */
+export function setIntersect<T>(s1: Set<T>, s2: Set<T>): Set<T> {
+  const tmp: T[] = [...s1].filter(x => s2.has(x))
+  return new Set<T>(tmp)
+}
