@@ -1,4 +1,4 @@
-import { debug } from '../logging'
+import { debug, warning } from '../logging'
 import { AccountAddress, AccountNumber, Asset, AssetTransferReason, AssetType, TransactionLine } from '../types'
 import { sprintf } from 'sprintf-js'
 import { ProcessConfig } from '../process_types'
@@ -54,8 +54,7 @@ export class BalanceBookkeeping {
    */
   name(account: AccountNumber): string {
     if (!this.number[account]) {
-      // TODO: Should be enabled. Messes up unit test prints.
-      // warning(`BalanceBookkeeping: Account ${account} has no name set.`)
+      warning(`BalanceBookkeeping: Account ${account} has no name set.`)
     }
     return this.number[account] || `unknown.account.${account}`
   }
