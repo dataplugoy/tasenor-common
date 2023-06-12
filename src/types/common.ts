@@ -27,8 +27,6 @@ export function isValues(obj: unknown): obj is Values {
   return true
 }
 
-// TODO: Predicates for testing.
-
 // Common file and format related types
 // ------------------------------------
 export type DirectoryPath = Opaque<string, 'DirectoryPath'>
