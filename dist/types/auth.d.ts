@@ -16,23 +16,42 @@ declare class Decimal {
  */
 export type PricingModel = "COMPULSORY" | "RECOMMENDED" | "FREE" | "MONTHLY" | "SINGLE";
 /**
+ * List of accessible plugins.
+ */
+export type LoginPluginData = number[];
+/**
+ * A subscription information concerning one plugin.
+ */
+export interface LoginSubscriptionData {
+    model: PricingModel;
+    price: Decimal;
+    billable: Date;
+    expires: Date;
+    pluginId: number;
+}
+/**
+ * Information about pricing for subscription.
+ */
+export interface LoginPriceData {
+    pluginId: number;
+    model: PricingModel;
+    price: Decimal;
+}
+/**
  * A data structure send to the UI of the logged in user.
  */
 export interface LoginData {
     id: number;
     email: Email;
-    plugins: number[];
-    subscriptions: {
-        model: PricingModel;
-        price: Decimal;
-        billable: Date;
-        expires: Date;
-        pluginId: number;
-    }[];
-    prices: {
-        pluginId: number;
-        model: PricingModel;
-        price: Decimal;
-    }[];
+    plugins: LoginPluginData;
+    subscriptions: LoginSubscriptionData[];
+    prices: LoginPriceData[];
+}
+/**
+ * Simply encrypted user data stored on browser.
+ */
+export interface EncryptedUserData {
+    key: string;
+    data: string;
 }
 export {};

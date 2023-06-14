@@ -2,10 +2,6 @@ import { Value } from '../types';
 import { ActionResult } from './actions';
 import { RenderingProps } from './rendering';
 /**
- * Readability helper to specify that a string is being used as a trigger name.
- */
-export type TriggerName = string;
-/**
 * A trigger is a data packet initiated by some activity in the application.
 * For example user interaction on UI component. Triggers are mapped to the
 * action handlers when used in RISP.
