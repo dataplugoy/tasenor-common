@@ -1,5 +1,13 @@
-import { Currency, Language } from "..";
-import { TasenorPlugin } from "../plugins";
+import { Currency, Language, TokenPair } from '..';
+import { TasenorPlugin } from '../plugins';
+/**
+ * Catalog hooks for backend.
+ */
+export type CatalogHookAfterLogin = ((Email: any, TokenPair: any) => Promise<TokenPair & Record<string, unknown>>)[];
+export type CatalogHook = CatalogHookAfterLogin;
+export type CatalogHooks = {
+    afterLogin: CatalogHookAfterLogin;
+};
 /**
  * An accessor for UI plugin functionality.
  */
@@ -17,4 +25,5 @@ export declare class Catalog {
  */
 export declare class BackendCatalog {
     t(str: string, lang: Language): string;
+    registerHook(name: string, func: CatalogHook): any;
 }
