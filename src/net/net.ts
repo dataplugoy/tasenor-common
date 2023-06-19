@@ -19,10 +19,10 @@ export type HttpMethod = 'GET' | 'PUT' | 'POST' | 'DELETE' | 'PATCH' | 'HEAD'
 /**
  * A response content format for successfull REST call.
  */
-export interface HttpSuccessResponse {
+export interface HttpSuccessResponse<T=Value> {
   status: SupportedSuccessStatus,
   success: true,
-  data?: Value
+  data?: T
 }
 export function isHttpSuccessResponse(obj: unknown): obj is HttpSuccessResponse {
   if (typeof(obj) === 'object' && obj !== null && obj.hasOwnProperty('success')) {
@@ -46,7 +46,7 @@ export function isHttpFailureResponse(obj: unknown): obj is HttpFailureResponse 
 /**
  * A HTTP response content format for REST call.
  */
-export type HttpResponse = HttpSuccessResponse | HttpFailureResponse
+export type HttpResponse<T=Value> = HttpSuccessResponse<T> | HttpFailureResponse
 
 /**
  * Internal configuration interface for keeping token and refresh information per sites.

@@ -1,12 +1,16 @@
-import { Currency, Language, TokenPair } from '..';
-import { TasenorPlugin } from '../plugins';
+import { Currency, Email, Language, LoginPluginData, TokenPair } from '..';
+import { TasenorPlugin, PluginCode } from '../plugins';
 /**
  * Catalog hooks for backend.
  */
-export type CatalogHookAfterLogin = ((Email: any, TokenPair: any) => Promise<TokenPair & Record<string, unknown>>)[];
-export type CatalogHook = CatalogHookAfterLogin;
+export type CatalogHookAfterLogin = (email: Email, tokens: TokenPair) => Promise<TokenPair & Record<string, unknown>>;
+export type CatalogHookSubscribe = (email: Email, code: PluginCode) => Promise<LoginPluginData | null>;
+export type CatalogHookUnsubscribe = (email: Email, code: PluginCode) => Promise<LoginPluginData | null>;
+export type CatalogHook = CatalogHookAfterLogin | CatalogHookSubscribe | CatalogHookUnsubscribe;
 export type CatalogHooks = {
-    afterLogin: CatalogHookAfterLogin;
+    afterLogin: CatalogHookAfterLogin[];
+    subscribe: CatalogHookSubscribe[];
+    unsubscribe: CatalogHookUnsubscribe[];
 };
 /**
  * An accessor for UI plugin functionality.
