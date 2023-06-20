@@ -108,7 +108,7 @@ export type PluginLanguages = { [Key: string]: { [Key: string]: string } }
 export declare type SchemeName = Opaque<string, 'SchemeName'>;
 
 /**
- * Definition of back end plugin class.
+ * Definition of back end plugin classes.
  */
 export declare class BackendPlugin {
     public id: ID
@@ -124,3 +124,9 @@ export declare class BackendPlugin {
     public languages: Record<string, Record<string, string>>
     private catalog?: BackendCatalog
 }
+export declare class ServicePlugin extends BackendPlugin {}
+export declare class DataPlugin extends BackendPlugin {}
+export declare class ImportPlugin extends BackendPlugin {}
+export declare class ReportPlugin extends BackendPlugin {}
+export declare class SchemePlugin extends BackendPlugin {}
+export declare class ToolPlugin extends BackendPlugin {}

@@ -1,5 +1,5 @@
-import { Currency, Email, Language, LoginPluginData, TokenPair } from '..'
-import { TasenorPlugin, PluginCode, BackendPlugin } from '../plugins'
+import { AssetTransfer, Currency, Email, Language, LoginPluginData, ReportID, ReportOptions, TokenPair, TsvFilePath } from '..'
+import { TasenorPlugin, PluginCode, BackendPlugin, SchemePlugin, ReportPlugin, ServicePlugin } from '../plugins'
 
 /**
  * Catalog hooks for backend.
@@ -13,6 +13,8 @@ export type CatalogHooks = {
   subscribe: CatalogHookSubscribe[]
   unsubscribe: CatalogHookUnsubscribe[]
 }
+
+export declare class TransactionImportHandler {}
 
 /**
  * An accessor for UI plugin functionality.
@@ -35,6 +37,24 @@ export declare class Catalog {
   installPluginsToDb(db): Promise<void>
   getTranslations(language?: Language): Record<string, Record<string, string>>
   t(str: string, lang: Language): string
+  getSchemePlugin(code: PluginCode): SchemePlugin
+  getSchemePaths(code: PluginCode, language): TsvFilePath[] | null
+  getSchemeDefaults(code: PluginCode): Record<string, unknown> | null
+  getReportIDs(scheme: string | undefined): Promise<Set<ReportID>>
+  getReportPlgugin(id: ReportID): ReportPlugin | null
+  getReportOptions(id: ReportID): ReportOptions
+  getServices(): string[]
+  getServiceProviders(service): ServicePlugin[]
+  getPluginsIDs(): number[]
+  getPluginsWithSettings(): BackendPlugin[]
+  getImportHandlers(): TransactionImportHandler[]
+  getKnowledge(): Promise<Record<string, unknown>>
+  getVAT(time: Date, transfer: AssetTransfer, currency: Currency): Promise<null | number>
+  forEach(callback: (plugin: BackendPlugin) => Promise<void>)
+  registerHook(name: string, func: CatalogHook): void
+  afterLogin(user: Email, tokens: TokenPair): Promise<TokenPair & Record<string, unknown>>
+  subscribe(user: Email, code: PluginCode): Promise<LoginPluginData | null>
+  unsubscribe(user: Email, code: PluginCode): Promise<LoginPluginData | null>
 }
 
 /**
