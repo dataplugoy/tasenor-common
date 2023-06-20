@@ -5,6 +5,8 @@
  */
 import Opaque from 'ts-opaque'
 import { Version } from './common'
+import { ID } from '../process_types'
+import { BackendCatalog } from './bookkeeper'
 
 /**
  * Unique string determining the plugin itself.
@@ -104,3 +106,21 @@ export type PluginLanguages = { [Key: string]: { [Key: string]: string } }
  * A name of a accounting scheme.
  */
 export declare type SchemeName = Opaque<string, 'SchemeName'>;
+
+/**
+ * Definition of back end plugin class.
+ */
+export declare class BackendPlugin {
+    public id: ID
+    public code: PluginCode
+    public title: string
+    public version: Version | null
+    public releaseDate: Date | string | null
+    public use: PluginUse | 'unknown'
+    public type: PluginType | 'unknown'
+    public icon: string
+    public description: string
+    public path: string
+    public languages: Record<string, Record<string, string>>
+    private catalog?: BackendCatalog
+}

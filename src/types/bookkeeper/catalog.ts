@@ -1,5 +1,5 @@
 import { Currency, Email, Language, LoginPluginData, TokenPair } from '..'
-import { TasenorPlugin, PluginCode } from '../plugins'
+import { TasenorPlugin, PluginCode, BackendPlugin } from '../plugins'
 
 /**
  * Catalog hooks for backend.
@@ -25,8 +25,16 @@ export declare class Catalog {
   language(): Language
   money2str(cents: number, currency?: Currency, signed?: boolean): string
   date2str(date: string | number): string
-  t(str: string): string
   getImportOptions(): Record<string, TasenorPlugin>
+  reset(): void
+  load(plugin): BackendPlugin
+  reload(): Promise<void>
+  find(code: PluginCode): BackendPlugin
+  install(code: PluginCode): Promise<void>
+  uninstall(code: PluginCode): Promise<void>
+  installPluginsToDb(db): Promise<void>
+  getTranslations(language?: Language): Record<string, Record<string, string>>
+  t(str: string, lang: Language): string
 }
 
 /**

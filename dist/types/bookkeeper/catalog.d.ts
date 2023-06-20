@@ -23,6 +23,8 @@ export declare class Catalog {
     date2str(date: string | number): string;
     t(str: string): string;
     getImportOptions(): Record<string, TasenorPlugin>;
+    reset(): void;
+    load(plugin: any): TasenorPlugin;
 }
 /**
  * An accessor for backend plugin functionality.
