@@ -1,5 +1,5 @@
-import { Currency, Email, Language, LoginPluginData, TokenPair } from '..';
-import { TasenorPlugin, PluginCode } from '../plugins';
+import { AssetTransfer, Currency, Email, Language, LoginPluginData, ReportID, ReportOptions, TokenPair, TsvFilePath } from '..';
+import { TasenorPlugin, PluginCode, BackendPlugin, SchemePlugin, ReportPlugin, ServicePlugin } from '../plugins';
 /**
  * Catalog hooks for backend.
  */
@@ -12,6 +12,8 @@ export type CatalogHooks = {
     subscribe: CatalogHookSubscribe[];
     unsubscribe: CatalogHookUnsubscribe[];
 };
+export declare class TransactionImportHandler {
+}
 /**
  * An accessor for UI plugin functionality.
  */
@@ -21,10 +23,34 @@ export declare class Catalog {
     language(): Language;
     money2str(cents: number, currency?: Currency, signed?: boolean): string;
     date2str(date: string | number): string;
-    t(str: string): string;
     getImportOptions(): Record<string, TasenorPlugin>;
     reset(): void;
-    load(plugin: any): TasenorPlugin;
+    load(plugin: any): BackendPlugin;
+    reload(): Promise<void>;
+    find(code: PluginCode): BackendPlugin;
+    install(code: PluginCode): Promise<void>;
+    uninstall(code: PluginCode): Promise<void>;
+    installPluginsToDb(db: any): Promise<void>;
+    getTranslations(language?: Language): Record<string, Record<string, string>>;
+    t(str: string, lang: Language): string;
+    getSchemePlugin(code: PluginCode): SchemePlugin;
+    getSchemePaths(code: PluginCode, language: any): TsvFilePath[] | null;
+    getSchemeDefaults(code: PluginCode): Record<string, unknown> | null;
+    getReportIDs(scheme: string | undefined): Promise<Set<ReportID>>;
+    getReportPlgugin(id: ReportID): ReportPlugin | null;
+    getReportOptions(id: ReportID): ReportOptions;
+    getServices(): string[];
+    getServiceProviders(service: any): ServicePlugin[];
+    getPluginsIDs(): number[];
+    getPluginsWithSettings(): BackendPlugin[];
+    getImportHandlers(): TransactionImportHandler[];
+    getKnowledge(): Promise<Record<string, unknown>>;
+    getVAT(time: Date, transfer: AssetTransfer, currency: Currency): Promise<null | number>;
+    forEach(callback: (plugin: BackendPlugin) => Promise<void>): any;
+    registerHook(name: string, func: CatalogHook): void;
+    afterLogin(user: Email, tokens: TokenPair): Promise<TokenPair & Record<string, unknown>>;
+    subscribe(user: Email, code: PluginCode): Promise<LoginPluginData | null>;
+    unsubscribe(user: Email, code: PluginCode): Promise<LoginPluginData | null>;
 }
 /**
  * An accessor for backend plugin functionality.
