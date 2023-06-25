@@ -1,4 +1,4 @@
-import { debug, warning } from '../logging'
+import { debug } from '../logging'
 import { AccountAddress, AccountNumber, Asset, AssetTransferReason, AssetType, TransactionLine } from '../types'
 import { sprintf } from 'sprintf-js'
 import { ProcessConfig } from '../process_types'
