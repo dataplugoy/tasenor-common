@@ -53,9 +53,6 @@ export class BalanceBookkeeping {
    * @param account
    */
   name(account: AccountNumber): string {
-    if (!this.number[account]) {
-      warning(`BalanceBookkeeping: Account ${account} has no name set.`)
-    }
     return this.number[account] || `unknown.account.${account}`
   }
 
