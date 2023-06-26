@@ -747,9 +747,6 @@ var BalanceBookkeeping = class {
     });
   }
   name(account) {
-    if (!this.number[account]) {
-      warning(`BalanceBookkeeping: Account ${account} has no name set.`);
-    }
     return this.number[account] || `unknown.account.${account}`;
   }
   change(account, change) {
