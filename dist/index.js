@@ -17,6 +17,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -280,21 +284,40 @@ var Knowledge = class {
     }
     this.data = init;
   }
+  /**
+   * Update some or all data of the knowledge base.
+   * @param data
+   */
   update(data) {
     Object.assign(this.data, data);
   }
+  /**
+   * Check if the target is income.
+   * @param target
+   */
   isIncome(target) {
     if (!this.data.income) {
       throw new Error(`Cannot look for income ${target} since no income classification loaded.`);
     }
     return typeof target === "string" && target in this.data.income.parents;
   }
+  /**
+   * Check if the target is income.
+   * @param target
+   */
   isExpense(target) {
     if (!this.data.expense) {
       throw new Error(`Cannot look for expense ${target} since no expense classification loaded.`);
     }
     return typeof target === "string" && target in this.data.expense.parents;
   }
+  /**
+   * Scan tree parents upwards until a value is found from the lookup table.
+   * @param id
+   * @param table
+   * @param tree
+   * @returns
+   */
   treeLookup(id, table, tree) {
     if (id in table) {
       return table[id];
@@ -307,12 +330,16 @@ var Knowledge = class {
     }
     return null;
   }
+  /**
+   * Find a VAT definitions for the given data.
+   * @param date
+   */
   findVatRange(date) {
     if (!this.data.vat) {
       throw new Error(`Cannot look for VAT since no VAT data loaded.`);
     }
     if (!date) {
-      date = new Date();
+      date = /* @__PURE__ */ new Date();
     }
     if (date instanceof Date) {
       date = (0, import_dayjs.default)(date).format("YYYY-MM-DD");
@@ -325,6 +352,10 @@ var Knowledge = class {
     }
     return null;
   }
+  /**
+   * Perform lookup for a VAT.
+   * @param target
+   */
   vat(target, date) {
     if (!target) {
       return null;
@@ -342,9 +373,13 @@ var Knowledge = class {
     }
     return null;
   }
+  /**
+   * Construct a table presentation of the all income and expense entries that have setting for VAT.
+   * @param date
+   */
   vatTable(date) {
     if (!date) {
-      date = new Date();
+      date = /* @__PURE__ */ new Date();
     }
     const vat = this.findVatRange(date);
     if (!vat) {
@@ -417,6 +452,9 @@ var Knowledge = class {
     });
     return result;
   }
+  /**
+   * Give entry count for each kind of information.
+   */
   count() {
     return {
       assets: Object.keys(this.data.assetCodes.parents).length,
@@ -425,6 +463,11 @@ var Knowledge = class {
       vat: this.data.vat.length
     };
   }
+  /**
+   * Find the tree where a code belongs to.
+   * @param code
+   * @returns
+   */
   findTree(code) {
     if (code in this.data.assetCodes.parents) {
       return this.data.assetCodes;
@@ -437,6 +480,12 @@ var Knowledge = class {
     }
     return emptyLinkedTree();
   }
+  /**
+   * Resolve recursively all children for the code.
+   * @param code
+   * @param tree
+   * @returns
+   */
   children(code, tree = void 0) {
     const t = tree || this.findTree(code);
     if (code in t.children) {
@@ -475,6 +524,10 @@ var Directions = class {
     this.element = obj.element;
     this.action = obj.action;
   }
+  /**
+   * Construct JSON data of the member fields that has been set.
+   * @returns
+   */
   toJSON() {
     const ret = {
       type: this.type
@@ -487,9 +540,15 @@ var Directions = class {
     }
     return ret;
   }
+  /**
+   * Check if the direction can be determined without user intervention.
+   */
   isImmediate() {
     return this.type === "action";
   }
+  /**
+   * Check if there are no directions forward.
+   */
   isComplete() {
     return this.type === "complete";
   }
@@ -663,7 +722,7 @@ function isMuted() {
   }
   return muted;
 }
-function timestamp(stamp = new Date()) {
+function timestamp(stamp = /* @__PURE__ */ new Date()) {
   if (isUi())
     return import_dayjs2.default.utc(stamp).format("HH:mm:ss");
   return import_dayjs2.default.utc(stamp).format("YYYY-MM-DDTHH:mm:ssZ");
@@ -735,10 +794,17 @@ var BalanceBookkeeping = class {
     this.number = {};
     debug("BALANCE", `Created new balance bookkeeper.`);
   }
+  /**
+   * Apply initial balances.
+   * @param balances
+   */
   set(account, value) {
     this.balance[account] = value;
     debug("BALANCE", `Set ${account} ${this.name(account)} initial balance ${(0, import_sprintf_js.sprintf)("%.2f", this.balance[account] / 100)}`);
   }
+  /**
+   * Set up name and number mapping from process config.
+   */
   configureNames(config2) {
     Object.keys(config2).forEach((key) => {
       if (key.startsWith("account.")) {
@@ -746,23 +812,46 @@ var BalanceBookkeeping = class {
       }
     });
   }
+  /**
+   * Get the real or temporary name for an account.
+   * @param account
+   */
   name(account) {
     return this.number[account] || `unknown.account.${account}`;
   }
+  /**
+   * Change the account balance and return new total.
+   */
   change(account, change) {
     this.balance[account] = (this.balance[account] || 0) + change;
     debug("BALANCE", `Change ${account} ${this.name(account)} \u0394 ${change >= 0 ? "+" : ""}${(0, import_sprintf_js.sprintf)("%.2f", change / 100)} \u27F9 ${(0, import_sprintf_js.sprintf)("%.2f", this.balance[account] / 100)}`);
     return this.balance[account];
   }
+  /**
+   * Apply transaction resulting from transfer.
+   * @param txEntry
+   * @returns
+   */
   apply(txEntry) {
     return this.change(txEntry.account, txEntry.amount);
   }
+  /**
+   * Revert transaction resulting from transfer.
+   * @param txEntry
+   * @returns
+   */
   revert(txEntry) {
     return this.change(txEntry.account, -txEntry.amount);
   }
+  /**
+   * Find the balance for the given account.
+   */
   get(account) {
     return this.balance[this.number[account]] || 0;
   }
+  /**
+   * Get all records.
+   */
   summary() {
     const summary = [];
     Object.keys(this.number).forEach((addr) => {
@@ -777,9 +866,20 @@ var BalanceBookkeeping = class {
     });
     return summary;
   }
+  /**
+   * Check if the account could record debts separately.
+   * @param reason
+   * @param type
+   * @param asset
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   mayTakeLoan(reason, type, asset) {
     return reason !== "fee" && type === "currency";
   }
+  /**
+   * Convert account address to corresponding debt address.
+   * @param addr
+   */
   debtAddress(addr) {
     const [, type, asset] = addr.split(".");
     return `debt.${type}.${asset}`;
@@ -795,25 +895,52 @@ var TransactionApplyResults = class {
     this.skipped = 0;
     this.accounts = {};
   }
+  /**
+   * Add transaction as created.
+   * @param tx
+   */
   create(tx) {
     this.created++;
     this.record(tx);
   }
+  /**
+   * Add transaction as created.
+   * @param tx
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ignore(tx) {
     this.ignored++;
   }
+  /**
+   * Add transaction as duplicate.
+   * @param tx
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   duplicate(tx) {
     this.duplicates++;
   }
+  /**
+   * Add transaction as skipped.
+   * @param tx
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   skip(tx) {
     this.skipped++;
   }
+  /**
+   * Record changes from the transaction.
+   * @param tx
+   */
   record(tx) {
     for (const entry of tx.entries) {
       const { account, amount } = entry;
       this.accounts[account] = (this.accounts[account] || 0) + amount;
     }
   }
+  /**
+   * Combine results from the other result set.
+   * @param result
+   */
   add(result) {
     if ("created" in result) {
       this.created += parseInt(result.created || "0");
@@ -834,6 +961,10 @@ var TransactionApplyResults = class {
       });
     }
   }
+  /**
+   * Collect JSON data of the recordings.
+   * @returns
+   */
   toJSON() {
     return {
       created: this.created,
@@ -1249,11 +1380,15 @@ function isAssetStockType(obj) {
   return typeof obj === "string" && ["crypto", "stock", "currency", "other"].includes(obj);
 }
 var StockBookkeeping = class {
+  // Used mainly for debugging purposes.
   constructor(name = "No name") {
     this.name = name;
     this.reset();
     debug("STOCK", `[${this.name}]: Created new stock bookkeeper.`);
   }
+  /**
+   * Nullify data.
+   */
   reset() {
     this.stock = {
       crypto: {},
@@ -1262,6 +1397,14 @@ var StockBookkeeping = class {
       other: {}
     };
   }
+  /**
+   * Set the fixed value of stock for given time stamp.
+   * @param time
+   * @param type
+   * @param asset
+   * @param amount
+   * @param value
+   */
   set(time, type, asset, amount, value) {
     if (typeof time === "string") {
       time = new Date(time);
@@ -1278,9 +1421,20 @@ var StockBookkeeping = class {
     this.stock[type][asset] = stock.sort((a, b) => a.time.getTime() - b.time.getTime());
     debug("STOCK", `[${this.name}] ${time.toISOString()}: Set ${type} ${asset} = ${amount} (${value}).`);
   }
+  /**
+   * Check if asset has recordings.
+   * @param type
+   * @param asset
+   * @returns
+   */
   has(type, asset) {
     return isAssetStockType(type) ? asset in this.stock[type] : false;
   }
+  /**
+   * Get the last entry for asset.
+   * @param type
+   * @param asset
+   */
   last(type, asset) {
     const stock = this.stock[type][asset] || [];
     if (!stock || !stock.length) {
@@ -1288,6 +1442,14 @@ var StockBookkeeping = class {
     }
     return stock[stock.length - 1];
   }
+  /**
+   * Append a change in value for an asset.
+   * @param time
+   * @param type
+   * @param asset
+   * @param amount
+   * @param delta
+   */
   change(time, type, asset, amount, value) {
     const originalAmount = amount;
     const originalValue = value;
@@ -1313,6 +1475,12 @@ var StockBookkeeping = class {
       debug("STOCK", `[${this.name}] ${time.toISOString()}: Change ${type} ${asset} \u0394 ${originalAmount >= 0 ? "+" : ""}${originalAmount} (${originalValue >= 0 ? "+" : ""}${originalValue}) \u21D2 ${amount} ${asset} (${value})`);
     }
   }
+  /**
+   * Find the stock at the given timestamp.
+   * @param time
+   * @param type
+   * @param asset
+   */
   get(time, type, asset) {
     let i;
     const stock = this.stock[type][asset] || [];
@@ -1330,6 +1498,10 @@ var StockBookkeeping = class {
       value: 0
     } : stock[i];
   }
+  /**
+   * Try to figure out asset type based on common knowledge and what we have currently.
+   * @param asset
+   */
   getType(asset) {
     if (isCurrency(asset)) {
       return "currency";
@@ -1342,6 +1514,10 @@ var StockBookkeeping = class {
     }
     return "other";
   }
+  /**
+   * Apply stock change data used in transaction asset bookkeeping.
+   * @param data
+   */
   apply(time, data) {
     if (typeof time === "string") {
       time = new Date(time);
@@ -1359,9 +1535,17 @@ var StockBookkeeping = class {
       });
     }
   }
+  /**
+   * Apply multiple stock change data entries at once.
+   * @param data
+   */
   applyAll(data) {
     data.forEach((entry) => this.apply(entry.time, entry.data));
   }
+  /**
+   * Get the list of changed asset names in the given stock change data.
+   * @param data
+   */
   changedAssets(data) {
     const assets = /* @__PURE__ */ new Set();
     if (isStockChangeDelta(data)) {
@@ -1372,6 +1556,9 @@ var StockBookkeeping = class {
     }
     return [...assets];
   }
+  /**
+   * Collect all assets that has recordings.
+   */
   assets() {
     const ret = [];
     Object.keys(this.stock).map(
@@ -1381,9 +1568,18 @@ var StockBookkeeping = class {
     );
     return ret;
   }
+  /**
+   * Collect the latest totals of all assets.
+   */
   totals() {
     return this.assets().map(([type, asset]) => [type, asset, this.last(type, asset).amount]);
   }
+  /**
+   * Get the latest total of one asset.
+   * @param type
+   * @param asset
+   * @returns
+   */
   total(type, asset = void 0) {
     if (!asset) {
       asset = type;
@@ -1391,6 +1587,12 @@ var StockBookkeeping = class {
     }
     return this.has(type, asset) ? this.last(type, asset).amount : 0;
   }
+  /**
+   * Get the latest value of one asset.
+   * @param type
+   * @param asset
+   * @returns
+   */
   value(type, asset = void 0) {
     if (!asset) {
       asset = type;
@@ -1398,6 +1600,9 @@ var StockBookkeeping = class {
     }
     return this.has(type, asset) ? this.last(type, asset).value : 0;
   }
+  /**
+   * Collect full stock summary.
+   */
   summary(roundToZero = null, addType = true, addTime = true) {
     const result = {};
     if (addType) {
@@ -1427,6 +1632,9 @@ var StockBookkeeping = class {
     }
     return result;
   }
+  /**
+   * Gather simple summary per ticker.
+   */
   toJSON() {
     const sum = {};
     for (const [, asset, amount] of this.totals()) {
@@ -1890,10 +2098,12 @@ var RulesEngine = class {
     this.quiet = quiet;
     this.engine = (0, import_mathjs.create)({
       ...import_mathjs.all,
+      // String relations.
       createEqual: (0, import_mathjs.factory)(
         "equal",
         [],
         () => (0, import_mathjs.typed)("equal", {
+          // If we need more combinations, we can add them here.
           "string, string": function equal(a, b) {
             return a === b;
           }
@@ -1953,6 +2163,7 @@ var RulesEngine = class {
           }
         })
       ),
+      // Some other ops.
       createAdd: (0, import_mathjs.factory)(
         "add",
         [],
@@ -1965,7 +2176,9 @@ var RulesEngine = class {
           }
         })
       )
-    }, {});
+    }, {
+      // Configuration here.
+    });
     this.scope = {
       $: (column, defaultValue = void 0) => this.$(column, defaultValue),
       capitalize: (s) => this.capitalize(s),
@@ -1986,6 +2199,7 @@ var RulesEngine = class {
       sum: (vector, field) => this.sum(vector, field),
       times: (count, target) => this.times(count, target),
       ucfirst: (s) => this.ucfirst(s),
+      // Disable dangerous functions.
       import: function() {
         throw new Error("Function import is disabled.");
       },
@@ -2007,6 +2221,12 @@ var RulesEngine = class {
     };
     this.variables = variables || {};
   }
+  /**
+   * Evaluate a string expression or object with multiple expressions.
+   * @param expr
+   * @param variables
+   * @returns
+   */
   eval(expr, variables) {
     if (variables) {
       this.variables = (0, import_mathjs.clone)(variables);
@@ -2033,9 +2253,32 @@ var RulesEngine = class {
     }
     return result;
   }
+  /**
+   * Access function for columns having spaces or other special characters in their name.
+   * Also safe way to get variable that does not necessarily exist, when default value is provided.
+   *
+   * **Example**
+   *
+   * ```typescript
+   * $('Column Name', null)
+   * ```
+   * @param column
+   * @returns
+   */
   $(column, defaultValue = void 0) {
     return column in this.variables ? this.variables[column] : defaultValue;
   }
+  /**
+   * Use heuristic approach to convert string with spaces and possibly delimters to number.
+   *
+   * **Example**
+   *
+   * ```typescript
+   * num("  12,300.50") // => 12300.50
+   * ```
+   * @param column
+   * @returns
+   */
   num(str) {
     if (typeof str === "number") {
       return str;
@@ -2046,9 +2289,30 @@ var RulesEngine = class {
     }
     return ret;
   }
+  /**
+   * Check if the string represents currency.
+   *
+   * **Example**
+   *
+   * ```typescript
+   * isCurrency("EUR") // => true
+   * ```
+   * @param str
+   * @returns
+   */
   isCurrency(str) {
     return isCurrency(str);
   }
+  /**
+   * Construct rate object for one or more rate.
+   *
+   * **Example**
+   *
+   * ```typescript
+   * rates("USD", 0.88, "GBP", 1.19) => { "USD": 0.88, "GBP": 1.19 }
+   * ```
+   * @param args [asset, rate, asset2, rate2,...]
+   */
   rates(args) {
     const ret = {};
     for (let i = 0; i < args.length; i += 2) {
@@ -2056,6 +2320,19 @@ var RulesEngine = class {
     }
     return ret;
   }
+  /**
+   * Test a string against regular expression.
+   *
+   * **Example**
+   *
+   * ```typescript
+   * regex("[0-9]+", "Foo 123 Bar") // => true
+   * regex("([0-9]+)", "Foo 123 Bar") // => ["123"]
+   * ```
+   * @param re
+   * @param compare
+   * @returns Either true or false or match groups, if given in the regular expression.
+   */
   regex(re, compare, flags = void 0) {
     const regex = flags ? new RegExp(re, flags) : new RegExp(re);
     const match = regex.exec(compare);
@@ -2067,16 +2344,42 @@ var RulesEngine = class {
     }
     return groups.length ? groups : true;
   }
+  /**
+   * Check each argument and trim the white space. If anything left, construct a string starting with a space
+   * and after that all non-empty parts as comma separated list. If there are no non-empty arguments, return
+   * empty string. Also null and false values are dropped.
+   *
+   * **Example**
+   *
+   * ```typescript
+   * par("  ", "abc", null, "def  ") // => " abc, def"
+   * par(false, "   ") // => ""
+   * ```
+   * @param exprs
+   */
   par(...exprs) {
     const nonEmpty = exprs.filter((e) => e !== null && e !== false).map((e) => `${e}`.trim()).filter((e) => e !== "");
     return nonEmpty.length ? ` (${nonEmpty.join(", ")})` : "";
   }
+  /**
+   * Check the existence of the variable and return it. If not defined, throw an error.
+   * @param variable
+   */
   var(variable) {
     if (!(variable in this.variables)) {
       throw new Error(`A variable '${variable}' is not defined.`);
     }
     return this.variables[variable];
   }
+  /**
+   * Look for actual text of the answer option selected when resolved a variable in the current rule.
+   *
+   * **Example**
+   *
+   * @param string
+   *
+   * If more than one match is found, they are returned comma separated.
+   */
   chosen(questionVar) {
     const ans = this.var(questionVar);
     const rule = this.var("rule");
@@ -2094,34 +2397,111 @@ var RulesEngine = class {
     }
     throw new Error(`Cannot reverse map question ${JSON.stringify(question)}, when looking for chosen '${questionVar}'.`);
   }
+  /**
+   * Check if the first string contains the second string.
+   * @param s
+   * @param r
+   * @returns
+   */
   contains(s, r) {
     return s.indexOf(r) >= 0;
   }
+  /**
+   * Convert first letter to upper case.
+   *
+   * **Example**
+   *
+   * ```typescript
+   * ucfirst("foo bar") // "Foo bar"
+   * ```
+   * @param s
+   */
   ucfirst(s) {
     return s.substring(0, 1).toUpperCase() + s.substring(1);
   }
+  /**
+   * Convert string to lower case.
+   *
+   * **Example**
+   *
+   * ```typescript
+   * lower("ABC") // => "abc"
+   * ```
+   * @param s
+   */
   lower(s) {
     return s.toLowerCase();
   }
+  /**
+   * Capitalize all words.
+   *
+   * **Example**
+   *
+   * ```typescript
+   * capitalize('no small caps') // => "No Small Caps"
+   * ```
+   * @param s
+   */
   capitalize(s) {
     return s.toLowerCase().split(" ").map((s2) => this.ucfirst(s2)).join(" ");
   }
+  /**
+   * Convert number to cents, i.e. 1/100th, rounding off extra decimals.
+   *
+   * **Example**
+   *
+   * ```typescript
+   * cents(3.141592) // => 314
+   * ```
+   * @param n
+   * @returns 100 x n as integer.
+   */
   cents(n) {
     if (typeof n !== "number") {
       throw new Error(`Invalid argument ${JSON.stringify(n)} for cents().`);
     }
     return Math.round(n * 100);
   }
+  /**
+   * Force conversion of the argument to string.
+   * @param x
+   * **Example**
+   *
+   * ```typescript
+   * str(undefined) // => "undefined"
+   * ```
+   */
   str(x) {
     return `${x}`;
   }
+  /**
+   * Join non-empty trimmed argments as a space separated string.
+   * @param args
+   * **Example**
+   *
+   * ```typescript
+   * join(undefined, 12, null, '  kg') // => "12 kg"
+   * ```
+   */
   join(...args) {
     return args.filter((a) => a !== void 0 && a !== null).map((a) => `${a}`.trim()).filter((a) => a !== "").join(" ");
   }
+  /**
+   * Print the arguments to the debug log and return the value of the last argument.
+   * @param args
+   * @returns
+   */
   d(...args) {
     note(`[DEBUG]`, ...args);
     return args.length ? args[args.length - 1] : void 0;
   }
+  /**
+   * Convert numeric multiplier to text.
+   * @param count
+   * @param target
+   * If count is not given, the value is empty string.
+   * Otherwise if it is greater than zero the strint `<count> x <targer>` is returned.
+   */
   times(count, target) {
     if (count === void 0 || count === null || count === 0) {
       return "";
@@ -2129,6 +2509,12 @@ var RulesEngine = class {
     const num2 = parseInt(`${count}`);
     return `${num2} x ${target}`;
   }
+  /**
+   * Calculate sum of the vector of numbers or member fields of vector of objects.
+   * @param vector
+   * @param field
+   * This function is resilient with non-numeric values and they are silently ignored.
+   */
   sum(vector, field) {
     if (typeof vector !== "object") {
       throw new Error(`Invalid argument ${JSON.stringify(vector)} for sum().`);
@@ -2161,6 +2547,15 @@ var RulesEngine = class {
     }
     return total;
   }
+  /**
+   * Concatenate non-empty strings in the vector or member fields of vector of objects.
+   * @param vector
+   * @param field
+   * @param sep
+   *
+   * Only entries with proper values are used. Empty strings, nulls etc are ignored.
+   * If separator is not given, new line is used by default.
+   */
   concat(vector, field, sep) {
     if (typeof vector !== "object") {
       throw new Error(`Invalid argument ${JSON.stringify(vector)} for concat().`);
@@ -2181,6 +2576,17 @@ var RulesEngine = class {
     }
     return parts.join(sep || "\n");
   }
+  /**
+   * General purpose cleaning. Trim spaces from the beginning and end of each line. Reduce multiple spaces to one.
+   * Keep newlines as they are except empty lines are dropped.
+   *
+   * **Example**
+   *
+   * ```typescript
+   * clean("   A    \n       B    C") // => "A\nB C"
+   * ```
+   * @param s
+   */
   clean(s) {
     return s.split("\n").map((s2) => s2.replace(/\s+/g, " ").replace(/^\s+/, "").replace(/\s+$/, "")).filter((s2) => s2 !== "").join("\n");
   }
@@ -2191,6 +2597,10 @@ var import_crypto = __toESM(require("crypto"));
 var import_buffer2 = __toESM(require("buffer"));
 _global.Buffer = _global.Buffer || import_buffer2.default.Buffer;
 var Crypto = class {
+  /**
+   * Create new encrypt/decrypt helper with the given secret.
+   * @param encryptionKey The secret.
+   */
   constructor(encryptionKey) {
     if (!encryptionKey || encryptionKey.length < 32) {
       throw new Error("Encryption key is too short or does not exist.");
@@ -2201,6 +2611,11 @@ var Crypto = class {
     hash.update(salt);
     this.key = hash.digest().slice(0, 16);
   }
+  /**
+   * Encrypt a text.
+   * @param clearText Original text.
+   * @returns Encrypted text.
+   */
   encrypt(clearText) {
     const iv = import_crypto.default.randomBytes(16);
     const cipher = import_crypto.default.createCipheriv(this.algorithm, this.key, iv);
@@ -2210,6 +2625,11 @@ var Crypto = class {
       import_buffer.Buffer.from(iv).toString("hex")
     ].join("|");
   }
+  /**
+   * Decrypt a text.
+   * @param encryptedText Encrypted text.
+   * @returns Original text or null on failure.
+   */
   decrypt(encryptedText) {
     const [encrypted, iv] = encryptedText.split("|");
     if (!iv)
@@ -2227,6 +2647,11 @@ var Crypto = class {
       return null;
     }
   }
+  /**
+   * Construct a random hash as a hex encoded string.
+   * @param len
+   * @returns
+   */
   static hash(len) {
     return import_crypto.default.randomBytes(len).toString("hex");
   }
@@ -2460,7 +2885,7 @@ function createRequestHandler(method) {
       try {
         const decoded = (0, import_jwt_decode.default)(token);
         const expires = decoded.exp * 1e3;
-        const now = new Date().getTime();
+        const now = (/* @__PURE__ */ new Date()).getTime();
         if (expires - now < 1e3) {
           log("Token has been expired.");
           needRefresh = true;
