@@ -5,10 +5,12 @@ import { TasenorPlugin, PluginCode, BackendPlugin, SchemePlugin, ReportPlugin, S
  * Catalog hooks for backend.
  */
 export type CatalogHookAfterLogin = (email: Email, tokens: TokenPair) => Promise<TokenPair & Record<string, unknown>>
+export type CatalogHookRegisterUser = (name: string, email: Email) => Promise<boolean>
 export type CatalogHookSubscribe = (email: Email, code: PluginCode) => Promise<LoginPluginData | null>
 export type CatalogHookUnsubscribe = (email: Email, code: PluginCode) => Promise<LoginPluginData | null>
-export type CatalogHook = CatalogHookAfterLogin | CatalogHookSubscribe | CatalogHookUnsubscribe
+export type CatalogHook = CatalogHookRegisterUser | CatalogHookAfterLogin | CatalogHookSubscribe | CatalogHookUnsubscribe
 export type CatalogHooks = {
+  registerUser: CatalogHookRegisterUser[]
   afterLogin: CatalogHookAfterLogin[]
   subscribe: CatalogHookSubscribe[]
   unsubscribe: CatalogHookUnsubscribe[]
