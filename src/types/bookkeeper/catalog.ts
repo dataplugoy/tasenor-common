@@ -10,6 +10,8 @@ export type CatalogHookSubscribe = (email: Email, code: PluginCode) => Promise<L
 export type CatalogHookUnsubscribe = (email: Email, code: PluginCode) => Promise<LoginPluginData | null>
 export type CatalogHook = CatalogHookRegisterUser | CatalogHookAfterLogin | CatalogHookSubscribe | CatalogHookUnsubscribe
 export type CatalogHooks = {
+  // TODO: These could be too complicated to have any useful use, that maybe remove them.
+  // Keep for now to show how to make hooks in catalog where more useful.
   registerUser: CatalogHookRegisterUser[]
   afterLogin: CatalogHookAfterLogin[]
   subscribe: CatalogHookSubscribe[]
