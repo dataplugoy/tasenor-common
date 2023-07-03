@@ -73,6 +73,7 @@ export class RuleParsingError extends Error {
  * * `contains` - {@link RulesEngine.contains}
  * * `concat` - {@link RulesEngine.concat}
  * * `d` - {@link RulesEngine.d}
+ * * `has` - {@link RulesEngine.has}
  * * `isCurrency` - {@link RulesEngine.isCurrency}
  * * `join` - {@link RulesEngine.join}
  * * `lower` - {@link RulesEngine.lower}
@@ -164,6 +165,7 @@ export class RulesEngine {
       concat: (vector: unknown[], field: string | undefined, sep: string | undefined) => this.concat(vector, field, sep),
       contains: (s: string, r: string) => this.contains(s, r),
       d: (...args: unknown[]) => this.d(...args),
+      has: (list: unknown[], str: unknown) => this.has(list, str),
       isCurrency: (str: string) => this.isCurrency(str),
       join: (...args: unknown[]) => this.join(...args),
       lower: (s: string) => this.lower(s),
@@ -274,6 +276,16 @@ export class RulesEngine {
    */
   isCurrency(str: string): boolean {
     return isCurrency(str)
+  }
+
+  /**
+   * Test if a list has a member.
+   */
+  has(list: unknown[], item: unknown): boolean {
+    for (const e of list) {
+      if (item === (e as { value: unknown, index: number }).value) return true
+    }
+    return false
   }
 
   /**

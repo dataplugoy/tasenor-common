@@ -60,6 +60,7 @@ export declare class RuleParsingError extends Error {
  * * `contains` - {@link RulesEngine.contains}
  * * `concat` - {@link RulesEngine.concat}
  * * `d` - {@link RulesEngine.d}
+ * * `has` - {@link RulesEngine.has}
  * * `isCurrency` - {@link RulesEngine.isCurrency}
  * * `join` - {@link RulesEngine.join}
  * * `lower` - {@link RulesEngine.lower}
@@ -123,6 +124,10 @@ export declare class RulesEngine {
      * @returns
      */
     isCurrency(str: string): boolean;
+    /**
+     * Test if a list has a member.
+     */
+    has(list: unknown[], item: unknown): boolean;
     /**
      * Construct rate object for one or more rate.
      *

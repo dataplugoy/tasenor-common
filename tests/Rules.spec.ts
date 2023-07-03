@@ -258,3 +258,16 @@ test('Rules: ? :', () => {
   expect(e.eval("1 ? 200 : 300")).toBe(200)
   expect(e.eval("0 ? 200 : 300")).toBe(300)
 })
+
+test('Rules: has()', () => {
+  const e = new RulesEngine({}, true)
+  expect(e.eval("has([1, null, 'x'], 1)")).toBe(true)
+  expect(e.eval("has([1, null, 'x'], null)")).toBe(true)
+  expect(e.eval("has([1, null, 'x'], 'x')")).toBe(true)
+  expect(e.eval("has([], 1)")).toBe(false)
+  expect(e.eval("has([], null)")).toBe(false)
+  expect(e.eval("has([], 'x')")).toBe(false)
+  expect(e.eval("has([0, '', false], 1)")).toBe(false)
+  expect(e.eval("has([0, '', false], null)")).toBe(false)
+  expect(e.eval("has([0, '', false], 'x')")).toBe(false)
+})

@@ -2188,6 +2188,7 @@ var RulesEngine = class {
       concat: (vector, field, sep) => this.concat(vector, field, sep),
       contains: (s, r) => this.contains(s, r),
       d: (...args) => this.d(...args),
+      has: (list, str) => this.has(list, str),
       isCurrency: (str) => this.isCurrency(str),
       join: (...args) => this.join(...args),
       lower: (s) => this.lower(s),
@@ -2302,6 +2303,16 @@ var RulesEngine = class {
    */
   isCurrency(str) {
     return isCurrency(str);
+  }
+  /**
+   * Test if a list has a member.
+   */
+  has(list, item) {
+    for (const e of list) {
+      if (item === e.value)
+        return true;
+    }
+    return false;
   }
   /**
    * Construct rate object for one or more rate.
