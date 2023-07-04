@@ -45,6 +45,7 @@
  * * `SUBSRIBED_CAPITAL_UNPAID` - Subscribed capital unpaid
  * * `TANGLIBLE_ASSETS` - Intanglible assets
  * * `TRADE_DEBTORS` - Trade debtors
+ * * `UNPAID_PROFIT_DISTRIBUTIONS` - Unpaid profit distributions
  */
 export type AssetCode = 'ACCRUED_INCOME' |
   'APPROPRIATIONS' |
@@ -89,4 +90,5 @@ export type AssetCode = 'ACCRUED_INCOME' |
   'SUBSCRIBED_CAPITAL' |
   'SUBSRIBED_CAPITAL_UNPAID' |
   'TANGLIBLE_ASSETS' |
-  'TRADE_DEBTORS'
+  'TRADE_DEBTORS' |
+  'UNPAID_PROFIT_DISTRIBUTIONS'
