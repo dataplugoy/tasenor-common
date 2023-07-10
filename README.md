@@ -1,3 +1,2 @@
-# Tasenor project common library
 
-This library has type definitions and utilities shared by both UI and backend Tasenor components.
+Moved to https://github.com/dataplugoy/tasenor-bookkeeper/tree/main/packages/tasenor-common
